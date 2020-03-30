@@ -10,6 +10,7 @@ use App\Model\ProjectDetail;
 
 class UserManagementRepository implements UserManagementRepositoryInterface
 {
+
     public function createProject($data)
     {
         $count_project = Project::where('project_id', 'like', "$data[department]%");
@@ -33,58 +34,38 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
         $project_detail = new ProjectDetail;
         $project_detail->project_detail = $data['project_detail'];
-        $project_detail->project_id = $project->project_id;
+        $project_detail->internal_project_id = $project->id;
         $project_detail->save();
 
         foreach ($data["user_id"] as $value) {
+            $internal_user_id = User::select('id')->where('user_id',"$value")->first()->id;
             $group = new Group;
-            $group->user_id = $value;
-            $group->project_id = $project->project_id;
+            $group->internal_user_id = $internal_user_id;
+            $group->internal_project_id = $project->id;
             $group->save();
         }
-
-        // foreach ($data['user_id'] as $value) {
-        //     // $user = new User;
-        //     // $user->user_id = $value['user_id'];
-        //     // $user->user_name = $value['user_name'];
-        //     // $user->department = $data['department'];
-        //     // $user_role = new UserRole;
-        //     // $user_role->role_id = 1;
-        //     // $user_role->user_id = $value['user_id'];
-        //     // $user->save();
-        //     // $group = new Group;
-        //     // $group->user_id = $value['user_id'];
-        //     // $group->project_id = $project->project_id;
-        //     // $group->save();
-        //     // $user_role->save();
-        // }
-
-        // foreach ($data['advisor'] as $value) {
-        //     $user = new User;
-        //     $user->user_id = $value['user_id'];
-        //     $user->user_name = $value['user_name'];
-        //     $user->department = $data['department'];
-        //     $user_role = new UserRole;
-        //     $user_role->role_id = 2;
-        //     $user_role->user_id = $value['user_id'];
-        //     $user->save();
-        //     $group = new Group;
-        //     $group->user_id = $value['user_id'];
-        //     $group->project_id = $project->project_id;
-        //     $group->save();
-        //     $user_role->save();
-        // }
     }
-
-    // public function getStudent()
-    // {
-    //     $student = User::get('user_id',)
-    // }
 
     public function getAllUser()
     {
         $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
             ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')
+            ->get();
+        return $users;
+    }
+
+    public function getAllStudent()
+    {
+        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')->where('role_name', 'Student')
+            ->get();
+        return $users;
+    }
+
+    public function getAllTeacher()
+    {
+        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')->where('role_name', 'Teacher')
             ->get();
         return $users;
     }

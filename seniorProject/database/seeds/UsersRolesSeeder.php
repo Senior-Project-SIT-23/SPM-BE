@@ -4,7 +4,7 @@ use App\Model\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
-class RoleUserSeeder extends Seeder
+class UsersRolesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -34,9 +34,10 @@ class RoleUserSeeder extends Seeder
 
         foreach ($user_role as $user) {
             $temp_user = new UserRole();
-            $temp_user->internal_user_id = Arr::get($user, 'user_id');
-            $temp_user->internal_role_id = Arr::get($user, 'role_id');
+            $temp_user->internal_user_id = Arr::get($user,'user_id');
+            $temp_user->internal_role_id = Arr::get($user,'role_id');
             $temp_user->save();
         }
     }
+    
 }

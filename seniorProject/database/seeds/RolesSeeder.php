@@ -4,7 +4,8 @@ use App\Model\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
-class RoleSeeder extends Seeder
+
+class RolesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -15,32 +15,32 @@ class UsersSeeder extends Seeder
     {
         $users = (array) array(
             [
-                'id' => '60130500104',
-                'user_name' => 'pepea',
+                'user_id' => '60130500082',
+                'user_name' => 'Watunyu',
                 'department' => 'IT'
             ],
             [
-                'id' => '60130500105',
-                'user_name' => 'IAMIN',
+                'user_id' => '60130500114',
+                'user_name' => 'Suthiwat',
                 'department' => 'IT'
             ],
             [
-                'id' => '60130500106',
-                'user_name' => '????',
+                'user_id' => '60130500125',
+                'user_name' => 'Thamrongchai',
                 'department' => 'IT'
             ],
             [
-                'id' => '01',
-                'user_name' => 'Zompong',
+                'user_id' => '1',
+                'user_name' => 'Siam',
                 'department' => ''
             ]
         );
 
         foreach ($users as $user) {
             $temp_user = new User;
-            $temp_user->user_id = Arr::get($user, 'id');
-            $temp_user->user_name = Arr::get($user, 'user_name');
-            $temp_user->department = Arr::get($user, 'department');
+            $temp_user->user_id = Arr::get($user,'user_id');
+            $temp_user->user_name = Arr::get($user,'user_name');
+            $temp_user->department = Arr::get($user,'department');
             $temp_user->save();
         }
     }
