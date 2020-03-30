@@ -17,7 +17,7 @@ class Groups extends Migration
             $table->string('user_id',20);
             $table->string('project_id',5);
             $table->timestamps();
-
+            
             $table->primary(['user_id','project_id']);
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('project_id')->references('project_id')->on('projects');

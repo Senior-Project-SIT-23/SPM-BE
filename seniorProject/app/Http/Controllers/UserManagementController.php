@@ -11,6 +11,7 @@ class UserManagementController extends Controller
     private $userManagement;
 
     public function __construct(UserManagementRepositoryInterface $userManagement)
+    
     {
         $this->userManagement = $userManagement;
     }
@@ -19,5 +20,11 @@ class UserManagementController extends Controller
     {
         $data = $request->all();
         $this->userManagement->createProject($data);
+    }
+
+    public function index()
+    {
+        $users = $this->userManagement->getAllUser();
+        return response()->json($users, 200);
     }
 }
