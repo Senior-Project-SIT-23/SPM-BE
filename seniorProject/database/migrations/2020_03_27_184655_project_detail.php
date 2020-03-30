@@ -15,11 +15,11 @@ class ProjectDetail extends Migration
     {
         Schema::create('project_detail', function (Blueprint $table) {
             $table->bigIncrements('project_detail_id');
+            $table->bigInteger('internal_project_id')->unsigned()->index();
             $table->string('project_detail',500);
-            $table->string('project_id',5);
             $table->timestamps();
 
-            $table->foreign('project_id')->references('project_id')->on('projects');
+            $table->foreign('internal_project_id')->references('id')->on('projects');
         });
     }
 

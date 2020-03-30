@@ -83,8 +83,9 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getAllUser()
     {
-        $users = User::with('users_roles');
-        dd($users);
+        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')
+            ->get();
         return $users;
     }
 }
