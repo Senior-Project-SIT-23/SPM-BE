@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Users extends Migration
+class Groups extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class Users extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_id', 20);
-            $table->string('user_name', 100);
-            $table->string('department', 3)->nullable();
+            $table->integer('group_id');
+            $table->string('student_id',11);
+            $table->string('project_id',5);
             $table->timestamps();
+            
+            $table->foreign('student_id')->references('student_id')->on('students');
+            $table->foreign('project_id')->references('project_id')->on('projects');
         });
     }
 
@@ -29,8 +32,6 @@ class Users extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('users');
-        Schema::enableForeignKeyConstraints();
+        Schema::dropIfExists('groups');
     }
 }

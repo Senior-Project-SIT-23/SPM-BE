@@ -14,12 +14,12 @@ class ProjectDetail extends Migration
     public function up()
     {
         Schema::create('project_detail', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('internal_project_id')->unsigned()->index();
+            $table->bigIncrements('project_detail_id');
             $table->string('project_detail',500);
+            $table->string('project_id',5);
             $table->timestamps();
 
-            $table->foreign('internal_project_id')->references('id')->on('projects');
+            $table->foreign('project_id')->references('project_id')->on('projects');
         });
     }
 
@@ -29,8 +29,7 @@ class ProjectDetail extends Migration
      * @return void
      */
     public function down()
-    {   
+    {
         Schema::dropIfExists('project_detail');
     }
-
 }

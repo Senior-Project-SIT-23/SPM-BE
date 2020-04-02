@@ -20,6 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/project','UserManagementController@storeProject');
 
-Route::get('/users','UserManagementController@index');
-Route::get('/user/students','UserManagementController@indexStudent');
-Route::get('/user/teachers','UserManagementController@indexTeacher');
+Route::get('/students','UserManagementController@indexStudent');
+Route::get('/teachers','UserManagementController@indexTeacher');

@@ -3,19 +3,23 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Projects;
 
 class Group extends Model
 {
     protected $table = 'groups';
 
-    public function users()
+    public function students()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(Student::class, 'student_id');
+    }
+
+    public function responsible_group()
+    {
+        return $this->hasMany(ResponsibleGroup::class, 'group_id');
     }
 
     public function projects()
     {
-        return $this->belongsTo(Projects::class,'project_id');
+        return $this->hasOne(Project::class,'group_id');
     }
 }

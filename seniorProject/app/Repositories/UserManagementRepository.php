@@ -4,9 +4,12 @@ namespace App\Repositories;
 
 use App\Model\Group;
 use App\Model\Project;
-use App\Model\User;
-use App\Model\UserRole;
+use App\Model\Student;
 use App\Model\ProjectDetail;
+use App\Model\Teacher;
+use App\Model\ResponsibleGroup;
+use App\Model\AA;
+
 
 class UserManagementRepository implements UserManagementRepositoryInterface
 {
@@ -26,7 +29,6 @@ class UserManagementRepository implements UserManagementRepositoryInterface
             }
         }
 
-
         $project = new Project;
         $project->project_id = $project_id;
         $project->project_name = $data['project_name'];
@@ -34,39 +36,46 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
         $project_detail = new ProjectDetail;
         $project_detail->project_detail = $data['project_detail'];
-        $project_detail->internal_project_id = $project->id;
+        $project_detail->project_id = $project->project_id;
         $project_detail->save();
 
-        foreach ($data["user_id"] as $value) {
-            $internal_user_id = User::select('id')->where('user_id',"$value")->first()->id;
-            $group = new Group;
-            $group->internal_user_id = $internal_user_id;
-            $group->internal_project_id = $project->id;
+
+        $group_id = Group::orderBy('group_id', 'desc')->first();
+        if (!$group_id) {
+            $group_id = 1;
+        } else
+            $group_id++;
+
+        foreach ($data['student_id'] as $value) {
+            $student = Student::where('student_id', "$value")->update(['department' => $data['department']]);
+
+            $group = new Group();
+            $group->student_id = $value;
+            $group->project_id = $project_id;
+            $group->group_id = $group_id;
             $group->save();
         }
-    }
+        $group_id = Group::where('project_id', $project_id)->first()->group_id;
 
-    public function getAllUser()
-    {
-        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
-            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')
-            ->get();
-        return $users;
+        foreach ($data['teacher_id'] as $value) {
+            $reponsible_group = new ResponsibleGroup();
+            $reponsible_group->teacher_id = $value;
+            $aa_id = AA::where('department', $data['department'])->first()->aa_id;
+            $reponsible_group->aa_id = $aa_id;
+            $reponsible_group->group_id = $group_id;
+            $reponsible_group->save();
+        }
     }
 
     public function getAllStudent()
     {
-        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
-            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')->where('role_name', 'Student')
-            ->get();
-        return $users;
+        $students =  Student::all();
+        return $students;
     }
 
     public function getAllTeacher()
     {
-        $users =  User::join('users_roles', 'users.id', '=', 'users_roles.internal_user_id')
-            ->join('roles', 'roles.id', '=', 'users_roles.internal_role_id')->where('role_name', 'Teacher')
-            ->get();
-        return $users;
+        $teachers =  Teacher::all();
+        return $teachers;
     }
 }

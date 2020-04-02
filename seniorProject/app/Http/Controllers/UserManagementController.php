@@ -23,7 +23,8 @@ class UserManagementController extends Controller
         $validator =  Validator::make($request->all(), [
             'project_name' => 'required',
             'department' => 'required',
-            'user_id' => 'required',
+            'student_id' => 'required',
+            'teacher_id' => 'required',
             'project_detail' => 'required'
         ]);
 

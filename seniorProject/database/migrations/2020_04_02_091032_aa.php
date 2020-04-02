@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Projects extends Migration
+class Aa extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class Projects extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('project_id',5);
-            $table->string('project_name',200);
+        Schema::create('aa', function (Blueprint $table) {
+            $table->string('aa_id',20)->primary();
+            $table->string('aa_name',100);
+            $table->string('aa_email',500);
+            $table->string('department',3)->nullable();
             $table->timestamps();
-
         });
     }
 
@@ -28,9 +28,9 @@ class Projects extends Migration
      * @return void
      */
     public function down()
-    {   
+    {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('aa');
         Schema::enableForeignKeyConstraints();
     }
 }
