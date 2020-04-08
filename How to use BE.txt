@@ -14,7 +14,9 @@
 8.2 php artisan migrate:fresh --seed
 9. สั่ง php artisan serve 
 10. เข้า url ตาม api ที่ route ไว้ให้
-	api จะมี 3 ตัว 
+	api จะมี 5 ตัว 
 	- http://127.0.0.1:8000/api/project (สร้าง Project)
 	- http://127.0.0.1:8000/api/students (ดูข้อมูลนักศึกษาทั้งหมด)
 	- http://127.0.0.1:8000/api/teachers (ดูข้อมูลอาจารย์ทั้งหมด)
+	- http://127.0.0.1:8000/api/projects/edit/IT01 (แก้โปรเจคที่กลุ่ม IT01)
+	- http://127.0.0.1:8000/api/projects/IT01 (ดูข้อมูลโปรเจคที่กลุ่ม IT01)

@@ -16,6 +16,12 @@ class StudentsSeeder extends Seeder
     {
         $students = (array) array(
             [
+                'student_id' => '60130500038',
+                'student_name' => 'Thanatcha',
+                'student_email' => 'Thanatcha@st.sit.kmutt.ac.th',
+                'department' => ''
+            ],
+            [
                 'student_id' => '60130500082',
                 'student_name' => 'Watunyu',
                 'student_email' => '60130500082@st.sit.kmutt.ac.th',
@@ -28,11 +34,23 @@ class StudentsSeeder extends Seeder
                 'department' => ''
             ],
             [
+                'student_id' => '60130500104',
+                'student_name' => 'Ittidate',
+                'student_email' => '60130500104@st.sit.kmutt.ac.th',
+                'department' => ''
+            ],
+            [
+                'student_id' => '60130500105',
+                'student_name' => 'Intira',
+                'student_email' => '60130500105@st.sit.kmutt.ac.th',
+                'department' => ''
+            ],
+            [
                 'student_id' => '60130500125',
                 'student_name' => 'Thamrongchai',
                 'student_email' => '60130500125@st.sit.kmutt.ac.th',
                 'department' => ''
-            ]
+            ],
         );
 
         foreach ($students as $student) {

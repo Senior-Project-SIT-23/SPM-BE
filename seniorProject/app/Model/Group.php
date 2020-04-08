@@ -20,6 +20,6 @@ class Group extends Model
 
     public function projects()
     {
-        return $this->hasOne(Project::class,'group_id');
+        return $this->hasOne(Project::class,'project_id');
     }
 }

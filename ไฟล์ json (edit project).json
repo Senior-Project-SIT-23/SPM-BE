@@ -1,0 +1,11 @@
+{
+    "project_id": "IT01",
+    "group_id": "1",
+    "department": "IT",
+    "project_name": "spm",
+    "delete_student_id": ["60130500082"],
+    "delete_teacher_id": ["1"],
+    "student_id": ["60130500104"],
+    "teacher_id": ["2"],
+    "project_detail": "Zompong"
+}

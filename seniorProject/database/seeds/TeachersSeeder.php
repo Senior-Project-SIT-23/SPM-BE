@@ -19,6 +19,16 @@ class TeachersSeeder extends Seeder
                 'teacher_id' => '1',
                 'teacher_name' => 'Siam',
                 'teacher_email' => 'siam@sit.kmutt.ac.th'
+            ],
+            [
+                'teacher_id' => '2',
+                'teacher_name' => 'Umaporn',
+                'teacher_email' => 'Umaporn@sit.kmutt.ac.th'
+            ],
+            [
+                'teacher_id' => '3',
+                'teacher_name' => 'Tui',
+                'teacher_email' => 'Tui@sit.kmutt.ac.th'
             ]
         );
 
