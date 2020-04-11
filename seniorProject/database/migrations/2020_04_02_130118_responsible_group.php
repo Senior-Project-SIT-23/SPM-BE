@@ -17,12 +17,12 @@ class ResponsibleGroup extends Migration
             $table->bigIncrements('id');
             $table->string('teacher_id',20);
             $table->string('aa_id',20);
-            $table->integer('group_id');
+            $table->string('project_id');
             $table->timestamps();
 
-            $table->foreign('teacher_id')->references('teacher_id')->on('teachers');
-            $table->foreign('aa_id')->references('aa_id')->on('aa');
-            // $table->foreign('group_id')->references('group_id')->on('groups');
+            $table->foreign('teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
+            $table->foreign('aa_id')->references('aa_id')->on('aa')->onDelete('cascade');
+            $table->foreign('project_id')->references('project_id')->on('projects')->onDelete('cascade');
         });
     }
 

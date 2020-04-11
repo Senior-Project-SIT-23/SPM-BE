@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Repositories\UserManagementRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 
-class UserManagementController extends Controller 
+class UserManagementController extends Controller
 {
 
     private $userManagement;
 
     public function __construct(UserManagementRepositoryInterface $userManagement)
-    
+
     {
         $this->userManagement = $userManagement;
     }
@@ -29,24 +29,19 @@ class UserManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json('กรุณากรอกข้อมูลให้ครบ',400);;
+            return response()->json('กรุณากรอกข้อมูลให้ครบ', 400);;
         }
         //
         $data = $request->all();
         $result = $this->userManagement->createProject($data);
-        if($result){
-            return response()->json($result,500);
+        if ($result) {
+            return response()->json($result, 500);
         }
-        return response()->json('สำเร็จ',200);
-
+        return response()->json('สำเร็จ', 200);
     }
 
-    public function getProject($project_id){
-        $project = $this->userManagement->getProjectById($project_id);
-        return response()->json($project, 200);
-    }
-
-    public function editProject(Request $request){
+    public function editProject(Request $request)
+    {
         //ตรวจสอบข้อมูล
         $validator =  Validator::make($request->all(), [
             'project_id' => 'required',
@@ -55,22 +50,43 @@ class UserManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json('กรุณากรอกข้อมูลให้ครบ',400);;
+            return response()->json('กรุณากรอกข้อมูลให้ครบ', 400);;
         }
         //
         $data = $request->all();
         $this->userManagement->updateProject($data);
-        return response()->json('สำเร็จ',200);
-
+        return response()->json('สำเร็จ', 200);
     }
 
-    public function indexStudent(){
+    public function deleteProject(Request $request)
+    {
+        $project_id = $request->all()['project_id'];
+        $project = $this->userManagement->deleteProjectById($project_id);
+        return response()->json('สำเร็จ', 200);
+    }
+
+
+    public function indexStudent()
+    {
         $students = $this->userManagement->getAllStudent();
         return response()->json($students, 200);
     }
 
-    public function indexTeacher(){
+    public function indexTeacher()
+    {
         $teachers = $this->userManagement->getAllTeacher();
         return response()->json($teachers, 200);
+    }
+
+    public function getProject($project_id)
+    {
+        $project = $this->userManagement->getProjectById($project_id);
+        return response()->json($project, 200);
+    }
+
+    public function getAllProject()
+    {
+        $project = $this->userManagement->getAllProject();
+        return response()->json($project, 200);
     }
 }

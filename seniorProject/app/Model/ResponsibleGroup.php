@@ -18,8 +18,9 @@ class ResponsibleGroup extends Model
         return $this->belongsTo(Teacher::class,'teacher_id');
     }
 
-    public function groups()
+    public function projects()
     {
-        return $this->belongsTo(Group::class,'group_id');
+        return $this->hasMany(Project::class,'project_id');
     }
+
 }

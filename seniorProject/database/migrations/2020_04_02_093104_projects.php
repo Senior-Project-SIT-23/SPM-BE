@@ -29,7 +29,7 @@ class Projects extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('group_id');
+        Schema::dropIfExists('projects');
         Schema::enableForeignKeyConstraints();
     }
 }

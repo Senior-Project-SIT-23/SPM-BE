@@ -20,8 +20,8 @@ class Groups extends Migration
             $table->string('project_id',5);
             $table->timestamps();
             
-            $table->foreign('student_id')->references('student_id')->on('students');
-            $table->foreign('project_id')->references('project_id')->on('projects');
+            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
+            $table->foreign('project_id')->references('project_id')->on('projects')->onDelete('cascade');
         });
     }
 

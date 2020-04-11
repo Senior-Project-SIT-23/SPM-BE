@@ -19,7 +19,7 @@ class ProjectDetail extends Migration
             $table->string('project_id',5);
             $table->timestamps();
 
-            $table->foreign('project_id')->references('project_id')->on('projects');
+            $table->foreign('project_id')->references('project_id')->on('projects')->onDelete('cascade');
         });
     }
 

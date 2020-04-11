@@ -13,11 +13,6 @@ class Group extends Model
         return $this->hasMany(Student::class, 'student_id');
     }
 
-    public function responsible_group()
-    {
-        return $this->hasMany(ResponsibleGroup::class, 'group_id');
-    }
-
     public function projects()
     {
         return $this->hasOne(Project::class,'project_id');

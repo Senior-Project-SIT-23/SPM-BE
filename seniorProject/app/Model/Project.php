@@ -18,4 +18,9 @@ class Project extends Model
         return $this->hasOne(ProjectDetail::class,'project_id');
     }
 
+    public function responsible_group()
+    {
+        return $this->belongsTo(ResponsibleGroup::class, 'group_id');
+    }
+
 }
