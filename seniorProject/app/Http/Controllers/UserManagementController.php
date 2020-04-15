@@ -19,6 +19,10 @@ class UserManagementController extends Controller
 
     public function storeProject(Request $request)
     {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
         //ตรวจสอบข้อมูล
         $validator =  Validator::make($request->all(), [
             'project_name' => 'required',
@@ -26,10 +30,10 @@ class UserManagementController extends Controller
             'student_id' => 'required',
             'teacher_id' => 'required',
             'project_detail' => 'required'
-        ]);
+        ],$messages);
 
-        if ($validator->fails()) {
-            return response()->json('กรุณากรอกข้อมูลให้ครบ', 400);;
+        if($validator->fails()){
+            return response()->json($validator->errors(), 500);
         }
         //
         $data = $request->all();
@@ -42,15 +46,19 @@ class UserManagementController extends Controller
 
     public function editProject(Request $request)
     {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
         //ตรวจสอบข้อมูล
         $validator =  Validator::make($request->all(), [
             'project_id' => 'required',
             'group_id' => 'required',
             'department' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json('กรุณากรอกข้อมูลให้ครบ', 400);;
+        ],$messages);
+        
+        if($validator->fails()){
+            return response()->json($validator->errors(), 500);
         }
         //
         $data = $request->all();
@@ -62,6 +70,14 @@ class UserManagementController extends Controller
     {
         $project_id = $request->all()['project_id'];
         $project = $this->userManagement->deleteProjectById($project_id);
+        
+        $validator =  Validator::make($request->all(), [
+            'project_id' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
         return response()->json('สำเร็จ', 200);
     }
 
