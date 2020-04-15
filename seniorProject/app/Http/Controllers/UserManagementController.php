@@ -68,16 +68,20 @@ class UserManagementController extends Controller
 
     public function deleteProject(Request $request)
     {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+        $validator =  Validator::make($request->all(), [
+            'project_id' => 'required'
+        ],$messages);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 500);
+        }
+
         $project_id = $request->all()['project_id'];
         $project = $this->userManagement->deleteProjectById($project_id);
         
-        $validator =  Validator::make($request->all(), [
-            'project_id' => 'required'
-        ]);
-
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
         return response()->json('สำเร็จ', 200);
     }
 
