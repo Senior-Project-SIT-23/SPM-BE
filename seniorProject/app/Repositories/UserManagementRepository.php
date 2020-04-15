@@ -119,7 +119,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
             ->join('students', 'students.student_id', '=', 'groups.student_id')->where('groups.project_id', "$project_id")
             ->get();
         $project = Project::join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')->where('project_detail.project_id', "$project_id")
-            ->get();
+            ->first();
         $teacher = ResponsibleGroup::join('teachers','responsible_group.teacher_id','=','teachers.teacher_id')
             ->join('aa','responsible_group.aa_id','=','aa.aa_id')->where('responsible_group.project_id',"$project_id")->get();
         $data = array("group"=>$group,"project"=>$project,"teacher"=>$teacher);
