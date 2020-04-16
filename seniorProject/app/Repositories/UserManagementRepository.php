@@ -82,7 +82,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         foreach ($data['delete_teacher_id'] as $value) {
             ResponsibleGroup::where('project_id', $data['project_id'])->where('teacher_id', "$value")->delete();
         }
-        foreach ($data['student_id'] as $value) {
+        foreach ($data['add_student_id'] as $value) {
             if (!Group::where('project_id', $data['project_id'])->where('student_id', "$value")->first()) {
                 Student::where('student_id', "$value")->update(['department' => $data['department']]);
                 $group = new Group();
@@ -92,7 +92,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
                 $group->save();
             }
         }
-        foreach ($data['teacher_id'] as $value) {
+        foreach ($data['add_teacher_id'] as $value) {
             if (!ResponsibleGroup::where('project_id', $data['project_id'])->where('teacher_id', "$value")->first()) {
                 $reponsible_group = new ResponsibleGroup();
                 $reponsible_group->teacher_id = $value;
