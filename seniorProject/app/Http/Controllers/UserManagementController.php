@@ -28,7 +28,6 @@ class UserManagementController extends Controller
             'project_name' => 'required',
             'department' => 'required',
             'student_id' => 'required',
-            'teacher_id' => 'required',
             'project_detail' => 'required'
         ],$messages);
 

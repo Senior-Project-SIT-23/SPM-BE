@@ -15,7 +15,7 @@ class ResponsibleGroup extends Migration
     {
         Schema::create('responsible_group', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('teacher_id',20);
+            $table->string('teacher_id',20)->nullable();
             $table->string('aa_id',20);
             $table->string('project_id');
             $table->timestamps();

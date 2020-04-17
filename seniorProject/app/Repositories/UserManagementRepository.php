@@ -9,6 +9,8 @@ use App\Model\ProjectDetail;
 use App\Model\Teacher;
 use App\Model\ResponsibleGroup;
 use App\Model\AA;
+use Illuminate\Support\Arr;
+
 
 
 class UserManagementRepository implements UserManagementRepositoryInterface
@@ -63,15 +65,25 @@ class UserManagementRepository implements UserManagementRepositoryInterface
             $group->group_id = $group_id;
             $group->save();
         }
-
-        foreach ($data['teacher_id'] as $value) {
-            $reponsible_group = new ResponsibleGroup();
-            $reponsible_group->teacher_id = $value;
-            $aa_id = AA::where('department', $data['department'])->first()->aa_id;
-            $reponsible_group->aa_id = $aa_id;
-            $reponsible_group->project_id = $project_id;
-            $reponsible_group->save();
+    
+        if(count($data['teacher_id'])>0){
+            foreach ($data['teacher_id'] as $value) {    
+                $reponsible_group = new ResponsibleGroup();
+                $reponsible_group->teacher_id = $value;
+                $aa_id = AA::where('department', $data['department'])->first()->aa_id;
+                $reponsible_group->aa_id = $aa_id;
+                $reponsible_group->project_id = $project_id;
+                $reponsible_group->save();
+            }
+        }else{
+                $reponsible_group = new ResponsibleGroup();
+                $aa_id = AA::where('department', $data['department'])->first()->aa_id;
+                $reponsible_group->aa_id = $aa_id;
+                $reponsible_group->project_id = $project_id;
+                $reponsible_group->save();
         }
+
+        
     }
 
     public function updateProject($data)
