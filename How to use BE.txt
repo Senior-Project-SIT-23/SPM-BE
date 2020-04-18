@@ -16,9 +16,12 @@
 10. เข้า url ตาม api ที่ route ไว้ให้
 	api จะมี 6 ตัว 
 	post -> http://127.0.0.1:8000/api/projects (สร้าง Project)
+	post -> http://127.0.0.1:8000/api/projects/delete (ลบโปรเจค)
+	put -> http://127.0.0.1:8000/api/projects/edit/{IT01} (แก้โปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/students (ดูข้อมูลนักศึกษาทั้งหมด)
 	get -> http://127.0.0.1:8000/api/teachers (ดูข้อมูลอาจารย์ทั้งหมด)
-	put -> http://127.0.0.1:8000/api/projects/edit/{IT01} (แก้โปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/projects/{IT01} (ดูข้อมูลโปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/projects (ดูข้อมูลโปรเจคทั้งหมด ใช้ในหน้าแสดง all project)
-	post -> http://127.0.0.1:8000/api/projects/delete (ลบโปรเจค)
+	get -> http://127.0.0.1:8000/api/projects/response/{teacher_id} (ดูข้อมูลโปรเจคที่อาจารย์รับผิดชอบ หน้า card)
+	
+	

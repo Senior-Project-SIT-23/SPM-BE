@@ -84,7 +84,6 @@ class UserManagementController extends Controller
         return response()->json('สำเร็จ', 200);
     }
 
-
     public function indexStudent()
     {
         $students = $this->userManagement->getAllStudent();
@@ -100,6 +99,11 @@ class UserManagementController extends Controller
     public function getProject($project_id)
     {
         $project = $this->userManagement->getProjectById($project_id);
+        return response()->json($project, 200);
+    }
+
+    public function getProjectResponse($teacher_id){
+        $project = $this->userManagement->getProjectByTeacher($teacher_id);
         return response()->json($project, 200);
     }
 
