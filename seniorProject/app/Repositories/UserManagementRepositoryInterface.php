@@ -12,4 +12,5 @@ interface UserManagementRepositoryInterface
    public function getAllProject();
    public function getProjectById($project_id);
    public function getProjectByTeacher($teacher_id);
+   public function getProjectByAA($aa_id);
 }

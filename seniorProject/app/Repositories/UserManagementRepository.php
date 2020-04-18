@@ -7,7 +7,8 @@ use App\Model\Project;
 use App\Model\Student;
 use App\Model\ProjectDetail;
 use App\Model\Teacher;
-use App\Model\ResponsibleGroup;
+use App\Model\ResponsibleTeacherGroup;
+use App\Model\ResponsibleAAGroup;
 use App\Model\AA;
 use Illuminate\Support\Arr;
 
@@ -40,6 +41,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         $project = new Project;
         $project->project_id = $project_id;
         $project->project_name = $data['project_name'];
+        $project->department = $data['department'];
         $project->save();
 
         $project_detail = new ProjectDetail;
@@ -68,31 +70,29 @@ class UserManagementRepository implements UserManagementRepositoryInterface
     
         if(count($data['teacher_id'])>0){
             foreach ($data['teacher_id'] as $value) {    
-                $reponsible_group = new ResponsibleGroup();
-                $reponsible_group->teacher_id = $value;
-                $aa_id = AA::where('department', $data['department'])->first()->aa_id;
-                $reponsible_group->aa_id = $aa_id;
-                $reponsible_group->project_id = $project_id;
-                $reponsible_group->save();
+                $reponsible_teacher_group = new ResponsibleTeacherGroup();
+                $reponsible_teacher_group->teacher_id = $value;
+                $reponsible_teacher_group->project_id = $project_id;
+                $reponsible_teacher_group->save();
+                $reponsible_aa_group = new ResponsibleAAGroup();
             }
-        }else{
-                $reponsible_group = new ResponsibleGroup();
-                $aa_id = AA::where('department', $data['department'])->first()->aa_id;
-                $reponsible_group->aa_id = $aa_id;
-                $reponsible_group->project_id = $project_id;
-                $reponsible_group->save();
         }
-
+            $reponsible_aa_group = new ResponsibleAAGroup();
+            $aa_id = AA::where('department', $data['department'])->first()->aa_id;
+            $reponsible_aa_group->aa_id = $aa_id;
+            $reponsible_aa_group->project_id = $project_id;
+            $reponsible_aa_group->save();
         
+
     }
 
     public function updateProject($data)
     {
         foreach ($data['delete_student_id'] as $value) {
-            Group::where('project_id', $data['project_id'])->where('student_id', "$value")->delete();
+            Group::where('groups.project_id', $data['project_id'])->where('groups.student_id', "$value")->delete();
         }
         foreach ($data['delete_teacher_id'] as $value) {
-            ResponsibleGroup::where('project_id', $data['project_id'])->where('teacher_id', "$value")->delete();
+            ResponsibleTeacherGroup::where('responsible_teacher_group.project_id', $data['project_id'])->where('responsible_teacher_group.teacher_id', "$value")->delete();
         }
         foreach ($data['add_student_id'] as $value) {
             if (!Group::where('project_id', $data['project_id'])->where('student_id', "$value")->first()) {
@@ -105,13 +105,11 @@ class UserManagementRepository implements UserManagementRepositoryInterface
             }
         }
         foreach ($data['add_teacher_id'] as $value) {
-            if (!ResponsibleGroup::where('project_id', $data['project_id'])->where('teacher_id', "$value")->first()) {
-                $reponsible_group = new ResponsibleGroup();
-                $reponsible_group->teacher_id = $value;
-                $reponsible_group->project_id = $data['project_id'];
-                $aa_id = AA::where('department', $data['department'])->first()->aa_id;
-                $reponsible_group->aa_id = $aa_id;
-                $reponsible_group->save();
+            if (!ResponsibleTeacherGroup::where('responsible_teacher_group.project_id', $data['project_id'])->where('responsible_teacher_group.teacher_id', "$value")->first()) {
+                $responsible_teacher_group = new ResponsibleTeacherGroup();
+                $responsible_teacher_group->teacher_id = $value;
+                $responsible_teacher_group->project_id = $data['project_id'];
+                $responsible_teacher_group->save();
             }
         }
         Project::where('project_id', $data['project_id'])->update(['project_name' => $data['project_name']]);
@@ -133,28 +131,37 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         $project = Project::join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
             ->where('project_detail.project_id', "$project_id")->first();
 
-        $teacher = ResponsibleGroup::join('teachers','responsible_group.teacher_id','=','teachers.teacher_id')
-            ->join('aa','responsible_group.aa_id','=','aa.aa_id')->where('responsible_group.project_id',"$project_id")->get();
+        $teacher = ResponsibleTeacherGroup::join('teachers','responsible_teacher_group.teacher_id','=','teachers.teacher_id')
+            ->where('responsible_teacher_group.project_id',"$project_id")->get();
 
         $data = array("group"=>$group,"project"=>$project,"teacher"=>$teacher);
         return $data;
     }
 
     public function getProjectByTeacher($teacher_id){
-        $reponsible_group = Project::join('responsible_group','responsible_group.project_id','=','projects.project_id')
-        ->where('responsible_group.teacher_id',"$teacher_id")->join('project_detail','project_detail.project_id','=','projects.project_id')
-        ->where('responsible_group.teacher_id',"$teacher_id")
+        $responsible_teacher_group = Project::join('responsible_teacher_group','responsible_teacher_group.project_id','=','projects.project_id')
+        ->where('responsible_teacher_group.teacher_id',"$teacher_id")->join('project_detail','project_detail.project_id','=','projects.project_id')
+        ->where('responsible_teacher_group.teacher_id',"$teacher_id")
         ->get();
 
-        return $reponsible_group;
+        return $responsible_teacher_group;
+    }
+
+    public function getProjectByAA($aa_id){
+        $responsible_aa_group = Project::join('responsible_aa_group','responsible_aa_group.project_id','=','projects.project_id')
+        ->where('responsible_aa_group.aa_id',"$aa_id")->join('project_detail','project_detail.project_id','=','projects.project_id')
+        ->where('responsible_aa_group.aa_id',"$aa_id")
+        ->get();
+
+        return $responsible_aa_group;
     }
 
     public function getAllProject()
     {
         $projects = Project::all();
         foreach($projects as $key => $project){
-            $teachers = ResponsibleGroup::join('teachers','teachers.teacher_id','=','responsible_group.teacher_id')
-            ->where('responsible_group.project_id',"$project->project_id")->get();
+            $teachers = ResponsibleTeacherGroup::join('teachers','teachers.teacher_id','=','responsible_teacher_group.teacher_id')
+            ->where('responsible_teacher_group.project_id',"$project->project_id")->get();
             $projects[$key]->teachers = $teachers;
         }
         

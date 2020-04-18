@@ -8,8 +8,8 @@ class AA extends Model
 {
     protected $table = 'aa';
 
-    public function reponsible_group()
+    public function reponsible_aa_group()
     {
-        return $this->hasMany(ResponsibleGroup::class,'aa_id');
+        return $this->hasMany(ResponsibleAAGroup::class,'aa_id');
     }
 }

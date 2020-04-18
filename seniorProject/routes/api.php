@@ -24,10 +24,13 @@ Route::post('/projects/delete','UserManagementController@deleteProject');
 Route::put('/projects/edit/{project_id}','UserManagementController@editProject');
 
 Route::get('/projects/{project_id}','UserManagementController@getProject');
+
+Route::get('/projects/aa/{aa_id}', 'UserManagementController@getProject');
 Route::get('/projects','UserManagementController@getAllProject');
 Route::get('/students','UserManagementController@indexStudent');
 Route::get('/teachers','UserManagementController@indexTeacher');
-Route::get('/projects/response/{teacher_id}', 'UserManagementController@getProjectResponse');
+Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse');
+Route::get('/projects/response/aa/{aa_id}', 'UserManagementController@getProjectAAResponse');
 
 //get => ใช้สำหรับขอข้อมูล
 //post => ใช้สำหรับส่งข้อมูลเพื่อเพิ่มข้อมูล

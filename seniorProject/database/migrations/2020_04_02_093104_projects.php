@@ -16,6 +16,7 @@ class Projects extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->string('project_id',5)->primary();
             $table->string('project_name',200);
+            $table->string('department',3);
             $table->timestamps();
 
         });
