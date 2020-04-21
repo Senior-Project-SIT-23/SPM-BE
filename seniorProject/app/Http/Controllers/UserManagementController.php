@@ -102,6 +102,11 @@ class UserManagementController extends Controller
         return response()->json($project, 200);
     }
 
+    public function getGroupProject($student_id){
+        $group = $this->userManagement->getGroupProjectByStudent($student_id);
+        return response()->json($group, 200);
+    }
+
     public function getProjectTeacherResponse($teacher_id){
         $project = $this->userManagement->getProjectByTeacher($teacher_id);
         return response()->json($project, 200);

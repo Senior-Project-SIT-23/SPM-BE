@@ -7,7 +7,7 @@
 5. เปิด cmder แล้ว cd ไปยังโฟลเดอร์โปรเจค
 (ถ้ายังไม่เคยติดตั้ง composer ให้ติดตั้ง)
 6. composer install
-7. composer dump auto-load
+7. composer dump-autoload
 (ถ้ายังไม่เคย migrate)
 8.1 php artisan migrate
 (ถ้าเคย migrate แล้ว)
@@ -22,6 +22,7 @@
 	get -> http://127.0.0.1:8000/api/teachers (ดูข้อมูลอาจารย์ทั้งหมด)
 	get -> http://127.0.0.1:8000/api/projects/{IT01} (ดูข้อมูลโปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/projects (ดูข้อมูลโปรเจคทั้งหมด ใช้ในหน้าแสดง all project)
+	get -> http://127.0.0.1:8000/api/group/{student_id} (ดูข้อมูลว่านักศึกษาคนนี้มีกลุ่มรึยัง)
 	get -> http://127.0.0.1:8000/api/projects/response/teacher/{teacher_id} (ดูข้อมูลโปรเจคที่อาจารย์รับผิดชอบ หน้า card)
 	get -> http://127.0.0.1:8000/api/projects/response/aa/{teacher_id} (ดูข้อมูลโปรเจคที่ aa รับผิดชอบ )
 	

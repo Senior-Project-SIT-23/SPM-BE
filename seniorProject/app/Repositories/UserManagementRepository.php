@@ -138,6 +138,11 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         return $data;
     }
 
+    public function getGroupProjectByStudent($student_id){
+        $group = Group::where('student_id',"$student_id")->get();
+        return $group;
+    }
+
     public function getProjectByTeacher($teacher_id){
         $responsible_teacher_group = Project::join('responsible_teacher_group','responsible_teacher_group.project_id','=','projects.project_id')
         ->where('responsible_teacher_group.teacher_id',"$teacher_id")->join('project_detail','project_detail.project_id','=','projects.project_id')
