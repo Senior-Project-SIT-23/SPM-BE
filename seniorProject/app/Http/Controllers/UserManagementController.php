@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserManagementRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
 
 class UserManagementController extends Controller
 {
@@ -104,7 +105,8 @@ class UserManagementController extends Controller
 
     public function getGroupProject($student_id){
         $group = $this->userManagement->getGroupProjectByStudent($student_id);
-        return response()->json($group, 200);
+        $project = $this->userManagement->getProjectById(Arr::get($group,'project_id'));
+        return response()->json($project, 200);
     }
 
     public function getProjectTeacherResponse($teacher_id){

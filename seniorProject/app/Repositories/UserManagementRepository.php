@@ -139,7 +139,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
     }
 
     public function getGroupProjectByStudent($student_id){
-        $group = Group::where('student_id',"$student_id")->get();
+        $group = Group::where('student_id',"$student_id")->first();
         return $group;
     }
 
