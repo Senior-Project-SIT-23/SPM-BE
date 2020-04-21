@@ -1,4 +1,4 @@
-2/4/2020
+21/4/2020
 1. clone โปรเจคลงมา
 2. เปิด xampp ขึ้นมา รัน Appache กับ MySQL 
 (ถ้าเคยสร้าง Database : spm แล้วข้ามข้อ 3)
@@ -24,6 +24,6 @@
 	get -> http://127.0.0.1:8000/api/projects (ดูข้อมูลโปรเจคทั้งหมด ใช้ในหน้าแสดง all project)
 	get -> http://127.0.0.1:8000/api/group/{student_id} (ดูข้อมูลว่านักศึกษาคนนี้มีกลุ่มรึยัง)
 	get -> http://127.0.0.1:8000/api/projects/response/teacher/{teacher_id} (ดูข้อมูลโปรเจคที่อาจารย์รับผิดชอบ หน้า card)
-	get -> http://127.0.0.1:8000/api/projects/response/aa/{teacher_id} (ดูข้อมูลโปรเจคที่ aa รับผิดชอบ )
+	get -> http://127.0.0.1:8000/api/projects/response/aa/{aa_id} (ดูข้อมูลโปรเจคที่ aa รับผิดชอบ )
 	
 	
