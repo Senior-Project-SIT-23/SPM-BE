@@ -30,9 +30,9 @@ class UserManagementController extends Controller
             'department' => 'required',
             'student_id' => 'required',
             'project_detail' => 'required'
-        ],$messages);
+        ], $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
         //
@@ -55,9 +55,9 @@ class UserManagementController extends Controller
             'project_id' => 'required',
             'group_id' => 'required',
             'department' => 'required'
-        ],$messages);
-        
-        if($validator->fails()){
+        ], $messages);
+
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
         //
@@ -73,15 +73,15 @@ class UserManagementController extends Controller
         ];
         $validator =  Validator::make($request->all(), [
             'project_id' => 'required'
-        ],$messages);
+        ], $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
 
         $project_id = $request->all()['project_id'];
         $project = $this->userManagement->deleteProjectById($project_id);
-        
+
         return response()->json('สำเร็จ', 200);
     }
 
@@ -103,18 +103,21 @@ class UserManagementController extends Controller
         return response()->json($project, 200);
     }
 
-    public function getGroupProject($student_id){
+    public function getGroupProject($student_id)
+    {
         $group = $this->userManagement->getGroupProjectByStudent($student_id);
-        $project = $this->userManagement->getProjectById(Arr::get($group,'project_id'));
+        $project = $this->userManagement->getProjectById(Arr::get($group, 'project_id'));
         return response()->json($project, 200);
     }
 
-    public function getProjectTeacherResponse($teacher_id){
+    public function getProjectTeacherResponse($teacher_id)
+    {
         $project = $this->userManagement->getProjectByTeacher($teacher_id);
         return response()->json($project, 200);
     }
 
-    public function getProjectAAResponse($aa_id){
+    public function getProjectAAResponse($aa_id)
+    {
         $project = $this->userManagement->getProjectByAA($aa_id);
         return response()->json($project, 200);
     }
@@ -123,5 +126,11 @@ class UserManagementController extends Controller
     {
         $project = $this->userManagement->getAllProject();
         return response()->json($project, 200);
+    }
+
+    public function getStudentNoGroup()
+    {
+        $students = $this->userManagement->getStudentNoGroup();
+        return response()->json($students, 200);
     }
 }

@@ -29,6 +29,7 @@ Route::get('/projects/aa/{aa_id}', 'UserManagementController@getProject');
 Route::get('/projects','UserManagementController@getAllProject');
 Route::get('/students','UserManagementController@indexStudent');
 Route::get('/teachers','UserManagementController@indexTeacher');
+Route::get('/students/nogroup','UserManagementController@getStudentNoGroup');
 Route::get('/group/{student_id}','UserManagementController@getGroupProject');
 Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse');
 Route::get('/projects/response/aa/{aa_id}', 'UserManagementController@getProjectAAResponse');

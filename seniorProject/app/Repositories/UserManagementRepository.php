@@ -184,4 +184,17 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         $teachers =  Teacher::all();
         return $teachers;
     }
+
+    public function getStudentNoGroup(){
+        $not_in_group = [];
+        $students =  Student::all();
+        foreach ($students  as $student) {
+            $in_group = Group::where('student_id',$student->student_id)->first();
+            if($in_group == null){
+                array_push($not_in_group,$student);
+            }
+        }
+        return $not_in_group;
+        
+    }
 }
