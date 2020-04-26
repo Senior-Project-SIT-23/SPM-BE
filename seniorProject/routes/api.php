@@ -18,14 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/projects','UserManagementController@storeProject');
+Route::post('/projects/create','UserManagementController@storeProject');
 Route::post('/projects/delete','UserManagementController@deleteProject');
 
 Route::put('/projects/edit/{project_id}','UserManagementController@editProject');
 
 Route::get('/projects/{project_id}','UserManagementController@getProject');
-
-Route::get('/projects/aa/{aa_id}', 'UserManagementController@getProject');
 Route::get('/projects','UserManagementController@getAllProject');
 Route::get('/students','UserManagementController@indexStudent');
 Route::get('/teachers','UserManagementController@indexTeacher');

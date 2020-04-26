@@ -155,6 +155,8 @@ class UserManagementRepository implements UserManagementRepositoryInterface
     public function getProjectByAA($aa_id){
         $responsible_aa_group = Project::join('responsible_aa_group','responsible_aa_group.project_id','=','projects.project_id')
         ->where('responsible_aa_group.aa_id',"$aa_id")->join('project_detail','project_detail.project_id','=','projects.project_id')
+        ->where('responsible_aa_group.aa_id',"$aa_id")->join('responsible_teacher_group','responsible_teacher_group.project_id','=','projects.project_id')
+        ->where('responsible_aa_group.aa_id',"$aa_id")->join('teachers','teachers.teacher_id','=','responsible_teacher_group.teacher_id')
         ->where('responsible_aa_group.aa_id',"$aa_id")
         ->get();
 
