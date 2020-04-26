@@ -162,7 +162,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         foreach ($responsible_aa_group as $index => $value) {
             $responsible_group = ResponsibleTeacherGroup::join('teachers', 'teachers.teacher_id', '=', 'responsible_teacher_group.teacher_id')
                 ->where('responsible_teacher_group.project_id', $value->project_id)->get();
-            $responsible_aa_group[$index]->teacher_responsible_group = $responsible_group;
+            $responsible_aa_group[$index]->teachers = $responsible_group;
         }
 
         return $responsible_aa_group;
