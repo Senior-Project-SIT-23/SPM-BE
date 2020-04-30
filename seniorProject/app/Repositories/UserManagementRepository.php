@@ -12,6 +12,7 @@ use App\Model\ResponsibleAAGroup;
 use App\Model\AA;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Http\UploadedFile;
 
 
 
@@ -20,29 +21,45 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function createProject($data)
     {
-        foreach ($data['student_id'] as $value) {
-            if (Group::where('student_id', "$value")->first()) {
-                return "มีกลุ่มแล้ว $value";
+        //เช็ค นศ ชื่อซ้ำตอนสร้างกลุ่ม
+        // foreach ($data['student_id'] as $value) {
+        //     if (Group::where('student_id', "$value")->first()) {
+        //         return "มีกลุ่มแล้ว $value";
+        //     }
+        // }
+        if ($data['department'] == 'SIT') {
+            $count_project = Project::where('project_id', 'like', "$data[department]%");
+            $project_id = $data['department'] . '01';
+            if (count($count_project->get()) > 0) {
+                $last_project_id = $count_project->orderby('project_id', 'desc')->first()->project_id;
+                $project_id = substr($last_project_id, 3, 2);
+                $project_id++;
+                if ($project_id > 9) {
+                    $project_id = $data['department'] . $project_id;
+                } else {
+                    $project_id = $data['department'] . '0' . $project_id;
+                }
+            }
+        } else {
+            $count_project = Project::where('project_id', 'like', "$data[department]%");
+            $project_id = $data['department'] . '01';
+            if (count($count_project->get()) > 0) {
+                $last_project_id = $count_project->orderby('project_id', 'desc')->first()->project_id;
+                $project_id = substr($last_project_id, 2, 2);
+                $project_id++;
+                if ($project_id > 9) {
+                    $project_id = $data['department'] . $project_id;
+                } else {
+                    $project_id = $data['department'] . '0' . $project_id;
+                }
             }
         }
 
-        $count_project = Project::where('project_id', 'like', "$data[department]%");
-        $project_id = $data['department'] . '01';
-        if (count($count_project->get()) > 0) {
-            $last_project_id = $count_project->orderby('project_id', 'desc')->first()->project_id;
-            $project_id = substr($last_project_id, 2, 2);
-            $project_id++;
-            if ($project_id > 9) {
-                $project_id = $data['department'] . $project_id;
-            } else {
-                $project_id = $data['department'] . '0' . $project_id;
-            }
-        }
 
         $project = new Project;
         $project->project_id = $project_id;
         $project->project_name = $data['project_name'];
-        $project->department = $data['department'];
+        $project->project_department = $data['department'];
         $project->save();
 
         $project_detail = new ProjectDetail;
@@ -60,7 +77,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         }
 
         foreach ($data['student_id'] as $value) {
-            $student = Student::where('student_id', "$value")->update(['department' => $data['department']]);
+            // $student = Student::where('student_id', "$value")->update(['department' => $data['department']]);
 
             $group = new Group();
             $group->student_id = $value;
@@ -78,11 +95,25 @@ class UserManagementRepository implements UserManagementRepositoryInterface
                 $reponsible_aa_group = new ResponsibleAAGroup();
             }
         }
-        $reponsible_aa_group = new ResponsibleAAGroup();
-        $aa_id = AA::where('department', $data['department'])->first()->aa_id;
-        $reponsible_aa_group->aa_id = $aa_id;
-        $reponsible_aa_group->project_id = $project_id;
-        $reponsible_aa_group->save();
+
+        if ($data['department'] == 'SIT') {
+            $aa = AA::all();
+            foreach ($aa as $value) {
+                $reponsible_aa_group = new ResponsibleAAGroup();
+                $reponsible_aa_group->aa_id = $value->aa_id;
+                $reponsible_aa_group->project_id = $project_id;
+                $reponsible_aa_group->save();
+            }
+        }else{
+            $reponsible_aa_group = new ResponsibleAAGroup();
+            $aa_id = AA::where('department', $data['department'])->first()->aa_id;
+            $reponsible_aa_group->aa_id = $aa_id;
+            $reponsible_aa_group->project_id = $project_id;
+            $reponsible_aa_group->save();
+        }
+
+
+        
     }
 
     public function updateProject($data)
@@ -203,5 +234,10 @@ class UserManagementRepository implements UserManagementRepositoryInterface
             }
         }
         return $not_in_group;
+    }
+
+    public function editProfileStudent($data)
+    {
+        $student = Student::where('student_id', $data['student_id'])->update(['department' => $data['department']]);
     }
 }

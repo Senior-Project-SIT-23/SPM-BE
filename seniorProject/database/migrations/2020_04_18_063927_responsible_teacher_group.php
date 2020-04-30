@@ -16,7 +16,7 @@ class ResponsibleTeacherGroup extends Migration
         Schema::create('responsible_teacher_group', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('teacher_id',20)->nullable();
-            $table->string('project_id');
+            $table->string('project_id',10);
             $table->timestamps();
 
             $table->foreign('teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');

@@ -18,7 +18,7 @@ class StudentsSeeder extends Seeder
             [
                 'student_id' => '60130500038',
                 'student_name' => 'Thanatcha',
-                'student_email' => 'Thanatcha@st.sit.kmutt.ac.th',
+                'student_email' => '60130500038@st.sit.kmutt.ac.th',
                 'department' => ''
             ],
             [

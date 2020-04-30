@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\UserManagementRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class UserManagementController extends Controller
 {
@@ -132,5 +134,27 @@ class UserManagementController extends Controller
     {
         $students = $this->userManagement->getStudentNoGroup();
         return response()->json($students, 200);
+    }
+
+    public function editProfileStudent(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all()['data'], [
+            'student_id' => 'required',
+            'department' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+        $data = $request->all();
+ 
+        $custom_file_name = $data['student_id'].'.jpg';
+        $path = $request->file('image')->storeAs('images',$custom_file_name);
+        return response()->json('สำเร็จ', 200);
     }
 }

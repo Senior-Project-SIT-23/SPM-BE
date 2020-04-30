@@ -16,7 +16,7 @@ class ResponsibleAaGroup extends Migration
         Schema::create('responsible_aa_group', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('aa_id',20);
-            $table->string('project_id');
+            $table->string('project_id',10);
             $table->timestamps();
 
             $table->foreign('aa_id')->references('aa_id')->on('aa')->onDelete('cascade');

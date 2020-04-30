@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Projects extends Migration
+class SpmConfig extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class Projects extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->string('project_id',10)->primary();
-            $table->string('project_name',200);
-            $table->string('project_department',3);
+        Schema::create('spm_config', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('year_of_study',4);
+            $table->string('number_of_member_min',2);
+            $table->string('number_of_member_max',1);
+            $table->boolean('student_one_more_group');
             $table->timestamps();
-
         });
     }
 
@@ -30,7 +31,7 @@ class Projects extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('spm_config');
         Schema::enableForeignKeyConstraints();
     }
 }

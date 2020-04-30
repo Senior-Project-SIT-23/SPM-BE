@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/projects/create','UserManagementController@storeProject');
 Route::post('/projects/delete','UserManagementController@deleteProject');
+Route::post('/student/edit/profile','UserManagementController@editProfileStudent');
 
 Route::put('/projects/edit/{project_id}','UserManagementController@editProject');
 

@@ -15,4 +15,5 @@ interface UserManagementRepositoryInterface
    public function getGroupProjectByStudent($student_id);
    public function getProjectByTeacher($teacher_id);
    public function getProjectByAA($aa_id);
+   public function editProfileStudent($data);
 }
