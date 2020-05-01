@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SPMConfigController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//UserManagement
 Route::post('/projects/create','UserManagementController@storeProject');
 Route::post('/projects/delete','UserManagementController@deleteProject');
 Route::post('/student/edit/profile','UserManagementController@editProfileStudent');
@@ -32,6 +34,10 @@ Route::get('/students/nogroup','UserManagementController@getStudentNoGroup');
 Route::get('/group/{student_id}','UserManagementController@getGroupProject');
 Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse');
 Route::get('/projects/response/aa/{aa_id}', 'UserManagementController@getProjectAAResponse');
+
+//SPMConfig
+Route::post('/create/config','SPMConfigController@storeConfigProject');
+Route::get('/config/{year_of_study}','SPMConfigController@indexConfigProjectByYear');
 
 //get => ใช้สำหรับขอข้อมูล
 //post => ใช้สำหรับส่งข้อมูลเพื่อเพิ่มข้อมูล

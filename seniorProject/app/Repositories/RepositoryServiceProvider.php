@@ -11,5 +11,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
        $this->app->bind('App\Repositories\UserManagementRepositoryInterface',
        'App\Repositories\UserManagementRepository');
+       $this->app->bind('App\Repositories\SPMConfigRepositoryInterface',
+       'App\Repositories\SPMConfigRepository');
     }
 }
