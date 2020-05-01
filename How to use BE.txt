@@ -1,4 +1,4 @@
-25/4/2020
+1/5/2020
 1. clone โปรเจคลงมา
 2. เปิด xampp ขึ้นมา รัน Appache กับ MySQL 
 (ถ้าเคยสร้าง Database : spm แล้วข้ามข้อ 3)
@@ -15,6 +15,7 @@
 9. สั่ง php artisan serve 
 10. เข้า url ตาม api ที่ route ไว้ให้
 	api จะมี 12 ตัว 
+	//UserManagement
 	post -> http://127.0.0.1:8000/api/student/edit/profile (แก้ไขโปรไฟล์)
 	post -> http://127.0.0.1:8000/api/projects/create (สร้าง Project)
 	post -> http://127.0.0.1:8000/api/projects/delete (ลบโปรเจค)
@@ -27,5 +28,8 @@
 	get -> http://127.0.0.1:8000/api/projects/response/teacher/{teacher_id} (ดูข้อมูลโปรเจคที่อาจารย์รับผิดชอบ หน้า card)
 	get -> http://127.0.0.1:8000/api/projects/response/aa/{aa_id} (ดูข้อมูลโปรเจคที่ aa รับผิดชอบ )
 	get -> http://127.0.0.1:8000/api/students/nogroup (ดูรายชื่อนักศึกษาที่ยังไม่มีกลุ่ม)
+	//Config
+	post -> http://127.0.0.1:8000/api/config/create (สร้าง config)
+	get -> http://127.0.0.1:8000/api/config/{year_of_study} (ดู config ตามปี)
 	
 	
