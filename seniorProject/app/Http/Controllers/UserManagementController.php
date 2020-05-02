@@ -138,12 +138,13 @@ class UserManagementController extends Controller
 
     public function editProfileStudent(Request $request)
     {
+
         $messages = [
             'required' => 'The :attribute field is required.',
         ];
 
         //ตรวจสอบข้อมูล
-        $validator =  Validator::make($request->all()['data'], [
+        $validator =  Validator::make($request->all(), [
             'student_id' => 'required',
             'department' => 'required'
         ], $messages);
@@ -151,13 +152,17 @@ class UserManagementController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
-       
+
         $data = $request->all();
-        $custom_file_name = $data['student_id'].'.jpg';
-        $path = $request->file('image')->storeAs('images',$custom_file_name);
+
+        $has_image = Arr::has($data['image'], null);
+        if ($has_image) {
+            $custom_file_name = $data['student_id'] . '.jpg';
+            $path = $request->file('image')->storeAs('images', $custom_file_name);
+        }
 
         $result = $this->userManagement->editProfileStudent($data);
-        
+
         return response()->json('สำเร็จ', 200);
     }
 }

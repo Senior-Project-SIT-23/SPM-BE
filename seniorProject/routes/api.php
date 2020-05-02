@@ -20,24 +20,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //UserManagement
-Route::post('/projects/create','UserManagementController@storeProject');
-Route::post('/projects/delete','UserManagementController@deleteProject');
-Route::post('/student/edit/profile','UserManagementController@editProfileStudent');
+Route::post('/projects','UserManagementController@storeProject'); //สร้าง project
+Route::post('/projects/delete','UserManagementController@deleteProject'); //ลบ project
+Route::post('/student/edit/profile','UserManagementController@editProfileStudent'); //แก้ไข profile
 
-Route::put('/projects/edit/{project_id}','UserManagementController@editProject');
+Route::put('/projects/edit/{project_id}','UserManagementController@editProject'); //เลือกแก้ไขข้อมูล project
 
-Route::get('/projects/{project_id}','UserManagementController@getProject');
-Route::get('/projects','UserManagementController@getAllProject');
-Route::get('/students','UserManagementController@indexStudent');
-Route::get('/teachers','UserManagementController@indexTeacher');
-Route::get('/students/nogroup','UserManagementController@getStudentNoGroup');
-Route::get('/group/{student_id}','UserManagementController@getGroupProject');
-Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse');
-Route::get('/projects/response/aa/{aa_id}', 'UserManagementController@getProjectAAResponse');
+Route::get('/projects/{project_id}','UserManagementController@getProject'); //เลือกดูข้อมูล project
+Route::get('/projects','UserManagementController@getAllProject'); //ดูข้อมูล project ทั้งหมด
+Route::get('/students','UserManagementController@indexStudent'); //ดูข้อมูล student ทั้งหมด
+Route::get('/teachers','UserManagementController@indexTeacher'); //ดูข้อมูล teacher ทั้งหมด 
+Route::get('/students/nogroup','UserManagementController@getStudentNoGroup'); //ดู student ที่ยังไม่มีกลุ่ม
+Route::get('/group/{student_id}','UserManagementController@getGroupProject'); //ดู student ว่ามีกลุ่มรึยัง
+Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse'); //ดูข้อมูล project ที่ teacher รับผิดชอบ
+Route::get('/projects/response/aa/{aa_id}', 'UserManagementController@getProjectAAResponse'); //ดูข้อมูล project ที่ aa รับผิดชอบ
 
 //SPMConfig
-Route::post('/create/config','SPMConfigController@storeConfigProject');
-Route::get('/config/{year_of_study}','SPMConfigController@indexConfigProjectByYear');
+Route::post('/config','SPMConfigController@storeConfig'); //สร้าง config
+
+Route::get('/config','SPMConfigController@indexConfig'); //ดูข้อมูล config ทั้งหมด
+Route::get('/config/{year_of_study}','SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
 //get => ใช้สำหรับขอข้อมูล
 //post => ใช้สำหรับส่งข้อมูลเพื่อเพิ่มข้อมูล

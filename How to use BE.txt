@@ -1,4 +1,4 @@
-1/5/2020
+2/5/2020
 1. clone โปรเจคลงมา
 2. เปิด xampp ขึ้นมา รัน Appache กับ MySQL 
 (ถ้าเคยสร้าง Database : spm แล้วข้ามข้อ 3)
@@ -14,10 +14,10 @@
 8.2 php artisan migrate:fresh --seed
 9. สั่ง php artisan serve 
 10. เข้า url ตาม api ที่ route ไว้ให้
-	api จะมี 12 ตัว 
+	api จะมี 15 ตัว 
 	//UserManagement
 	post -> http://127.0.0.1:8000/api/student/edit/profile (แก้ไขโปรไฟล์)
-	post -> http://127.0.0.1:8000/api/projects/create (สร้าง Project)
+	post -> http://127.0.0.1:8000/api/projects (สร้าง Project)
 	post -> http://127.0.0.1:8000/api/projects/delete (ลบโปรเจค)
 	put -> http://127.0.0.1:8000/api/projects/edit/{IT01} (แก้โปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/students (ดูข้อมูลนักศึกษาทั้งหมด)
@@ -29,7 +29,8 @@
 	get -> http://127.0.0.1:8000/api/projects/response/aa/{aa_id} (ดูข้อมูลโปรเจคที่ aa รับผิดชอบ )
 	get -> http://127.0.0.1:8000/api/students/nogroup (ดูรายชื่อนักศึกษาที่ยังไม่มีกลุ่ม)
 	//Config
-	post -> http://127.0.0.1:8000/api/config/create (สร้าง config)
+	post -> http://127.0.0.1:8000/api/config (สร้าง config)
+	get -> http://127.0.0.1:8000/api/config (ดู config ทั้งหมด)
 	get -> http://127.0.0.1:8000/api/config/{year_of_study} (ดู config ตามปี)
 	
 	

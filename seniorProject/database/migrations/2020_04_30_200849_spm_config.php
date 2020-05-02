@@ -16,8 +16,8 @@ class SpmConfig extends Migration
         Schema::create('spm_config', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('year_of_study',4);
-            $table->string('number_of_member_min',2);
-            $table->string('number_of_member_max',1);
+            $table->integer('number_of_member_min');
+            $table->integer('number_of_member_max');
             $table->boolean('student_one_more_group');
             $table->timestamps();
         });

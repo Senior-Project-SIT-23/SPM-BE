@@ -17,7 +17,7 @@ class SPMConfigController extends Controller
         $this->spmConfig = $spmConfig;
     }
 
-    public function storeConfigProject(Request $request){
+    public function storeConfig(Request $request){
         
         $messages = [
             'required' => 'The :attribute field is required.',
@@ -38,8 +38,13 @@ class SPMConfigController extends Controller
         $this->spmConfig->createConfig($data);
         return response()->json('สำเร็จ', 200);
     }
+    
+    public function indexConfig(){
+        $config = $this->spmConfig->getConfig();
+        return response()->json($config, 200);
+    }
 
-    public function indexConfigProjectByYear($year_of_study){
+    public function indexConfigByYear($year_of_study){
         $config = $this->spmConfig->getConfigByYear($year_of_study);
         return response()->json($config, 200);
     }

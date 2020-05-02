@@ -15,8 +15,16 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
         $spm_config->student_one_more_group = $data['student_one_more_group'];
         $spm_config->save();
     }
-    public function getConfigByYear($year_of_study){
-        $spm_config = SPMConfig::where('year_of_study',"$year_of_study")->first();
+
+    public function getConfig()
+    {
+        $spm_config = SPMConfig::all();
+        return $spm_config;
+    }
+
+    public function getConfigByYear($year_of_study)
+    {
+        $spm_config = SPMConfig::where('year_of_study', "$year_of_study")->first();
         return $spm_config;
     }
 }
