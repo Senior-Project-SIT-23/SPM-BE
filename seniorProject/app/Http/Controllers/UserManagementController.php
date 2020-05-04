@@ -158,10 +158,10 @@ class UserManagementController extends Controller
 
 
         if ($data['image']) {
-            $temp = $data['image']->getClientOriginalName();
-            $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['student_id'] . ".$extension";
-            $path = $request->file('image')->storeAs('images', $custom_file_name);
+            // $temp = $data['image']->getClientOriginalName();
+            // $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            $custom_file_name = $data['student_id'] . ".jpg";
+            $path = $request->file('image')->storeAs('/public/images', $custom_file_name);
         }
 
         $result = $this->userManagement->editProfileStudent($data);
