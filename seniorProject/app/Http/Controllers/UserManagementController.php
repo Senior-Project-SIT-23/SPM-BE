@@ -154,10 +154,12 @@ class UserManagementController extends Controller
         }
 
         $data = $request->all();
+        
 
-        $has_image = Arr::has($data['image'], null);
-        if ($has_image) {
-            $custom_file_name = $data['student_id'] . '.jpg';
+        $temp = $data['image']->getClientOriginalName();
+        $extension = pathinfo($temp, PATHINFO_EXTENSION);
+        if ($data['image']) {
+            $custom_file_name = $data['student_id'] . ".$extension";
             $path = $request->file('image')->storeAs('images', $custom_file_name);
         }
 
