@@ -18,6 +18,7 @@ class Groups extends Migration
             $table->integer('group_id');
             $table->string('student_id',11);
             $table->string('project_id',10);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
             
             $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');

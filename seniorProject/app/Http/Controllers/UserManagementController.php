@@ -40,9 +40,7 @@ class UserManagementController extends Controller
         //
         $data = $request->all();
         $result = $this->userManagement->createProject($data);
-        if ($result) {
-            return response()->json($result, 500);
-        }
+        
         return response()->json('สำเร็จ', 200);
     }
 

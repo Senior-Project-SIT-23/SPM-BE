@@ -13,8 +13,7 @@ use App\Model\AA;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Http\UploadedFile;
-
-
+use ResponsibleAaGroup as GlobalResponsibleAaGroup;
 
 class UserManagementRepository implements UserManagementRepositoryInterface
 {
@@ -104,22 +103,20 @@ class UserManagementRepository implements UserManagementRepositoryInterface
                 $reponsible_aa_group->project_id = $project_id;
                 $reponsible_aa_group->save();
             }
-        }else{
+        } else {
             $reponsible_aa_group = new ResponsibleAAGroup();
             $aa_id = AA::where('department', $data['department'])->first()->aa_id;
             $reponsible_aa_group->aa_id = $aa_id;
             $reponsible_aa_group->project_id = $project_id;
             $reponsible_aa_group->save();
         }
-
-
-        
     }
 
     public function updateProject($data)
     {
         foreach ($data['delete_student_id'] as $value) {
-            Group::where('groups.project_id', $data['project_id'])->where('groups.student_id', "$value")->delete();
+            Group::where('groups.project_id', $data['project_id'])->where('groups.student_id', "$value")
+            ->update(['is_delete' => true]);
         }
         foreach ($data['delete_teacher_id'] as $value) {
             ResponsibleTeacherGroup::where('responsible_teacher_group.project_id', $data['project_id'])->where('responsible_teacher_group.teacher_id', "$value")->delete();
@@ -148,20 +145,27 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function deleteProjectById($project_id)
     {
-        $project = Project::where('project_id', $project_id)->delete();
-        return $project;
+        Project::where('project_id', $project_id)->update(['is_delete' => true]);
+        Group::where('project_id', $project_id)->update(['is_delete' => true]);
+        ResponsibleTeacherGroup::where('project_id', $project_id)->update(['is_delete' => true]);
+        ResponsibleAAGroup::where('project_id', $project_id)->update(['is_delete' => true]);
     }
 
 
     public function getProjectById($project_id)
     {
-        $group = Project::join('groups', 'groups.project_id', '=', 'projects.project_id')->where('projects.project_id', "$project_id")
-            ->join('students', 'students.student_id', '=', 'groups.student_id')->where('groups.project_id', "$project_id")->get();
+        $group = Project::where('projects.is_delete',false)
+            ->join('groups', 'groups.project_id', '=', 'projects.project_id')->where('projects.project_id', "$project_id")
+            ->join('students', 'students.student_id', '=', 'groups.student_id')->where('groups.project_id', "$project_id")
+            ->where('groups.is_delete',false)
+            ->get();
 
-        $project = Project::join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
+        $project = Project::where('projects.is_delete',false)
+            ->join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
             ->where('project_detail.project_id', "$project_id")->first();
 
-        $teacher = ResponsibleTeacherGroup::join('teachers', 'responsible_teacher_group.teacher_id', '=', 'teachers.teacher_id')
+        $teacher = ResponsibleTeacherGroup::where('responsible_teacher_group.is_delete',false)
+            ->join('teachers', 'responsible_teacher_group.teacher_id', '=', 'teachers.teacher_id')
             ->where('responsible_teacher_group.project_id', "$project_id")->get();
 
         $data = array("group" => $group, "project" => $project, "teacher" => $teacher);
@@ -170,13 +174,14 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getGroupProjectByStudent($student_id)
     {
-        $group = Group::where('student_id', "$student_id")->first();
+        $group = Group::where('is_delete', false)->where('student_id', "$student_id")->first();
         return $group;
     }
 
     public function getProjectByTeacher($teacher_id)
     {
-        $responsible_teacher_group = Project::join('responsible_teacher_group', 'responsible_teacher_group.project_id', '=', 'projects.project_id')
+        $responsible_teacher_group = Project::where('responsible_teacher_group.is_delete', false)
+            ->join('responsible_teacher_group', 'responsible_teacher_group.project_id', '=', 'projects.project_id')
             ->where('responsible_teacher_group.teacher_id', "$teacher_id")->join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
             ->where('responsible_teacher_group.teacher_id', "$teacher_id")
             ->get();
@@ -186,7 +191,8 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getProjectByAA($aa_id)
     {
-        $responsible_aa_group = Project::join('responsible_aa_group', 'responsible_aa_group.project_id', '=', 'projects.project_id')
+        $responsible_aa_group = Project::where('responsible_aa_group.is_delete', false)
+            ->join('responsible_aa_group', 'responsible_aa_group.project_id', '=', 'projects.project_id')
             ->where('responsible_aa_group.aa_id', "$aa_id")->join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
             ->where('responsible_aa_group.aa_id', "$aa_id")
             ->get();
@@ -201,11 +207,13 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getAllProject()
     {
-        $projects = Project::all();
+        $projects = Project::where("is_delete", false)->get();
         foreach ($projects as $key => $project) {
-            $teachers = ResponsibleTeacherGroup::join('teachers', 'teachers.teacher_id', '=', 'responsible_teacher_group.teacher_id')
-                ->where('responsible_teacher_group.project_id', "$project->project_id")->get();
-            $projects[$key]->teachers = $teachers;
+            if (!$project->is_delete) {
+                $teachers = ResponsibleTeacherGroup::join('teachers', 'teachers.teacher_id', '=', 'responsible_teacher_group.teacher_id')
+                    ->where('responsible_teacher_group.project_id', "$project->project_id")->get();
+                $projects[$key]->teachers = $teachers;
+            }
         }
 
         return $projects;
@@ -228,7 +236,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         $not_in_group = [];
         $students =  Student::all();
         foreach ($students  as $student) {
-            $in_group = Group::where('student_id', $student->student_id)->first();
+            $in_group = Group::where('student_id', $student->student_id)->where("is_delete", false)->first();
             if ($in_group == null) {
                 array_push($not_in_group, $student);
             }

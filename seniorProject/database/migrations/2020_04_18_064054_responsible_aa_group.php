@@ -17,6 +17,7 @@ class ResponsibleAaGroup extends Migration
             $table->bigIncrements('id');
             $table->string('aa_id',20);
             $table->string('project_id',10);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
 
             $table->foreign('aa_id')->references('aa_id')->on('aa')->onDelete('cascade');

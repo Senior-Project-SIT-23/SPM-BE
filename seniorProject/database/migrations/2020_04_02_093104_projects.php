@@ -17,6 +17,7 @@ class Projects extends Migration
             $table->string('project_id',10)->primary();
             $table->string('project_name',200);
             $table->string('project_department',3);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
 
         });
