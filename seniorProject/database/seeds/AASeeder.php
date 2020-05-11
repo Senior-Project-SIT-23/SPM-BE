@@ -25,6 +25,12 @@ class AASeeder extends Seeder
                 'aa_name' => 'Rapeeporn',
                 'aa_email' => 'Rapeeporn@sit.kmutt.ac.th',
                 'department' => 'CS'
+            ],
+            [
+                'aa_id' => '3',
+                'aa_name' => 'AA_DSI_NAME',
+                'aa_email' => 'Dsi@sit.kmutt.ac.th',
+                'department' => 'DSI'
             ]
         );
 

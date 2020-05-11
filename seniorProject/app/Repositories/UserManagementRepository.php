@@ -26,7 +26,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         //         return "มีกลุ่มแล้ว $value";
         //     }
         // }
-        if ($data['department'] == 'SIT') {
+        if (strlen($data['department'])>2) {
             $count_project = Project::where('project_id', 'like', "$data[department]%");
             $project_id = $data['department'] . '01';
             if (count($count_project->get()) > 0) {
