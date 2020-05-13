@@ -15,7 +15,7 @@ class ProjectDetail extends Migration
     {
         Schema::create('project_detail', function (Blueprint $table) {
             $table->bigIncrements('project_detail_id');
-            $table->string('project_detail',500);
+            $table->string('project_detail',500)->nullable();
             $table->string('project_id',10);
             $table->timestamps();
 
