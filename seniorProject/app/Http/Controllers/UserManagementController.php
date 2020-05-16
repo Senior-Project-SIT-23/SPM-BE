@@ -162,7 +162,7 @@ class UserManagementController extends Controller
             $path = $request->file('image')->storeAs('/images', $custom_file_name);
         }
 
-        $result = $this->userManagement->editProfileStudent($data);
+        // $result = $this->userManagement->editProfileStudent($data);
 
         return response()->json('สำเร็จ', 200);
     }
