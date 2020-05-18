@@ -231,6 +231,12 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         return $teachers;
     }
 
+    public function getAllAA()
+    {
+        $aas =  AA::all();
+        return $aas;
+    }
+
     public function getStudentNoGroup()
     {
         $not_in_group = [];

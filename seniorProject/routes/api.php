@@ -31,7 +31,8 @@ Route::put('/projects/edit/{project_id}','UserManagementController@editProject')
 Route::get('/projects/{project_id}','UserManagementController@getProject'); //เลือกดูข้อมูล project
 Route::get('/projects','UserManagementController@getAllProject'); //ดูข้อมูล project ทั้งหมด
 Route::get('/students','UserManagementController@indexStudent'); //ดูข้อมูล student ทั้งหมด
-Route::get('/teachers','UserManagementController@indexTeacher'); //ดูข้อมูล teacher ทั้งหมด 
+Route::get('/teachers','UserManagementController@indexTeacher'); //ดูข้อมูล teacher ทั้งหมด
+Route::get('/aas','UserManagementController@indexAA'); //ดูข้อมูล aa ทั้งหมด
 Route::get('/students/nogroup','UserManagementController@getStudentNoGroup'); //ดู student ที่ยังไม่มีกลุ่ม
 Route::get('/group/{student_id}','UserManagementController@getGroupProject'); //ดู student ว่ามีกลุ่มรึยัง
 Route::get('/projects/response/teacher/{teacher_id}', 'UserManagementController@getProjectTeacherResponse'); //ดูข้อมูล project ที่ teacher รับผิดชอบ

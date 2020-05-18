@@ -40,7 +40,7 @@ class UserManagementController extends Controller
         //
         $data = $request->all();
         $result = $this->userManagement->createProject($data);
-        
+
         return response()->json('สำเร็จ', 200);
     }
 
@@ -95,6 +95,12 @@ class UserManagementController extends Controller
     {
         $teachers = $this->userManagement->getAllTeacher();
         return response()->json($teachers, 200);
+    }
+
+    public function indexAA()
+    {
+        $aas = $this->userManagement->getAllAA();
+        return response()->json($aas, 200);
     }
 
     public function getProject($project_id)

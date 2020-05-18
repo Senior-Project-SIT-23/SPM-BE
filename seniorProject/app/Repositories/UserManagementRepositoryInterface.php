@@ -9,6 +9,7 @@ interface UserManagementRepositoryInterface
    public function deleteProjectById($project_id);
    public function getAllStudent();
    public function getAllTeacher();
+   public function getAllAA();
    public function getAllProject();
    public function getStudentNoGroup();
    public function getProjectById($project_id);
