@@ -15,19 +15,19 @@ class AASeeder extends Seeder
     {
         $aas = (array) array(
             [
-                'aa_id' => '1',
+                'aa_id' => '11',
                 'aa_name' => 'Pornthip',
                 'aa_email' => 'pornthip@sit.kmutt.ac.th',
                 'department' => 'IT'
             ],
             [
-                'aa_id' => '2',
+                'aa_id' => '12',
                 'aa_name' => 'Rapeeporn',
                 'aa_email' => 'Rapeeporn@sit.kmutt.ac.th',
                 'department' => 'CS'
             ],
             [
-                'aa_id' => '3',
+                'aa_id' => '13',
                 'aa_name' => 'AA_DSI_NAME',
                 'aa_email' => 'Dsi@sit.kmutt.ac.th',
                 'department' => 'DSI'
