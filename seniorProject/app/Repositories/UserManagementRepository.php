@@ -26,7 +26,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
         //         return "มีกลุ่มแล้ว $value";
         //     }
         // }
-        if (strlen($data['department'])>2) {
+        if (strlen($data['department']) > 2) {
             $count_project = Project::where('project_id', 'like', "$data[department]%");
             $project_id = $data['department'] . '01';
             if (count($count_project->get()) > 0) {
@@ -116,7 +116,7 @@ class UserManagementRepository implements UserManagementRepositoryInterface
     {
         foreach ($data['delete_student_id'] as $value) {
             Group::where('groups.project_id', $data['project_id'])->where('groups.student_id', "$value")
-            ->update(['is_delete' => true]);
+                ->update(['is_delete' => true]);
         }
         foreach ($data['delete_teacher_id'] as $value) {
             ResponsibleTeacherGroup::where('responsible_teacher_group.project_id', $data['project_id'])->where('responsible_teacher_group.teacher_id', "$value")->delete();
@@ -154,17 +154,17 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getProjectById($project_id)
     {
-        $group = Project::where('projects.is_delete',false)
+        $group = Project::where('projects.is_delete', false)
             ->join('groups', 'groups.project_id', '=', 'projects.project_id')->where('projects.project_id', "$project_id")
             ->join('students', 'students.student_id', '=', 'groups.student_id')->where('groups.project_id', "$project_id")
-            ->where('groups.is_delete',false)
+            ->where('groups.is_delete', false)
             ->get();
 
-        $project = Project::where('projects.is_delete',false)
+        $project = Project::where('projects.is_delete', false)
             ->join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')
             ->where('project_detail.project_id', "$project_id")->first();
 
-        $teacher = ResponsibleTeacherGroup::where('responsible_teacher_group.is_delete',false)
+        $teacher = ResponsibleTeacherGroup::where('responsible_teacher_group.is_delete', false)
             ->join('teachers', 'responsible_teacher_group.teacher_id', '=', 'teachers.teacher_id')
             ->where('responsible_teacher_group.project_id', "$project_id")->get();
 
@@ -246,6 +246,17 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function editProfileStudent($data)
     {
-        $student = Student::where('student_id', $data['student_id'])->update(['department' => $data['department']]);
+        Student::where('student_id', $data['student_id'])
+            ->update(['department' => $data['department'], 'image' => $data['path']]);
+    }
+
+    public function editProfileTeacher($data)
+    {
+        Teacher::where('teacher_id', $data['teacher_id'])->update(['image' => $data['path']]);
+    }
+
+    public function editProfileAA($data)
+    {
+        AA::where('aa_id', $data['aa_id'])->update(['image' => $data['path']]);
     }
 }

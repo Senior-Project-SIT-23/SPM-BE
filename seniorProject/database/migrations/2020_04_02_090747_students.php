@@ -18,6 +18,7 @@ class Students extends Migration
             $table->string('student_name',100);
             $table->string('student_email',500);
             $table->string('department',3)->nullable();
+            $table->string('image',100)->nullable();
             $table->timestamps();
         });
     }

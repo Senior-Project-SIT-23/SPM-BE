@@ -17,6 +17,7 @@ class Teachers extends Migration
             $table->string('teacher_id',20)->primary();
             $table->string('teacher_name',100);
             $table->string('teacher_email',500);
+            $table->string('image',100)->nullable();
             $table->timestamps();
         });
     }

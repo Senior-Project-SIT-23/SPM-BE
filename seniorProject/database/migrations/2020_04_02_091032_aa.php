@@ -18,6 +18,7 @@ class Aa extends Migration
             $table->string('aa_name',100);
             $table->string('aa_email',500);
             $table->string('department',3)->nullable();
+            $table->string('image',100)->nullable();
             $table->timestamps();
         });
     }

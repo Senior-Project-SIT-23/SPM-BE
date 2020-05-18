@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Student;
 use Illuminate\Http\Request;
 use App\Repositories\UserManagementRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
@@ -152,17 +153,80 @@ class UserManagementController extends Controller
 
         $data = $request->all();
 
-
-
         if ($data['image']) {
             $temp = $data['image']->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
             // $custom_file_name = 'test' . ".jpg";
             $custom_file_name = $data['student_id'] . ".jpg";
             $path = $request->file('image')->storeAs('/images', $custom_file_name);
+            $data['path'] = $path;
         }
 
-        $result = $this->userManagement->editProfileStudent($data);
+        $this->userManagement->editProfileStudent($data);
+
+        return response()->json('สำเร็จ', 200);
+    }
+
+    public function editProfileTeacher(Request $request)
+    {
+
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'teacher_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+
+        $data = $request->all();
+
+        if ($data['image']) {
+            $temp = $data['image']->getClientOriginalName();
+            $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            // $custom_file_name = 'test' . ".jpg";
+            $custom_file_name = $data['teacher_id'] . ".jpg";
+            $path = $request->file('image')->storeAs('/images', $custom_file_name);
+            $data['path'] = $path;
+        }
+
+        $this->userManagement->editProfileTeacher($data);
+
+        return response()->json('สำเร็จ', 200);
+    }
+
+    public function editProfileAA(Request $request)
+    {
+
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'aa_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+
+        $data = $request->all();
+
+        if ($data['image']) {
+            $temp = $data['image']->getClientOriginalName();
+            $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            // $custom_file_name = 'test' . ".jpg";
+            $custom_file_name = $data['aa_id'] . ".jpg";
+            $path = $request->file('image')->storeAs('/images', $custom_file_name);
+            $data['path'] = $path;
+        }
+
+        $this->userManagement->editProfileAA($data);
 
         return response()->json('สำเร็จ', 200);
     }

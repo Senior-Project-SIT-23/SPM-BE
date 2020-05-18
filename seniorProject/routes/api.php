@@ -22,7 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //UserManagement
 Route::post('/projects','UserManagementController@storeProject'); //สร้าง project
 Route::post('/projects/delete','UserManagementController@deleteProject'); //ลบ project
-Route::post('/student/edit/profile','UserManagementController@editProfileStudent'); //แก้ไข profile
+Route::post('/student/edit/profile/student','UserManagementController@editProfileStudent'); //แก้ไข profile student
+Route::post('/student/edit/profile/teacher','UserManagementController@editProfileTeacher'); //แก้ไข profile teacher
+Route::post('/student/edit/profile/aa','UserManagementController@editProfileAA'); //แก้ไข profile AA
 
 Route::put('/projects/edit/{project_id}','UserManagementController@editProject'); //เลือกแก้ไขข้อมูล project
 
