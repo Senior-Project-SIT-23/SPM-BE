@@ -14,7 +14,7 @@
 8.2 php artisan migrate:fresh --seed
 9. สั่ง php artisan serve 
 10. เข้า url ตาม api ที่ route ไว้ให้
-	api จะมี 17 ตัว 
+	api จะมี 18 ตัว 
 	//UserManagement
 	post -> http://127.0.0.1:8000/api/student/edit/profile/student (แก้ไขโปรไฟล์ student)
 	post -> http://127.0.0.1:8000/api/student/edit/profile/teacher (แก้ไขโปรไฟล์ teacher)
@@ -24,6 +24,7 @@
 	put -> http://127.0.0.1:8000/api/projects/edit/{IT01} (แก้โปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/students (ดูข้อมูลนักศึกษาทั้งหมด)
 	get -> http://127.0.0.1:8000/api/teachers (ดูข้อมูลอาจารย์ทั้งหมด)
+	get -> http://127.0.0.1:8000/api/aas (ดูข้อมูลเจ้าหน้าที่ทั้งหมด)
 	get -> http://127.0.0.1:8000/api/projects/{IT01} (ดูข้อมูลโปรเจคที่กลุ่ม IT01)
 	get -> http://127.0.0.1:8000/api/projects (ดูข้อมูลโปรเจคทั้งหมด ใช้ในหน้าแสดง all project)
 	get -> http://127.0.0.1:8000/api/group/{student_id} (ดูข้อมูลว่านักศึกษาคนนี้มีกลุ่มรึยัง)
