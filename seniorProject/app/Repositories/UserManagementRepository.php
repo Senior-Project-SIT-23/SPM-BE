@@ -252,8 +252,13 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function editProfileStudent($data)
     {
-        Student::where('student_id', $data['student_id'])
-            ->update(['department' => $data['department'], 'image' => $data['path']]);
+        if ($data['image']) {
+            Student::where('student_id', $data['student_id'])
+                ->update(['department' => $data['department'], 'image' => $data['path']]);
+        } else {
+            Student::where('student_id', $data['student_id'])
+                ->update(['department' => $data['department']]);
+        }
     }
 
     public function editProfileTeacher($data)
