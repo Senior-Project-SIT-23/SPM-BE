@@ -20,11 +20,11 @@ class Project extends Model
 
     public function responsible_teacher_group()
     {
-        return $this->belongsTo(ResponsibleTeacherGroup::class, 'group_id');
+        return $this->belongsTo(ResponsibleTeacherGroup::class, 'project_id');
     }
 
     public function responsible_aa_group()
     {
-        return $this->belongsTo(ResponsibleAAGroup::class, 'group_id');
+        return $this->belongsTo(ResponsibleAAGroup::class, 'project_id');
     }
 }

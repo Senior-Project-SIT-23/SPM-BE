@@ -10,7 +10,7 @@ class Group extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     public function projects()

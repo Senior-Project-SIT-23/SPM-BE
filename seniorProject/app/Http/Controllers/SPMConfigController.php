@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class SPMConfigController extends Controller
 {
-    private $SPMConfig;
+    private $spmConfig;
     
     public function __construct(SPMConfigRepositoryInterface $spmConfig)
 
