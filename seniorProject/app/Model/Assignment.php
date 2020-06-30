@@ -28,4 +28,6 @@ class Assignment extends Model
     {
         return $this->hasMany(Feedback::class,'assignment_id');
     }
+    
+    //individual_score
 }

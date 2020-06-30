@@ -13,11 +13,6 @@ class ResponsibleAssignment extends Model
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
-    public function aa()
-    {
-        return $this->belongsTo(AA::class, 'aa_id');
-    }
-
     public function assignments()
     {
         return $this->belongsTo(Assignment::class,'assignment_id');

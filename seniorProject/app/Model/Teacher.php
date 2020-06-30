@@ -12,4 +12,9 @@ class Teacher extends Model
     {
         return $this->hasMany(ResponsibleTeacherGroup::class,'teacher_id');
     }
+
+    public function reponsible_assignment()
+    {
+        return $this->hasMany(ResponsibleAssignment::class,'teacher_id');
+    }
 }

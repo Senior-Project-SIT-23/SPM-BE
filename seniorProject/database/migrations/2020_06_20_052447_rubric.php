@@ -16,10 +16,8 @@ class Rubric extends Migration
         Schema::create('rubric', function (Blueprint $table) {
             $table->bigIncrements('rubric_id')->unsigned();
             $table->string('rubric_name',50);
-            $table->bigInteger('assignment_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
         });
     }
 
@@ -30,6 +28,8 @@ class Rubric extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('rubric');
+        Schema::enableForeignKeyConstraints();
     }
 }

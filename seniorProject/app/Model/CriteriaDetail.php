@@ -13,5 +13,8 @@ class CriteriaDetail extends Model
         return $this->belongsTo(Criteria::class,'criteria_id');
     }
     
-    //criteria_score
+    public function criteria_score()
+    {
+        return $this->hasMany(CriteriaScore::class, 'criteria_Detail_id');
+    }
 }

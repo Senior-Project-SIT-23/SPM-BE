@@ -17,9 +17,12 @@ class IndividualScore extends Migration
             $table->bigIncrements('individual_score_id');
             $table->integer('score');
             $table->string('student_id',11);
+            $table->bigInteger('assignment_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('student_id')->references('student_id')->on('students');
+            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
+            
         });
     }
 
