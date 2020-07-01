@@ -9,7 +9,7 @@ use App\Model\Rubric;
 use App\Model\Criteria;
 use App\Model\CriteriaDetail;
 use App\Model\CriteriaScore;
-
+use Attachments;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -36,6 +36,13 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $responsible_assignment->save();
     }
 
+    public function deleteAssignmentById($assignment_id)
+    {
+        Assignment::where('assignments.assignment_id',$assignment_id)->delete();
+        ResponsibleAssignment::where('responsible_assignment.assignment_id',$assignment_id)->delete();
+        Attachment::where('attachments.assignment_id',$assignment_id)->delete();
+    }
+
     public function createRubric($data)
     {
         $rubric = new Rubric;
@@ -49,18 +56,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $criteria->save();
 
             foreach ($value['score'] as $temp)
-            $criteria_detail = new CriteriaDetail;
+                $criteria_detail = new CriteriaDetail;
             $criteria_detail->criteria_detail = $temp['name'];
             $criteria_detail->save();
-            
         }
-     
-        
-            
-    
-        
-
-        
     }
 
     public function getAllAssignment()

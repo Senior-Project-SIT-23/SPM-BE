@@ -39,6 +39,26 @@ class AssignmentController extends Controller
         return response()->json('สำเร็จ', 200);
     }
 
+    public function deleteAssignment(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'assignment_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+        $assignment_id = $request->all();
+        $this->assignment->deleteAssignmentById($assignment_id);
+
+        return response()->json('สำเร็จ', 200);
+    }
+
     public function storeRubric(Request $request)
     {
         $data = $request->all();

@@ -43,6 +43,7 @@ Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); 
 
 //Assignment
 Route::post('/assignments', 'AssignmentController@storeAssignment');//สร้าง Assignment
+Route::post('/assignments/delete', 'AssignmentController@deleteAssignment');
 Route::post('/rubric', 'AssignmentController@storeRubric');//สร้าง Rubric
 Route::get('/assignments', 'AssignmentController@indexAllAssignment');//ดู Assignment ทั้งหมด
 
