@@ -46,18 +46,19 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function createRubric($data)
     {
         $rubric = new Rubric;
-        $rubric->rubric_name = $data['rubric_name'];
+        $rubric->rubric_name = $data['titile'];
         $rubric->save();
 
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
-            $criteria->criteria__name = $value['tile'];
+            $criteria->criteria_name = $value['criteria_name'];
             $criteria->rubric = $rubric->rubric_id;
             $criteria->save();
 
             foreach ($value['score'] as $temp)
                 $criteria_detail = new CriteriaDetail;
             $criteria_detail->criteria_detail = $temp['name'];
+            $criteria_detail->criteria_score = $temp['value'];
             $criteria_detail->save();
         }
     }

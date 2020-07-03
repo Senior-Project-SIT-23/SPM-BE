@@ -20,7 +20,6 @@ class Assignments extends Migration
             $table->date('publish_date');
             $table->date('due_date');
             $table->string('status',10);
-            $table->integer('score')->nullable(); 
             $table->bigInteger('rubric_id')->unsigned();          
             $table->timestamps();
 

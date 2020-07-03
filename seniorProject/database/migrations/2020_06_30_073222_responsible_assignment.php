@@ -15,6 +15,7 @@ class ResponsibleAssignment extends Migration
     {
         Schema::create('responsible_assignment', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('score')->nullable(); 
             $table->bigInteger('assignment_id')->unsigned();
             $table->string('teacher_id',20);
             $table->timestamps();
