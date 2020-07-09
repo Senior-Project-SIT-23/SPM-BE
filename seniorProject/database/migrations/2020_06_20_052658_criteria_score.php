@@ -15,7 +15,7 @@ class CriteriaScore extends Migration
     {
         Schema::create('criteria_score', function (Blueprint $table) {
             $table->bigIncrements('criteria_score_id')->unsigned();
-            $table->string('criteria_score');
+            $table->integer('criteria_score');
             $table->bigInteger('criteria_detail_id')->unsigned();
             $table->timestamps();
 

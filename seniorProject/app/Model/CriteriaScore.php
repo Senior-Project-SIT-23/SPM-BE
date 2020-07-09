@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CriteriaScore extends Model
 {
-    protected $table = 'criteria_detail';
+    protected $table = 'criteria_score';
 
     public function criteria_detail()
     {

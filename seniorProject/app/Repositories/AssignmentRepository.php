@@ -38,9 +38,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function deleteAssignmentById($assignment_id)
     {
-        Assignment::where('assignments.assignment_id',$assignment_id)->delete();
-        ResponsibleAssignment::where('responsible_assignment.assignment_id',$assignment_id)->delete();
-        Attachment::where('attachments.assignment_id',$assignment_id)->delete();
+        Assignment::where('assignments.assignment_id', $assignment_id)->delete();
+        ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->delete();
+        Attachment::where('attachments.assignment_id', $assignment_id)->delete();
     }
 
     public function createRubric($data)
@@ -52,14 +52,22 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
             $criteria->criteria_name = $value['criteria_name'];
-            $criteria->rubric = $rubric->rubric_id;
+        
+            $criteria->rubric_id = $rubric->id;
             $criteria->save();
 
-            foreach ($value['score'] as $temp)
+            foreach ($value['score'] as $temp) {
                 $criteria_detail = new CriteriaDetail;
-            $criteria_detail->criteria_detail = $temp['name'];
-            $criteria_detail->criteria_score = $temp['value'];
-            $criteria_detail->save();
+                $criteria_detail->criteria_detail = $temp['name'];
+                $criteria_detail->criteria_id = $criteria->id;
+                $criteria_detail->save();
+
+                $criteria_score = new CriteriaScore();
+                $criteria_score->criteria_score = $temp['value'];
+                $criteria_score->criteria_detail_id = $criteria_detail->id;
+                $criteria_score->save();
+            }
+
         }
     }
 
