@@ -17,9 +17,8 @@ class Assignments extends Migration
             $table->bigIncrements('assignment_id')->unsigned();
             $table->string('assignment_title',200);
             $table->string('assignment_detail',500)->nullable();
-            $table->date('publish_date');
             $table->date('due_date');
-            $table->string('status',10);
+            $table->string('status',50);
             $table->bigInteger('rubric_id')->unsigned();          
             $table->timestamps();
 

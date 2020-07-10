@@ -45,7 +45,9 @@ Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); 
 Route::post('/assignments', 'AssignmentController@storeAssignment');//สร้าง Assignment
 Route::post('/assignments/delete', 'AssignmentController@deleteAssignment');
 Route::post('/rubric', 'AssignmentController@storeRubric');//สร้าง Rubric
+Route::put('/assignments/edit/{assignment_id}', 'AssignmentController@editAssignment'); //แก้ไข assignment
 Route::get('/assignments', 'AssignmentController@indexAllAssignment');//ดู Assignment ทั้งหมด
+Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment');//ดู Assignment ทั้งหมด
 
 //get => ใช้สำหรับขอข้อมูล
 //post => ใช้สำหรับส่งข้อมูลเพื่อเพิ่มข้อมูล

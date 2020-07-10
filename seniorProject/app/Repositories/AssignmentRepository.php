@@ -9,7 +9,7 @@ use App\Model\Rubric;
 use App\Model\Criteria;
 use App\Model\CriteriaDetail;
 use App\Model\CriteriaScore;
-use Attachments;
+use App\Model\Attachments;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -23,36 +23,69 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->status = "Not Submitted";
         $assignment->save();
 
-        $attachment = new Attachment;
-        $attachment->assignment_id = $assignment->assignment_id;
-        $attachment->attachment = $data['attachment'];
-        $attachment->save();
-
+        foreach ($data['attachment'] as $value) {
+            $attachment = new Attachment;
+            $attachment->attachment = $value;
+            $attachment->assignment_id = $assignment->id;
+            $attachment->save();
+        }
         foreach ($data['teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
+            $responsible_assignment->assignment_id = $assignment->id;
+            $responsible_assignment->save();
         }
-        $responsible_assignment->assignment_id = $assignment->assignment_id;
-        $responsible_assignment->save();
     }
+
+    public function updateAssignment($data)
+    {
+        foreach ($data['delete_teacher_id'] as $value) {
+            ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
+                ->where('responsible_assignment.teacher_id', "$value")->delete();
+        }
+        foreach ($data['delete_attachment_id'] as $value) {
+            Attachment::where('attachments.assignment_id', $data['assignment_id'])
+                ->where('attachments.attachment_id', "$value")->delete();
+        }
+        Assignment::where('assignments.assignment_id', $data['assignment_id'])
+            ->update([
+                'assignments.assignment_title' => $data['assignment_title'],
+                'assignments.assignment_detail' => $data['assignment_detail'],
+                'assignments.due_date' => $data['due_date'],
+                'assignments.rubric_id' => $data['rubric_id']
+            ]);
+        foreach ($data['attachment'] as $value) {
+            $attachment = new Attachment;
+            $attachment->attachment = $value;
+            $attachment->assignment_id = $data['assignment_id'];
+            $attachment->save();
+        }
+        foreach ($data['teacher_id'] as $value) {
+            $responsible_assignment = new ResponsibleAssignment;
+            $responsible_assignment->teacher_id = $value;
+            $responsible_assignment->assignment_id = $data['assignment_id'];
+            $responsible_assignment->save();
+        }
+    }
+
 
     public function deleteAssignmentById($assignment_id)
     {
-        Assignment::where('assignments.assignment_id', $assignment_id)->delete();
         ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->delete();
         Attachment::where('attachments.assignment_id', $assignment_id)->delete();
+        Assignment::where('assignments.assignment_id', $assignment_id)->delete();
     }
 
     public function createRubric($data)
     {
         $rubric = new Rubric;
-        $rubric->rubric_name = $data['titile'];
+        $rubric->rubric_name = $data['title'];
         $rubric->save();
 
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
             $criteria->criteria_name = $value['criteria_name'];
-        
+
             $criteria->rubric_id = $rubric->id;
             $criteria->save();
 
@@ -67,7 +100,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 $criteria_score->criteria_detail_id = $criteria_detail->id;
                 $criteria_score->save();
             }
-
         }
     }
 
@@ -75,5 +107,13 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $assignments = Assignment::all();
         return $assignments;
+    }
+
+    public function getAssignmentById($assignment_id)
+    {
+        $assignment = Assignment::where('assignments.assignment_id', "$assignment_id")
+            ->join('attachments','attachments.assignment_id','=','assignments.assignment_id')
+            ->join('responsible_assignment','responsible_assignment.assignment_id','=','assignments.assignment_id')->get();
+        return $assignment;
     }
 }
