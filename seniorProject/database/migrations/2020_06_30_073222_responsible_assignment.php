@@ -20,8 +20,8 @@ class ResponsibleAssignment extends Migration
             $table->string('teacher_id',20);
             $table->timestamps();
 
-            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
-            $table->foreign('teacher_id')->references('teacher_id')->on('teachers');
+            $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
+            $table->foreign('teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
         });
     }
 

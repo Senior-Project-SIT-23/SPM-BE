@@ -20,7 +20,7 @@ class Feedback extends Migration
             // $table->bigInteger('appointment_id');
             $table->timestamps();
 
-            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
+            $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
             // $table->foreign('appointment_id')->references('appointment_id')->on('appointment');
 
         });

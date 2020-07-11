@@ -19,7 +19,7 @@ class CriteriaDetail extends Migration
             $table->bigInteger('criteria_id')->unsigned();            
             $table->timestamps();
 
-            $table->foreign('criteria_id')->references('criteria_id')->on('criteria');
+            $table->foreign('criteria_id')->references('criteria_id')->on('criteria')->onDelete('cascade');
         });
     }
 

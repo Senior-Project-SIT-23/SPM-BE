@@ -23,12 +23,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->status = "Not Submitted";
         $assignment->save();
 
-        foreach ($data['attachment'] as $value) {
-            $attachment = new Attachment;
-            $attachment->attachment = $value;
-            $attachment->assignment_id = $assignment->id;
-            $attachment->save();
-        }
+        // foreach ($data['attachment'] as $value) {
+        //     $attachment = new Attachment;
+        //     $attachment->attachment = $value;
+        //     $attachment->assignment_id = $assignment->id;
+        //     $attachment->save();
+        // }
         foreach ($data['teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
@@ -79,7 +79,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function createRubric($data)
     {
         $rubric = new Rubric;
-        $rubric->rubric_name = $data['title'];
+        $rubric->rubric_title = $data['rubric_title'];
         $rubric->save();
 
         foreach ($data['criterions'] as $value) {
@@ -103,6 +103,40 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         }
     }
 
+    public function updateRubric($data)
+    {
+        Rubric::where('rubric.rubric_id', $data['rubric_id'])->update(['rubric.rubric_title' => $data['rubric_title']]);
+
+        foreach ($data['delete_criteria'] as $value) {
+            Criteria::where('criteria.criteria_id', "$value")->delete();
+        }
+
+        foreach ($data['criterions'] as $value) {
+            $criteria = new Criteria;
+            $criteria->criteria_name = $value['criteria_name'];
+
+            $criteria->rubric_id = $data['rubric_id'];
+            $criteria->save();
+
+            foreach ($value['score'] as $temp) {
+                $criteria_detail = new CriteriaDetail;
+                $criteria_detail->criteria_detail = $temp['name'];
+                $criteria_detail->criteria_id = $criteria->id;
+                $criteria_detail->save();
+
+                $criteria_score = new CriteriaScore();
+                $criteria_score->criteria_score = $temp['value'];
+                $criteria_score->criteria_detail_id = $criteria_detail->id;
+                $criteria_score->save();
+            }
+        }
+    }
+
+    public function deleteRubric($rubric_id)
+    {
+        Rubric::where('rubric.rubric_id',$rubric_id)->delete();
+    }
+
     public function getAllAssignment()
     {
         $assignments = Assignment::all();
@@ -111,9 +145,32 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAssignmentById($assignment_id)
     {
-        $assignment = Assignment::where('assignments.assignment_id', "$assignment_id")
-            ->join('attachments','attachments.assignment_id','=','assignments.assignment_id')
-            ->join('responsible_assignment','responsible_assignment.assignment_id','=','assignments.assignment_id')->get();
+        $assignment = Assignment::where('assignments.assignment_id', "$assignment_id")->first();
+        $attachment = Attachment::where('attachments.assignment_id', "$assignment_id")->get();
+        $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', "$assignment_id")->get();
+
+        $assignment->attachment = $attachment;
+        $assignment->responsible_assignment = $response;
+
         return $assignment;
+    }
+
+    public function getAllRubric()
+    {
+        $rubric = Rubric::all();
+        return $rubric;
+    }
+
+    public function getRubricByID($rubric_id)
+    {
+        $rubric = Rubric::where('rubric.rubric_id', $rubric_id)->first();
+        $criteria = Criteria::where('criteria.rubric_id', $rubric_id)
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();
+
+        $rubric->criteria = $criteria;
+
+        return $rubric;
     }
 }

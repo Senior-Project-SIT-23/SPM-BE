@@ -19,7 +19,7 @@ class Attachments extends Migration
             $table->bigInteger('assignment_id')->unsigned();
             $table->timestamps();
             
-            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
+            $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
         });
     }
 

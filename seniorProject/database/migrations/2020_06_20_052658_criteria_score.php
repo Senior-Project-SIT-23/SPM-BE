@@ -19,7 +19,7 @@ class CriteriaScore extends Migration
             $table->bigInteger('criteria_detail_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('criteria_detail_id')->references('criteria_detail_id')->on('criteria_detail');
+            $table->foreign('criteria_detail_id')->references('criteria_detail_id')->on('criteria_detail')->onDelete('cascade');
         });
     }
 

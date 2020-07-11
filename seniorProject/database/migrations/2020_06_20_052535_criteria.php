@@ -19,7 +19,7 @@ class Criteria extends Migration
             $table->bigInteger('rubric_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('rubric_id')->references('rubric_id')->on('rubric');
+            $table->foreign('rubric_id')->references('rubric_id')->on('rubric')->onDelete('cascade');
         });
     }
 
