@@ -35,32 +35,12 @@ class AssignmentController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
+
         $data = $request->all();
+        $file  = $request->file('attachment');
         
-        if($data['attachment']){
-            
-            $temp = $data['attachment']->getClientOriginalName();
-            $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $path = $request->file('attachment')->storeAs('/attachment_assignment', $temp);
-            $data['path'] = $path;
-        }
-        // foreach ($data['attachment'] as $value) {
-        //     $attachment = new Attachment;
-        //     $attachment->attachment = $value;
-        //     $attachment->assignment_id = $assignment->id;
-        //     $attachment->save();
-        // }
-
-        // if ($data['image']) {
-        //     $temp = $data['image']->getClientOriginalName();
-        //     $extension = pathinfo($temp, PATHINFO_EXTENSION);
-        //     // $custom_file_name = 'test' . ".jpg";
-        //     $custom_file_name = $data['aa_id'] . ".jpg";
-        //     $path = $request->file('image')->storeAs('/images', $custom_file_name);
-        //     $data['path'] = $path;
-        // }
-
         $this->assignment->createAssignment($data);
+        $this->assignment->addAttachment($file,$data);
 
         return response()->json('สำเร็จ', 200);
     }
@@ -80,7 +60,10 @@ class AssignmentController extends Controller
             return response()->json($validator->errors(), 500);
         }
         $data = $request->all();
+        $file  = $request->file('attachment');
+
         $this->assignment->updateAssignment($data);
+        $this->assignment->addAttachment($file,$data);
 
         return response()->json('สำเร็จ', 200);
     }
@@ -161,7 +144,7 @@ class AssignmentController extends Controller
             return response()->json($validator->errors(), 500);
         }
 
-        $rubric_id= $request->all();
+        $rubric_id = $request->all();
         $this->assignment->deleteRubric($rubric_id);
 
         return response()->json('สำเร็จ', 200);
@@ -190,4 +173,15 @@ class AssignmentController extends Controller
         $rubric = $this->assignment->getRubricByID($rubric_id);
         return response()->json($rubric, 200);
     }
+
+
+
+    //Test
+    // public function storeAttachment(Request $request)
+    // {
+    //     $file = $request->file('attachment');
+    //     $data = $request->all();
+    //     $this->assignment->createAttachment($file,$data);
+    //     return response()->json('สำเร็จ', 200);
+    // }
 }

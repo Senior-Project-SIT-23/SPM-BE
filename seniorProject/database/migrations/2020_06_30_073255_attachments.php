@@ -15,8 +15,8 @@ class Attachments extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->bigIncrements('attachment_id');
-            $table->string('attachment',200);
-            $table->bigInteger('assignment_id')->unsigned();
+            $table->string('attachment',200)->nullable();
+            $table->bigInteger('assignment_id')->unsigned()->nullable();
             $table->timestamps();
             
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');

@@ -134,7 +134,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function deleteRubric($rubric_id)
     {
-        Rubric::where('rubric.rubric_id',$rubric_id)->delete();
+        Rubric::where('rubric.rubric_id', $rubric_id)->delete();
     }
 
     public function getAllAssignment()
@@ -173,4 +173,34 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         return $rubric;
     }
+
+    public function addAttachment($file,$data)
+    {
+        $assignment = Assignment::where('assignments.assignment_title',$data['assignment_title'])->get();
+        foreach ($data['attachment'] as $key => $values) {
+            $attachment = new Attachment();
+            $temp = $values->getClientOriginalName();
+            $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            $custom_file_name = $data['assignment_title'] . "$key" . ".$extension";
+            $path = $values->storeAs('/attachments', $custom_file_name);
+            $attachment->attachment = $path;
+            $attachment->assignment_id = $assignment;
+            $attachment->save();
+            
+        }
+    }
+
+    //Test
+    // public function createAttachment($file,$data)
+    // {
+    //     foreach ($file as $key => $values) {
+    //         $attachment = new Attachment();
+    //         $temp = $values->getClientOriginalName();
+    //         $extension = pathinfo($temp, PATHINFO_EXTENSION);
+    //         $custom_file_name = $data['attachment_title'] . "$key" . ".$extension";
+    //         $path = $values->storeAs('/attachments', $custom_file_name);
+    //         $attachment->attachment = $path;
+    //         $attachment->save();
+    //     }
+    // }
 }

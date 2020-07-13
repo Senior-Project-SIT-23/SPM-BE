@@ -53,6 +53,10 @@ Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment
 Route::get('/rubric','AssignmentController@indexAllRubric');//ดู Rubric ทั้งหมด
 Route::get('/rubric/{rubric_id}','AssignmentController@indexRubric');//ดู Rubric ที่เลือก
 
+//Test
+Route::post('/attachment', 'AssignmentController@storeAttachment');//สร้าง Attachment
+
+
 
 //get => ใช้สำหรับขอข้อมูล
 //post => ใช้สำหรับส่งข้อมูลเพื่อเพิ่มข้อมูล
