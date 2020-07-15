@@ -15,6 +15,9 @@ interface AssignmentRepositoryInterface
     public function getAllRubric();
     public function getRubricByID($rubric_id);
     public function addAttachment($file,$data);
+    public function getAllAttachment();
+    public function getAttachmentByAssignmentID($assignment_id);
+    public function deleteAttachment($data);
     
     //Test
     // public function createAttachment($file,$data);

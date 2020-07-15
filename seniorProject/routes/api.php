@@ -46,15 +46,18 @@ Route::post('/assignments', 'AssignmentController@storeAssignment');//สร้�
 Route::post('/assignments/delete', 'AssignmentController@deleteAssignment'); //ลบ Assignment
 Route::post('/rubric', 'AssignmentController@storeRubric');//สร้าง Rubric
 Route::post('/rubric/delete', 'AssignmentController@deleteRubric');//ลบ Rubric
+Route::post('/attachments/delete', 'AssignmentController@deleteAttachment');//ลบ Attachment
 Route::put('/assignments/edit/{assignment_id}', 'AssignmentController@editAssignment'); //แก้ไข assignment
 Route::put('/rubric/edit/{rubric_id}', 'AssignmentController@editRubric'); //แก้ไข Rubric
 Route::get('/assignments', 'AssignmentController@indexAllAssignment');//ดู Assignment ทั้งหมด
 Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment');//ดู Assignment ที่เลือก
 Route::get('/rubric','AssignmentController@indexAllRubric');//ดู Rubric ทั้งหมด
 Route::get('/rubric/{rubric_id}','AssignmentController@indexRubric');//ดู Rubric ที่เลือก
+Route::get('/attachments','AssignmentController@indexAllAttachment');//ดู Attachment ทั้งหมด
+Route::get('/attachments/{assignment_id}','AssignmentController@indexAttachment');//ดู Attachment ที่อยู่ใน Assignment ที่เลือก
 
 //Test
-Route::post('/attachment', 'AssignmentController@storeAttachment');//สร้าง Attachment
+Route::post('/attachments', 'AssignmentController@storeAttachment');//สร้าง Attachment
 
 
 

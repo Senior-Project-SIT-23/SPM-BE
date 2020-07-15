@@ -38,9 +38,9 @@ class AssignmentController extends Controller
 
         $data = $request->all();
         $file  = $request->file('attachment');
-        
+
         $this->assignment->createAssignment($data);
-        $this->assignment->addAttachment($file,$data);
+        $this->assignment->addAttachment($file, $data);
 
         return response()->json('สำเร็จ', 200);
     }
@@ -63,7 +63,7 @@ class AssignmentController extends Controller
         $file  = $request->file('attachment');
 
         $this->assignment->updateAssignment($data);
-        $this->assignment->addAttachment($file,$data);
+        $this->assignment->addAttachment($file, $data);
 
         return response()->json('สำเร็จ', 200);
     }
@@ -174,6 +174,23 @@ class AssignmentController extends Controller
         return response()->json($rubric, 200);
     }
 
+    public function indexAllAttachment()
+    {
+        $attachment = $this->assignment->getAllAttachment();
+        return response()->json($attachment, 200);
+    }
+
+    public function indexAttachment($assignment_id)
+    {
+        $attachment = $this->assignment->getAttachmentByAssignmentID($assignment_id);
+        return response()->json($attachment, 200);
+    }
+
+    public function deleteAttachment(Request $request)
+    {
+        $data = $request->all();
+        $this->assignment->deleteAttachment($data);
+    }
 
 
     //Test

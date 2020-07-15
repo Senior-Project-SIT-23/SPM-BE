@@ -174,9 +174,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         return $rubric;
     }
 
-    public function addAttachment($file,$data)
+    public function addAttachment($file, $data)
     {
-        $assignment = Assignment::where('assignments.assignment_title',$data['assignment_title'])->get();
+        $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->get();
         foreach ($data['attachment'] as $key => $values) {
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
@@ -186,9 +186,27 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment->attachment = $path;
             $attachment->assignment_id = $assignment;
             $attachment->save();
-            
         }
     }
+
+    public function getAllAttachment()
+    {
+        $attachment = Attachment::all();
+        return $attachment;
+    }
+
+    public function getAttachmentByAssignmentID($assignment_id)
+    {
+        $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
+        return $attachment;
+    }
+
+    public function deleteAttachment($data)
+    {
+        // Attachment::where('attachments.attachment_id',$data['attachment_id'])->delete();
+        
+    }
+
 
     //Test
     // public function createAttachment($file,$data)
