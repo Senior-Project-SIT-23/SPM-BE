@@ -148,8 +148,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        $assignments = Assignment::all();
-        // $assignments = Assignment::join('responsible_assignment', 'responsible_assignment.assignment_id', '=', 'assignments.assignment_id')->get();
+        // $assignments = Assignment::all();
+        $assignments = Assignment::join('responsible_assignment', 'responsible_assignment.assignment_id', '=', 'assignments.assignment_id')->get();
         $response = ResponsibleAssignment::join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.teacher_id')
             ->get();
 

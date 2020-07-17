@@ -1,0 +1,14 @@
+{
+    "rubric_id": 1,
+    "rubric_title": "edit rubric1",
+    "delete_criteria": [1],
+    "criterions" : [
+  						{
+         					"criteria_name" : "criteria", 
+         					"score" : [
+               					{ "name": "test edit" ,"value": 55 }
+        					] 
+   						}
+                    ]
+    
+}
