@@ -21,6 +21,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->due_date = $data['due_date'];
         $assignment->rubric_id = $data['rubric_id'];
         $assignment->status = "Not Submitted";
+        $assignment->teacher_id = $data['teacher_id'];
         $assignment->save();
 
         // foreach ($data['attachment'] as $value) {
@@ -29,7 +30,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         //     $attachment->assignment_id = $assignment->id;
         //     $attachment->save();
         // }
-        foreach ($data['teacher_id'] as $value) {
+        foreach ($data['responsible_teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
             $responsible_assignment->assignment_id = $assignment->id;
@@ -148,12 +149,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        // $assignments = Assignment::all();
-        $assignments = Assignment::join('responsible_assignment', 'responsible_assignment.assignment_id', '=', 'assignments.assignment_id')->get();
-        $response = ResponsibleAssignment::join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.teacher_id')
-            ->get();
-
-        // $assignments->responsible_assignment = $response;
+        $assignments = Assignment::join('teachers','teachers.teacher_id','=','assignments.teacher_id')->get();
 
         return $assignments;
     }

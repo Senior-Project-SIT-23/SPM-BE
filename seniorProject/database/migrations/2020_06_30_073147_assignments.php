@@ -19,11 +19,13 @@ class Assignments extends Migration
             $table->string('assignment_detail',500)->nullable();
             $table->date('due_date');
             $table->string('status',50);
+            $table->string('teacher_id',20);
             $table->bigInteger('rubric_id')->unsigned();          
             $table->timestamps();
 
             
             $table->foreign('rubric_id')->references('rubric_id')->on('rubric');
+            $table->foreign('teacher_id')->references('teacher_id')->on('teachers');
         });
     }
 

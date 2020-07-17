@@ -18,6 +18,10 @@ class Assignment extends Model
     {
         return $this->hasMany(ResponsibleAssignment::class, 'assignment_id');
     }
+    public function teachers()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
 
     public function attachments()
     {
@@ -26,8 +30,8 @@ class Assignment extends Model
 
     public function feedback()
     {
-        return $this->hasMany(Feedback::class,'assignment_id');
+        return $this->hasMany(Feedback::class, 'assignment_id');
     }
-    
+
     //individual_score
 }

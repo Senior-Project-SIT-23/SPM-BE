@@ -10,11 +10,16 @@ class Teacher extends Model
 
     public function reponsible_teacher_group()
     {
-        return $this->hasMany(ResponsibleTeacherGroup::class,'teacher_id');
+        return $this->hasMany(ResponsibleTeacherGroup::class, 'teacher_id');
     }
 
     public function reponsible_assignment()
     {
-        return $this->hasMany(ResponsibleAssignment::class,'teacher_id');
+        return $this->hasMany(ResponsibleAssignment::class, 'teacher_id');
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'teacher_id');
     }
 }
