@@ -9,7 +9,7 @@ use App\Model\Rubric;
 use App\Model\Criteria;
 use App\Model\CriteriaDetail;
 use App\Model\CriteriaScore;
-use App\Model\Attachments;
+
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -43,9 +43,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
                 ->where('responsible_assignment.teacher_id', "$value")->delete();
         }
-        foreach ($data['delete_attachment_id'] as $value) {
+        foreach ($data['delete_attachment_name'] as $value) {
             Attachment::where('attachments.assignment_id', $data['assignment_id'])
-                ->where('attachments.attachment_id', "$value")->delete();
+                ->where('attachments.attachment_name', "$value")->delete();
+            unlink(storage_path('app/attachments/' . $value));
         }
         Assignment::where('assignments.assignment_id', $data['assignment_id'])
             ->update([
@@ -54,12 +55,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 'assignments.due_date' => $data['due_date'],
                 'assignments.rubric_id' => $data['rubric_id']
             ]);
-        foreach ($data['attachment'] as $value) {
-            $attachment = new Attachment;
-            $attachment->attachment = $value;
-            $attachment->assignment_id = $data['assignment_id'];
-            $attachment->save();
-        }
+
+        // foreach ($data['attachment'] as $value) {
+        //     $attachment = new Attachment;
+        //     $attachment->attachment = $value;
+        //     $attachment->assignment_id = $data['assignment_id'];
+        //     $attachment->save();
+        // }
+
         foreach ($data['teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
@@ -72,6 +75,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function deleteAssignmentById($assignment_id)
     {
         ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->delete();
+        
+        $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
+        foreach($attachment as $value){
+            unlink(storage_path('app/attachments/' . $value->attachment_name));
+        }
+        
         Attachment::where('attachments.assignment_id', $assignment_id)->delete();
         Assignment::where('assignments.assignment_id', $assignment_id)->delete();
     }
@@ -140,17 +149,30 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function getAllAssignment()
     {
         $assignments = Assignment::all();
+        // $assignments = Assignment::join('responsible_assignment', 'responsible_assignment.assignment_id', '=', 'assignments.assignment_id')->get();
+        $response = ResponsibleAssignment::join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.teacher_id')
+            ->get();
+
+        // $assignments->responsible_assignment = $response;
+
         return $assignments;
     }
 
     public function getAssignmentById($assignment_id)
     {
-        $assignment = Assignment::where('assignments.assignment_id', "$assignment_id")->first();
-        $attachment = Attachment::where('attachments.assignment_id', "$assignment_id")->get();
-        $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', "$assignment_id")->get();
+        $assignment = Assignment::where('assignments.assignment_id', $assignment_id)->first();
+        $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
+        $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->get();
+        $rubric_id = $assignment->rubric_id;
+        $rubric = Rubric::where('rubric.rubric_id', $rubric_id)
+            ->join('criteria', 'criteria.rubric_id', '=', 'rubric.rubric_id')
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();;
 
         $assignment->attachment = $attachment;
         $assignment->responsible_assignment = $response;
+        $assignment->rubric = $rubric;
 
         return $assignment;
     }
@@ -184,6 +206,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $custom_file_name = $data['assignment_title'] . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
+            $attachment->attachment_name = $custom_file_name;
             $attachment->assignment_id = $assignment;
             $attachment->save();
         }
@@ -203,22 +226,23 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function deleteAttachment($data)
     {
-        // Attachment::where('attachments.attachment_id',$data['attachment_id'])->delete();
-        
+        Attachment::where('attachments.attachment_id', $data['attachment_id'])->delete();
+        unlink(storage_path('app/attachments/' . $data['attachment_name']));
     }
 
 
-    //Test
-    // public function createAttachment($file,$data)
-    // {
-    //     foreach ($file as $key => $values) {
-    //         $attachment = new Attachment();
-    //         $temp = $values->getClientOriginalName();
-    //         $extension = pathinfo($temp, PATHINFO_EXTENSION);
-    //         $custom_file_name = $data['attachment_title'] . "$key" . ".$extension";
-    //         $path = $values->storeAs('/attachments', $custom_file_name);
-    //         $attachment->attachment = $path;
-    //         $attachment->save();
-    //     }
-    // }
+    //Test create attachment
+    public function createAttachment($file, $data)
+    {
+        foreach ($file as $key => $values) {
+            $attachment = new Attachment();
+            $temp = $values->getClientOriginalName();
+            $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            $custom_file_name = $data['assignment_title'] . "$key" . ".$extension";
+            $path = $values->storeAs('/attachments', $custom_file_name);
+            $attachment->attachment = $path;
+            $attachment->attachment_name = $custom_file_name;
+            $attachment->save();
+        }
+    }
 }

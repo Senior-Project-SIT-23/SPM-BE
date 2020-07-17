@@ -190,15 +190,16 @@ class AssignmentController extends Controller
     {
         $data = $request->all();
         $this->assignment->deleteAttachment($data);
+        return response()->json('สำเร็จ', 200);
     }
 
 
-    //Test
-    // public function storeAttachment(Request $request)
-    // {
-    //     $file = $request->file('attachment');
-    //     $data = $request->all();
-    //     $this->assignment->createAttachment($file,$data);
-    //     return response()->json('สำเร็จ', 200);
-    // }
+    // Test
+    public function storeAttachment(Request $request)
+    {
+        $file = $request->file('attachment');
+        $data = $request->all();
+        $this->assignment->createAttachment($file,$data);
+        return response()->json('สำเร็จ', 200);
+    }
 }

@@ -20,5 +20,5 @@ interface AssignmentRepositoryInterface
     public function deleteAttachment($data);
     
     //Test
-    // public function createAttachment($file,$data);
+    public function createAttachment($file,$data);
 }

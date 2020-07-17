@@ -15,7 +15,7 @@ class Rubric extends Migration
     {
         Schema::create('rubric', function (Blueprint $table) {
             $table->bigIncrements('rubric_id')->unsigned();
-            $table->string('rubric_title',50);
+            $table->string('rubric_title',50)->unique();
             $table->timestamps();
 
         });
