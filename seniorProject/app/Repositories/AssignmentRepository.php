@@ -77,6 +77,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->delete();
         
+    
         $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
         foreach($attachment as $value){
             unlink(storage_path('app/attachments/' . $value->attachment_name));
