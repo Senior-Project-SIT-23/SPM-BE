@@ -18,12 +18,12 @@ class Score extends Migration
             $table->integer('score');
             $table->string('student_id',11);
             $table->bigInteger('assignment_id')->unsigned()->nullable();
-            // $table->bigInteger('appointment_id')->unsigned()->nullable();
+            $table->bigInteger('appointment_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')->references('student_id')->on('students');
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
-            // $table->foreign('appointment_id')->references('appointment_id')->on('appointment');
+            $table->foreign('appointment_id')->references('appointment_id')->on('appointment');
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Feedback extends Migration
+class SendAssignment extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class Feedback extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
-            $table->bigIncrements('feedback_id');
-            $table->string('feedback_detail',500);
+        Schema::create('send_assignment', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('send_assignment_name',100);
+            $table->string('send_assignment',200);
             $table->bigInteger('assignment_id')->unsigned();
-            // $table->bigInteger('appointment_id');
+            $table->integer('group_id');
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
-            // $table->foreign('appointment_id')->references('appointment_id')->on('appointment');
-
+            $table->foreign('group_id')->references('group_id')->on('groups');
         });
     }
 
@@ -33,6 +33,6 @@ class Feedback extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('send_assignment');
     }
 }
