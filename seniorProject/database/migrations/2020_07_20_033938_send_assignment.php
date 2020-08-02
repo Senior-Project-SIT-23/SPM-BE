@@ -18,11 +18,11 @@ class SendAssignment extends Migration
             $table->string('send_assignment_name',100);
             $table->string('send_assignment',200);
             $table->bigInteger('assignment_id')->unsigned();
-            $table->integer('group_id');
+            $table->string('project_id',10);
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
-            $table->foreign('group_id')->references('group_id')->on('groups');
+            $table->foreign('project_id')->references('project_id')->on('projects');
         });
     }
 

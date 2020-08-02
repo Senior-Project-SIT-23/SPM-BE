@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use Attachments;
 use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
@@ -33,5 +32,8 @@ class Assignment extends Model
         return $this->hasMany(Feedback::class, 'assignment_id');
     }
 
-    //individual_score
+    public function send_assignment()
+    {
+        return $this->hasMany(SendAssignment::class, 'assignment_id');
+    }
 }
