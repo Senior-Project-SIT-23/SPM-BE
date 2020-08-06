@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Attachment;
 use App\Repositories\AssignmentRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Model\Attachments;
 
 
 class AssignmentController extends Controller
