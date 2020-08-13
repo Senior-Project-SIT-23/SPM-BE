@@ -19,6 +19,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->assignment_title = $data['assignment_title'];
         $assignment->assignment_detail = $data['assignment_detail'];
         $assignment->due_date = $data['due_date'];
+        $assignment->time_due_date = $data['time_due_date'];
         $assignment->rubric_id = $data['rubric_id'];
         $assignment->status = "Not Submitted";
         $assignment->teacher_id = $data['teacher_id'];
@@ -54,15 +55,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 'assignments.assignment_title' => $data['assignment_title'],
                 'assignments.assignment_detail' => $data['assignment_detail'],
                 'assignments.due_date' => $data['due_date'],
+                'assignments.time_due_date' => $data['time_due_date'],
                 'assignments.rubric_id' => $data['rubric_id']
             ]);
-
-        // foreach ($data['attachment'] as $value) {
-        //     $attachment = new Attachment;
-        //     $attachment->attachment = $value;
-        //     $attachment->assignment_id = $data['assignment_id'];
-        //     $attachment->save();
-        // }
 
         foreach ($data['teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
@@ -200,7 +195,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['assignment_title'] . "$key" . ".$extension";
+            $custom_file_name = $data['assignment_title'] ."_" . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;
@@ -235,7 +230,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['assignment_title'] . "$key" . ".$extension";
+            $custom_file_name = $data['assignment_title'] ."_" . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;

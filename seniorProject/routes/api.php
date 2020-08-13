@@ -42,6 +42,7 @@ Route::get('/config', 'SPMConfigController@indexConfig'); //ดูข้อม�
 Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
 //Assignment
+    //->Teacher
 Route::post('/assignments', 'AssignmentController@storeAssignment');//สร้าง Assignment
 Route::post('/assignments/delete', 'AssignmentController@deleteAssignment'); //ลบ Assignment
 Route::post('/rubric', 'AssignmentController@storeRubric');//สร้าง Rubric
@@ -55,6 +56,8 @@ Route::get('/rubric','AssignmentController@indexAllRubric');//ดู Rubric ท�
 Route::get('/rubric/{rubric_id}','AssignmentController@indexRubric');//ดู Rubric ที่เลือก
 Route::get('/attachments','AssignmentController@indexAllAttachment');//ดู Attachment ทั้งหมด
 Route::get('/attachments/{assignment_id}','AssignmentController@indexAttachment');//ดู Attachment ที่อยู่ใน Assignment ที่เลือก
+    //->Student
+
 
 //Test
 Route::post('/attachments', 'AssignmentController@storeAttachment');//สร้าง Attachment
