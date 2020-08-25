@@ -191,13 +191,38 @@ class AssignmentController extends Controller
         return response()->json('สำเร็จ', 200);
     }
 
+    public function storeSendAssignment(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'assignment_id' => 'required',
+            'status' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+
+        $data = $request->all();
+        // $file  = $request->file('attachment');
+        $this->assignment->sendAssignment($data);
+        // $this->assignment->addAttachment($file, $data);
+
+
+        return response()->json('สำเร็จ', 200);
+    }
 
     // Test
     public function storeAttachment(Request $request)
     {
         $file = $request->file('attachment');
         $data = $request->all();
-        $this->assignment->createAttachment($file,$data);
+        $this->assignment->createAttachment($file, $data);
+
         return response()->json('สำเร็จ', 200);
     }
 }

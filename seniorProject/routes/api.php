@@ -42,21 +42,22 @@ Route::get('/config', 'SPMConfigController@indexConfig'); //ดูข้อม�
 Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
 //Assignment
-    //->Teacher
-Route::post('/assignments', 'AssignmentController@storeAssignment');//สร้าง Assignment
+//->Teacher
+Route::post('/assignments', 'AssignmentController@storeAssignment'); //สร้าง Assignment
 Route::post('/assignments/delete', 'AssignmentController@deleteAssignment'); //ลบ Assignment
-Route::post('/rubric', 'AssignmentController@storeRubric');//สร้าง Rubric
-Route::post('/rubric/delete', 'AssignmentController@deleteRubric');//ลบ Rubric
-Route::post('/attachments/delete', 'AssignmentController@deleteAttachment');//ลบ Attachment
+Route::post('/rubric', 'AssignmentController@storeRubric'); //สร้าง Rubric
+Route::post('/rubric/delete', 'AssignmentController@deleteRubric'); //ลบ Rubric
+Route::post('/attachments/delete', 'AssignmentController@deleteAttachment'); //ลบ Attachment
+Route::post('/send_assignment', 'AssignmentController@storeSendAssignment'); //นศ ส่ง assignment
 Route::put('/assignments/edit/{assignment_id}', 'AssignmentController@editAssignment'); //แก้ไข assignment
 Route::put('/rubric/edit/{rubric_id}', 'AssignmentController@editRubric'); //แก้ไข Rubric
-Route::get('/assignments', 'AssignmentController@indexAllAssignment');//ดู Assignment ทั้งหมด
-Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment');//ดู Assignment ที่เลือก
-Route::get('/rubric','AssignmentController@indexAllRubric');//ดู Rubric ทั้งหมด
-Route::get('/rubric/{rubric_id}','AssignmentController@indexRubric');//ดู Rubric ที่เลือก
-Route::get('/attachments','AssignmentController@indexAllAttachment');//ดู Attachment ทั้งหมด
-Route::get('/attachments/{assignment_id}','AssignmentController@indexAttachment');//ดู Attachment ที่อยู่ใน Assignment ที่เลือก
-    //->Student
+Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
+Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ที่เลือก
+Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric ทั้งหมด
+Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
+Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด
+Route::get('/attachments/{assignment_id}', 'AssignmentController@indexAttachment'); //ดู Attachment ที่อยู่ใน Assignment ที่เลือก
+
 
 
 //Test

@@ -18,7 +18,8 @@ interface AssignmentRepositoryInterface
     public function getAllAttachment();
     public function getAttachmentByAssignmentID($assignment_id);
     public function deleteAttachment($data);
-    
+    public function sendAssignment($data);
+
     //Test
     public function createAttachment($file,$data);
 }

@@ -71,13 +71,13 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function deleteAssignmentById($assignment_id)
     {
         ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->delete();
-        
-    
+
+
         $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
-        foreach($attachment as $value){
+        foreach ($attachment as $value) {
             unlink(storage_path('app/attachments/' . $value->attachment_name));
         }
-        
+
         Attachment::where('attachments.assignment_id', $assignment_id)->delete();
         Assignment::where('assignments.assignment_id', $assignment_id)->delete();
     }
@@ -145,7 +145,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        $assignments = Assignment::join('teachers','teachers.teacher_id','=','assignments.teacher_id')->get();
+        $assignments = Assignment::join('teachers', 'teachers.teacher_id', '=', 'assignments.teacher_id')->get();
 
         return $assignments;
     }
@@ -195,7 +195,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['assignment_title'] ."_" . "$key" . ".$extension";
+            $custom_file_name = $data['assignment_title'] . "_" . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;
@@ -223,6 +223,11 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
 
+    public function sendAssignment($data)
+    {
+        Assignment::where('assignment_id',$data['assignment_id'])->update(['assignments.status'=>$data['status']]);
+    }
+
     //Test create attachment
     public function createAttachment($file, $data)
     {
@@ -230,7 +235,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['assignment_title'] ."_" . "$key" . ".$extension";
+            $custom_file_name = $data['assignment_title'] . "_" . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;
