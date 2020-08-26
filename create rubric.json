@@ -3,7 +3,7 @@
 	"criterions" : [
   						{
          					"criteria_name" : "r1 criterion1", 
-         					"score" : [
+         					"criteria_detail" : [
                					{ "name": "novice","value": 20 },
                					{ "name": "advance beginer", "value": 40 },
                					{ "name": "competent performer", "value": 60 },
