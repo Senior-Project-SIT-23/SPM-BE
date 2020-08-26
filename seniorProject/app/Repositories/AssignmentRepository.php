@@ -95,7 +95,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $criteria->rubric_id = $rubric->id;
             $criteria->save();
 
-            foreach ($value['score'] as $temp) {
+            foreach ($value['criteria_detail'] as $temp) {
                 $criteria_detail = new CriteriaDetail;
                 $criteria_detail->criteria_detail = $temp['name'];
                 $criteria_detail->criteria_id = $criteria->id;
@@ -117,14 +117,30 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             Criteria::where('criteria.criteria_id', "$value")->delete();
         }
 
-        foreach ($data['criterions'] as $value) {
+        foreach ($data['edit_criterions'] as $value) {
+
+            foreach ($value['delete_criteria_deteail'] as $temp) {
+                CriteriaDetail::where('criteria_detail.criteria_detail_id', "$temp")->delete();
+            }
+
+            Criteria::where('criteria_id', $value['criteria_id'])->update(['criteria_name' => $value['criteria_name']]);
+            foreach ($value['criteria_detail'] as $temp) {
+                $criteria_score_id = $temp['criteria_detail_id'];
+                CriteriaDetail::where('criteria_detail_id', $temp['criteria_detail_id'])
+                    ->update(['criteria_detail' => $temp['name']]);
+                CriteriaScore::where('criteria_score_id', $criteria_score_id)
+                    ->update(['criteria_score' => $temp['value']]);
+            }
+        }
+
+        foreach ($data['create_criterions'] as $value) {
             $criteria = new Criteria;
             $criteria->criteria_name = $value['criteria_name'];
 
             $criteria->rubric_id = $data['rubric_id'];
             $criteria->save();
 
-            foreach ($value['score'] as $temp) {
+            foreach ($value['criteria_detail'] as $temp) {
                 $criteria_detail = new CriteriaDetail;
                 $criteria_detail->criteria_detail = $temp['name'];
                 $criteria_detail->criteria_id = $criteria->id;
@@ -183,7 +199,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
             ->get();
 
-        $rubric->criteria = $criteria;
+        $rubric->criterions = $criteria;
 
         return $rubric;
     }
@@ -225,7 +241,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function sendAssignment($data)
     {
-        Assignment::where('assignment_id',$data['assignment_id'])->update(['assignments.status'=>$data['status']]);
+        Assignment::where('assignment_id', $data['assignment_id'])->update(['assignments.status' => $data['status']]);
     }
 
     //Test create attachment

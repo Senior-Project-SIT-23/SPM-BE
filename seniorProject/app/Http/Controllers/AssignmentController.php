@@ -120,7 +120,7 @@ class AssignmentController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
-
+        
         $data = $request->all();
         $this->assignment->updateRubric($data);
 
@@ -209,7 +209,7 @@ class AssignmentController extends Controller
 
         $data = $request->all();
         // $file  = $request->file('attachment');
-        $this->assignment->sendAssignment($data);
+        // $this->assignment->sendAssignment($data);
         // $this->assignment->addAttachment($file, $data);
 
 
