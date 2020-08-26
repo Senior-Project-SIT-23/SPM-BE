@@ -14,12 +14,12 @@ interface AssignmentRepositoryInterface
     public function deleteRubric($rubric_id);
     public function getAllRubric();
     public function getRubricByID($rubric_id);
-    public function addAttachment($file,$data);
+    public function addAttachment($data);
     public function getAllAttachment();
     public function getAttachmentByAssignmentID($assignment_id);
     public function deleteAttachment($data);
     public function sendAssignment($data);
 
     //Test
-    public function createAttachment($file,$data);
+    public function createAttachment($data);
 }

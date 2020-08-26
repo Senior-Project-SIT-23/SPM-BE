@@ -25,12 +25,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->teacher_id = $data['teacher_id'];
         $assignment->save();
 
-        // foreach ($data['attachment'] as $value) {
-        //     $attachment = new Attachment;
-        //     $attachment->attachment = $value;
-        //     $attachment->assignment_id = $assignment->id;
-        //     $attachment->save();
-        // }
         foreach ($data['responsible_teacher_id'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
@@ -204,7 +198,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         return $rubric;
     }
 
-    public function addAttachment($file, $data)
+    public function addAttachment($data)
     {
         $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->get();
         foreach ($data['attachment'] as $key => $values) {
@@ -245,9 +239,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     //Test create attachment
-    public function createAttachment($file, $data)
+    public function createAttachment($data)
     {
-        foreach ($file as $key => $values) {
+        foreach ($data['attachment'] as $key => $values) {
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);

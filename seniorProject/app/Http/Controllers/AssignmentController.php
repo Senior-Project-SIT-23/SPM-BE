@@ -35,10 +35,13 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-        $file  = $request->file('attachment');
+        if ($data['attachment']) {
+            $this->assignment->addAttachment($data);
+        }
+        // $file  = $request->file('attachment');
 
         $this->assignment->createAssignment($data);
-        $this->assignment->addAttachment($file, $data);
+        // $this->assignment->addAttachment($file, $data);
 
         return response()->json('สำเร็จ', 200);
     }
@@ -120,7 +123,7 @@ class AssignmentController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
-        
+
         $data = $request->all();
         $this->assignment->updateRubric($data);
 
@@ -219,9 +222,8 @@ class AssignmentController extends Controller
     // Test
     public function storeAttachment(Request $request)
     {
-        $file = $request->file('attachment');
         $data = $request->all();
-        $this->assignment->createAttachment($file, $data);
+        $this->assignment->createAttachment($data);
 
         return response()->json('สำเร็จ', 200);
     }
