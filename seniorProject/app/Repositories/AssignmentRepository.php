@@ -25,7 +25,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->teacher_id = $data['teacher_id'];
         $assignment->save();
 
-        foreach ($data['responsible_teacher_id'] as $value) {
+        foreach ($data['responsible_teacher'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
             $responsible_assignment->teacher_id = $value;
             $responsible_assignment->assignment_id = $assignment->id;
@@ -173,7 +173,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->get();;
 
         $assignment->attachment = $attachment;
-        $assignment->responsible_assignment = $response;
+        $assignment->responsible_teacher = $response;
         $assignment->rubric = $rubric;
 
         return $assignment;
