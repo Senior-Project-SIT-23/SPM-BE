@@ -9,7 +9,11 @@ use App\Model\Rubric;
 use App\Model\Criteria;
 use App\Model\CriteriaDetail;
 use App\Model\CriteriaScore;
-
+use App\Model\Feedback;
+use App\Model\Group;
+use App\Model\SendAssignment;
+use App\Model\StatusAssignment;
+use App\Model\Teacher;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -20,8 +24,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->assignment_detail = $data['assignment_detail'];
         $assignment->due_date = $data['due_date'];
         $assignment->time_due_date = $data['time_due_date'];
+        $assignment->date_time = $data['due_date'] . " " . $data['time_due_date'];
         $assignment->rubric_id = $data['rubric_id'];
-        $assignment->status = "Not Submitted";
         $assignment->teacher_id = $data['teacher_id'];
         $assignment->save();
 
@@ -31,6 +35,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $responsible_assignment->assignment_id = $assignment->id;
             $responsible_assignment->save();
         }
+
+        // $status = new StatusAssignment;
+        // $status->status = 'Not Submitted'; 
+        // $status->assignment_id = $assignment->id;
     }
 
     public function updateAssignment($data)
@@ -156,6 +164,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function getAllAssignment()
     {
         $assignments = Assignment::join('teachers', 'teachers.teacher_id', '=', 'assignments.teacher_id')->get();
+            // ->join('status_assignment', 'status_assignment.assignment_id', '=', 'assignments.assignment_id')
 
         return $assignments;
     }
@@ -171,10 +180,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
             ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
             ->get();;
+        $feedback = Feedback::where('feedback.assignment_id', $assignment_id)->first();
+        $teacher = Teacher::where('teacher_id',$assignment->teacher_id)->first();
 
         $assignment->attachment = $attachment;
+        $assignment->teacher = $teacher;
         $assignment->responsible_teacher = $response;
         $assignment->rubric = $rubric;
+        $assignment->feedback = $feedback;
 
         return $assignment;
     }
@@ -235,7 +248,27 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function sendAssignment($data)
     {
-        Assignment::where('assignment_id', $data['assignment_id'])->update(['assignments.status' => $data['status']]);
+        // Assignment::where('assignment_id', $data['assignment_id'])->update(['assignments.status' => $data['status']]);
+        $group = Group::where('student_id', $data['student_id'])->first();
+        $project_id = $group->project_id;
+        foreach ($data['send_file_assignment'] as $values) {
+            $send_assignment = new SendAssignment;
+            $temp = $values->getClientOriginalName();
+            $extension = pathinfo($temp, PATHINFO_EXTENSION);
+            $custom_file_name = $project_id . "_" . "$temp" . ".$extension";
+            $path = $values->storeAs('/send_assignment', $custom_file_name);
+            $send_assignment->send_assignment = $path;
+            $send_assignment->send_assignment_name = $custom_file_name;
+            $send_assignment->assignment_id = $data['assignment_id'];
+            $send_assignment->project_id = $project_id;
+            $send_assignment->save();
+        }
+        //ยังไม่เสร็จ
+        if ($data['delete_file_assignment']) {
+            foreach ($data['delete_file_assignment'] as $values) {
+                SendAssignment::where('send_assignment_id', $values)->delete();
+            }
+        }
     }
 
     //Test create attachment

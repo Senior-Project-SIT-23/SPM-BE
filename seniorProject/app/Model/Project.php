@@ -28,8 +28,4 @@ class Project extends Model
         return $this->belongsTo(ResponsibleAAGroup::class, 'project_id');
     }
 
-    public function send_assignment()
-    {
-        return $this->hasMany(SendAssignment::class, 'project_id');
-    }
 }

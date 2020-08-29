@@ -17,4 +17,9 @@ class Group extends Model
     {
         return $this->hasOne(Project::class,'project_id');
     }
+
+    public function send_assignment()
+    {
+        return $this->hasMany(SendAssignment::class, 'student_id');
+    }
 }

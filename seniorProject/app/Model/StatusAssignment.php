@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SendAssignment extends Model
+class StatusAssignment extends Model
 {
-    protected $table = 'send_assignment';
+    protected $table = 'status_assignment';
 
     public function groups()
     {

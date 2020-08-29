@@ -211,9 +211,7 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-        // $file  = $request->file('attachment');
-        // $this->assignment->sendAssignment($data);
-        // $this->assignment->addAttachment($file, $data);
+        $this->assignment->sendAssignment($data);
 
 
         return response()->json('สำเร็จ', 200);

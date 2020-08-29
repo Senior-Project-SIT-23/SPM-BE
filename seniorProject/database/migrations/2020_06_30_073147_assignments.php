@@ -19,7 +19,7 @@ class Assignments extends Migration
             $table->string('assignment_detail',500)->nullable();
             $table->date('due_date');
             $table->time('time_due_date');
-            $table->string('status',50);
+            $table->String('date_time');
             $table->string('teacher_id',20);
             $table->bigInteger('rubric_id')->unsigned();          
             $table->timestamps();
