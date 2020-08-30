@@ -163,15 +163,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        $assignments = Assignment::join('teachers', 'teachers.teacher_id', '=', 'assignments.teacher_id')->get();
-            // ->join('status_assignment', 'status_assignment.assignment_id', '=', 'assignments.assignment_id')
-
+        $assignments = Assignment::all();
         return $assignments;
     }
 
-    public function getAssignmentById($assignment_id)
+    public function getAssignmentById($assignment_id, $student_id)
     {
         $assignment = Assignment::where('assignments.assignment_id', $assignment_id)->first();
+        $teacher = Teacher::where('teacher_id', $assignment->teacher_id)->first();
         $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
         $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)->get();
         $rubric_id = $assignment->rubric_id;
@@ -180,13 +179,17 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
             ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
             ->get();;
-        $feedback = Feedback::where('feedback.assignment_id', $assignment_id)->first();
-        $teacher = Teacher::where('teacher_id',$assignment->teacher_id)->first();
+        $feedback = Feedback::where('assignment_id', $assignment_id)->first();
+        $student = Group::where('student_id', $student_id)->first();
+
+        $status = StatusAssignment::where('project_id', $student->project_id)
+            ->where('assignment_id', $assignment_id)->first();
 
         $assignment->attachment = $attachment;
         $assignment->teacher = $teacher;
         $assignment->responsible_teacher = $response;
         $assignment->rubric = $rubric;
+        $assignment->status = $status;
         $assignment->feedback = $feedback;
 
         return $assignment;
@@ -248,7 +251,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function sendAssignment($data)
     {
-        // Assignment::where('assignment_id', $data['assignment_id'])->update(['assignments.status' => $data['status']]);
         $group = Group::where('student_id', $data['student_id'])->first();
         $project_id = $group->project_id;
         foreach ($data['send_file_assignment'] as $values) {
@@ -262,7 +264,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $send_assignment->assignment_id = $data['assignment_id'];
             $send_assignment->project_id = $project_id;
             $send_assignment->save();
+            $status = new StatusAssignment;
+            $status->status = $data['status'];
+            $status->assignment_id = $data['assignment_id'];
+            $status->project_id = $project_id;
+            $status->save();
         }
+
+
         //ยังไม่เสร็จ
         if ($data['delete_file_assignment']) {
             foreach ($data['delete_file_assignment'] as $values) {

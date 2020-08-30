@@ -157,9 +157,9 @@ class AssignmentController extends Controller
         return response()->json($assignments, 200);
     }
 
-    public function indexAssignment($assignment_id)
+    public function indexAssignment($assignment_id,$student_id)
     {
-        $assignments = $this->assignment->getAssignmentById($assignment_id);
+        $assignments = $this->assignment->getAssignmentById($assignment_id,$student_id);
         return response()->json($assignments, 200);
     }
 
