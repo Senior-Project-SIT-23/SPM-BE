@@ -181,15 +181,18 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->get();;
         $feedback = Feedback::where('assignment_id', $assignment_id)->first();
         $student = Group::where('student_id', $student_id)->first();
-
         $status = StatusAssignment::where('project_id', $student->project_id)
             ->where('assignment_id', $assignment_id)->first();
+        $file_assignment = SendAssignment::where('project_id', $student->project_id)
+            ->where('assignment_id', $assignment_id)->get();
+
 
         $assignment->attachment = $attachment;
         $assignment->teacher = $teacher;
         $assignment->responsible_teacher = $response;
         $assignment->rubric = $rubric;
         $assignment->status = $status;
+        $assignment->file_assignment = $file_assignment;
         $assignment->feedback = $feedback;
 
         return $assignment;
@@ -253,24 +256,25 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $group = Group::where('student_id', $data['student_id'])->first();
         $project_id = $group->project_id;
-        foreach ($data['send_file_assignment'] as $values) {
-            $send_assignment = new SendAssignment;
-            $temp = $values->getClientOriginalName();
-            $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $project_id . "_" . "$temp" . ".$extension";
-            $path = $values->storeAs('/send_assignment', $custom_file_name);
-            $send_assignment->send_assignment = $path;
-            $send_assignment->send_assignment_name = $custom_file_name;
-            $send_assignment->assignment_id = $data['assignment_id'];
-            $send_assignment->project_id = $project_id;
-            $send_assignment->save();
-            $status = new StatusAssignment;
-            $status->status = $data['status'];
-            $status->assignment_id = $data['assignment_id'];
-            $status->project_id = $project_id;
-            $status->save();
+        if ($data['send_file_assignment']) {
+            foreach ($data['send_file_assignment'] as $values) {
+                $send_assignment = new SendAssignment;
+                $temp = $values->getClientOriginalName();
+                $extension = pathinfo($temp, PATHINFO_EXTENSION);
+                $custom_file_name = $project_id . "_" . "$temp" . ".$extension";
+                $path = $values->storeAs('/send_assignment', $custom_file_name);
+                $send_assignment->send_assignment = $path;
+                $send_assignment->send_assignment_name = $custom_file_name;
+                $send_assignment->assignment_id = $data['assignment_id'];
+                $send_assignment->project_id = $project_id;
+                $send_assignment->save();
+                $status = new StatusAssignment;
+                $status->status = $data['status'];
+                $status->assignment_id = $data['assignment_id'];
+                $status->project_id = $project_id;
+                $status->save();
+            }
         }
-
 
         //ยังไม่เสร็จ
         if ($data['delete_file_assignment']) {
