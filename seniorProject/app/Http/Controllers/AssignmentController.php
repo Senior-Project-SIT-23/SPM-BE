@@ -35,13 +35,12 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
+
+        $this->assignment->createAssignment($data);
+        
         if ($data['attachment']) {
             $this->assignment->addAttachment($data);
         }
-        // $file  = $request->file('attachment');
-
-        $this->assignment->createAssignment($data);
-        // $this->assignment->addAttachment($file, $data);
 
         return response()->json('สำเร็จ', 200);
     }

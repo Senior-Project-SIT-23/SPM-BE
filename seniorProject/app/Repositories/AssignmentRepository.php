@@ -19,6 +19,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 {
     public function createAssignment($data)
     {
+        dd($data);
         $assignment = new Assignment;
         $assignment->assignment_title = $data['assignment_title'];
         $assignment->assignment_detail = $data['assignment_detail'];
