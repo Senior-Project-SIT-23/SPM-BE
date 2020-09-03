@@ -14,6 +14,8 @@ use App\Model\Group;
 use App\Model\SendAssignment;
 use App\Model\StatusAssignment;
 use App\Model\Teacher;
+use Illuminate\Testing\Assert;
+use Response;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -163,7 +165,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        $assignments = Assignment::join('teachers','teachers.teacher_id','=','assignments.teacher_id')->get();
+        $assignments = Assignment::join('teachers', 'teachers.teacher_id', '=', 'assignments.teacher_id')->get();
         return $assignments;
     }
 
@@ -198,6 +200,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         return $assignment;
     }
 
+    public function getAssignmentById($assignment_id)
+    {
+        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
+        $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)
+            ->join('assignments','assignment_id','=','responsible_assignment.assignment_id')->get();
+        $assignment->resposible_assignment = $response;
+        return $assignment;
+    }
     public function getAllRubric()
     {
         $rubric = Rubric::all();
@@ -259,11 +269,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $project_id = $group->project_id;
         if ($data['send_file_assignment']) {
             foreach ($data['send_file_assignment'] as $values) {
-                if($values){
+                if ($values) {
                     $send_assignment = new SendAssignment;
                     $temp = $values->getClientOriginalName();
+                    $assignment_id = $data['assignment_id'];
                     // $extension = pathinfo($temp, PATHINFO_EXTENSION);
-                    $custom_file_name = $project_id . "_" . "$temp";
+                    $custom_file_name = $project_id . "_" . "$assignment_id". "_" . "$temp";
                     $path = $values->storeAs('/send_assignment', $custom_file_name);
                     $send_assignment->send_assignment = $path;
                     $send_assignment->send_assignment_name = $custom_file_name;
@@ -281,12 +292,11 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         if ($data['delete_file_assignment']) {
             foreach ($data['delete_file_assignment'] as $values) {
-                if($values){
-                    $name = SendAssignment::where('send_assignment_id',$values)->first();
-                    $send_assignment_name = $name->send_assignment_name; 
+                if ($values) {
+                    $name = SendAssignment::where('send_assignment_id', $values)->first();
+                    $send_assignment_name = $name->send_assignment_name;
                     SendAssignment::where('send_assignment_id', $values)->delete();
                     unlink(storage_path('app/send_assignment/' . $send_assignment_name));
-
                 }
             }
         }
