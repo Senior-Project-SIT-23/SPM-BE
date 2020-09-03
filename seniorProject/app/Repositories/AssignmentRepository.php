@@ -19,7 +19,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 {
     public function createAssignment($data)
     {
-        dd($data);
         $assignment = new Assignment;
         $assignment->assignment_title = $data['assignment_title'];
         $assignment->assignment_detail = $data['assignment_detail'];
@@ -220,7 +219,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function addAttachment($data)
     {
-        $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->get();
+        $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->first();
+        $assignment_id = $assignment->assignment_id;
         foreach ($data['attachment'] as $key => $values) {
             $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
@@ -229,7 +229,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;
-            $attachment->assignment_id = $assignment;
+            $attachment->assignment_id = $assignment_id;
             $attachment->save();
         }
     }
