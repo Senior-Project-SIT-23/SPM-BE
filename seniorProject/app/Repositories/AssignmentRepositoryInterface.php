@@ -10,7 +10,7 @@ interface AssignmentRepositoryInterface
     public function createRubric($data);
     public function updateRubric($data);
     public function getAllAssignment();
-    public function getAssignmentById($assignment_id,$student_id);
+    public function getStudentAssignmentById($assignment_id,$student_id);
     public function deleteRubric($rubric_id);
     public function getAllRubric();
     public function getRubricByID($rubric_id);

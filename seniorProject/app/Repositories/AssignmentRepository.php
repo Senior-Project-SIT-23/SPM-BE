@@ -57,7 +57,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 'assignments.assignment_title' => $data['assignment_title'],
                 'assignments.assignment_detail' => $data['assignment_detail'],
                 'assignments.due_date' => $data['due_date'],
-                'assignments.time_due_date' => $data['time_due_date'],
+                'assignments.due_time' => $data['due_time'],
                 'assignments.rubric_id' => $data['rubric_id']
             ]);
 
@@ -163,11 +163,11 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAllAssignment()
     {
-        $assignments = Assignment::all();
+        $assignments = Assignment::join('teachers','teachers.teacher_id','=','assignments.teacher_id')->get();
         return $assignments;
     }
 
-    public function getAssignmentById($assignment_id, $student_id)
+    public function getStudentAssignmentById($assignment_id, $student_id)
     {
         $assignment = Assignment::where('assignments.assignment_id', $assignment_id)->first();
         $teacher = Teacher::where('teacher_id', $assignment->teacher_id)->first();

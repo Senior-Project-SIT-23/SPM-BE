@@ -51,7 +51,8 @@ Route::post('/send_assignment', 'AssignmentController@storeSendAssignment'); //�
 Route::post('/rubric/edit', 'AssignmentController@editRubric'); //แก้ไข Rubric
 Route::put('/assignments/edit/{assignment_id}', 'AssignmentController@editAssignment'); //แก้ไข assignment
 Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
-Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ที่เลือก
+Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
+// Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
 Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric ทั้งหมด
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
 Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด
