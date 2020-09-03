@@ -262,8 +262,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 if($values){
                     $send_assignment = new SendAssignment;
                     $temp = $values->getClientOriginalName();
-                    $extension = pathinfo($temp, PATHINFO_EXTENSION);
-                    $custom_file_name = $project_id . "_" . "$temp" . ".$extension";
+                    // $extension = pathinfo($temp, PATHINFO_EXTENSION);
+                    $custom_file_name = $project_id . "_" . "$temp";
                     $path = $values->storeAs('/send_assignment', $custom_file_name);
                     $send_assignment->send_assignment = $path;
                     $send_assignment->send_assignment_name = $custom_file_name;
