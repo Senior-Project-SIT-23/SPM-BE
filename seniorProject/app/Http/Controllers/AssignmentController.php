@@ -37,9 +37,13 @@ class AssignmentController extends Controller
         $data = $request->all();
 
         $this->assignment->createAssignment($data);
-        
+
         if ($data['attachment']) {
-            $this->assignment->addAttachment($data);
+            foreach($data['attachment'] as $values) {
+                if($values){
+                    $this->assignment->addAttachment($data);
+                }
+            }
         }
 
         return response()->json('สำเร็จ', 200);
@@ -156,9 +160,9 @@ class AssignmentController extends Controller
         return response()->json($assignments, 200);
     }
 
-    public function indexAssignment($assignment_id,$student_id)
+    public function indexAssignment($assignment_id, $student_id)
     {
-        $assignments = $this->assignment->getAssignmentById($assignment_id,$student_id);
+        $assignments = $this->assignment->getAssignmentById($assignment_id, $student_id);
         return response()->json($assignments, 200);
     }
 

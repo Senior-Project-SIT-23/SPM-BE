@@ -23,8 +23,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->assignment_title = $data['assignment_title'];
         $assignment->assignment_detail = $data['assignment_detail'];
         $assignment->due_date = $data['due_date'];
-        $assignment->time_due_date = $data['time_due_date'];
-        $assignment->date_time = $data['due_date'] . " " . $data['time_due_date'];
+        $assignment->due_time = $data['due_time'];
+        $assignment->date_time = $data['due_date'] . " " . $data['due_time'];
         $assignment->rubric_id = $data['rubric_id'];
         $assignment->teacher_id = $data['teacher_id'];
         $assignment->save();
