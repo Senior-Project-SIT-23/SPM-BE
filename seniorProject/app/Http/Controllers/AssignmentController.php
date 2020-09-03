@@ -63,11 +63,17 @@ class AssignmentController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
-        $data = $request->all();
-        $file  = $request->file('attachment');
+        $data = $request->all(); 
 
         $this->assignment->updateAssignment($data);
-        $this->assignment->addAttachment($file, $data);
+
+        if ($data['attachment']) {
+            foreach($data['attachment'] as $values) {
+                if($values){
+                    $this->assignment->addAttachment($data);
+                }
+            }
+        }
 
         return response()->json('สำเร็จ', 200);
     }

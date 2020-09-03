@@ -202,10 +202,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAssignmentById($assignment_id)
     {
-        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
-        $response = ResponsibleAssignment::where('responsible_assignment.assignment_id', $assignment_id)
-            ->join('assignments','assignment_id','=','responsible_assignment.assignment_id')->get();
-        $assignment->resposible_assignment = $response;
+        $assignment = Assignment::where('assignment_id', $assignment_id)->get();
         return $assignment;
     }
     public function getAllRubric()
