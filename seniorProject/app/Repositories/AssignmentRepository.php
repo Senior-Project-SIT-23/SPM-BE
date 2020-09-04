@@ -14,6 +14,7 @@ use App\Model\Group;
 use App\Model\SendAssignment;
 use App\Model\StatusAssignment;
 use App\Model\Teacher;
+use App\Model\Project;
 use Illuminate\Testing\Assert;
 use Response;
 
@@ -221,7 +222,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->attachment = $attachment;
         $assignment->criterion = $rubric;
         $assignment->resnponsible = $response;
-        
+
 
         return $assignment;
     }
@@ -230,7 +231,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $responsible = ResponsibleAssignment::where('responsible_assignment.resposible_teacher_id', $teacher_id)
             ->join('assignments', 'assignments.assignment_id', '=', 'responsible_assignment.assignment_id')
-            ->join('teachers','teachers.teacher_id','=','responsible_assignment.resposible_teacher_id')
+            ->join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.resposible_teacher_id')
             ->get();
 
         return $responsible;
@@ -309,11 +310,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                     $send_assignment->assignment_id = $data['assignment_id'];
                     $send_assignment->project_id = $project_id;
                     $send_assignment->save();
-                    $status = new StatusAssignment;
-                    $status->status = $data['status'];
-                    $status->assignment_id = $data['assignment_id'];
-                    $status->project_id = $project_id;
-                    $status->save();
                 }
             }
         }
@@ -328,7 +324,23 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 }
             }
         }
+
+        $status = new StatusAssignment;
+        $status->status = $data['status'];
+        $status->assignment_id = $data['assignment_id'];
+        $status->project_id = $project_id;
+        $status->save();
     }
+
+    public function getSendAssignment($assignment_id)
+    {
+
+        $assignment = StatusAssignment::where('status_assignment.assignment_id', $assignment_id)
+            ->join('projects', 'projects.project_id', '=', 'status_assignment.project_id')->get();
+
+        return $assignment;
+    }
+
 
     //Test create attachment
     public function createAttachment($data)

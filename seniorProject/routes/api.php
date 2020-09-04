@@ -59,7 +59,7 @@ Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric �
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
 Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด
 Route::get('/attachments/{assignment_id}', 'AssignmentController@indexAttachment'); //ดู Attachment ที่อยู่ใน Assignment ที่เลือก
-Route::get('/send_assignment/{}', 'AssignmentController@indexAttachment');
+Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ที่ส่งมา
 
 
 

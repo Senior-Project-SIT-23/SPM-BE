@@ -39,8 +39,8 @@ class AssignmentController extends Controller
         $this->assignment->createAssignment($data);
 
         if ($data['attachment']) {
-            foreach($data['attachment'] as $values) {
-                if($values){
+            foreach ($data['attachment'] as $values) {
+                if ($values) {
                     $this->assignment->addAttachment($data);
                 }
             }
@@ -63,13 +63,13 @@ class AssignmentController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 500);
         }
-        $data = $request->all(); 
+        $data = $request->all();
 
         $this->assignment->updateAssignment($data);
 
         if ($data['attachment']) {
-            foreach($data['attachment'] as $values) {
-                if($values){
+            foreach ($data['attachment'] as $values) {
+                if ($values) {
                     $this->assignment->addAttachment($data);
                 }
             }
@@ -178,7 +178,8 @@ class AssignmentController extends Controller
         return response()->json($assignments, 200);
     }
 
-    public function indexResponsibleAssignment($teacher_id){
+    public function indexResponsibleAssignment($teacher_id)
+    {
         $assignments = $this->assignment->getResponsibleAssignment($teacher_id);
         return response()->json($assignments, 200);
     }
@@ -235,6 +236,13 @@ class AssignmentController extends Controller
 
 
         return response()->json('สำเร็จ', 200);
+    }
+
+    public function indexSendAssignment($assignment_id)
+    {
+        $send_assignment = $this->assignment->getSendAssignment($assignment_id);
+        return response()->json($send_assignment, 200);
+
     }
 
     // Test
