@@ -211,8 +211,17 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $attachment = Attachment::where('assignment_id', $assignment_id)->get();
         $response = ResponsibleAssignment::where('assignment_id', $assignment_id)->get();
 
+        $rubric_id = $assignment->rubric_id;
+        $rubric = Rubric::where('rubric.rubric_id', $rubric_id)
+            ->join('criteria', 'criteria.rubric_id', '=', 'rubric.rubric_id')
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();;
+
         $assignment->attachment = $attachment;
+        $assignment->criterion = $rubric;
         $assignment->resnponsible = $response;
+        
 
         return $assignment;
     }
