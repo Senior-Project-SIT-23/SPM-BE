@@ -53,7 +53,7 @@ Route::post('/assignments/edit', 'AssignmentController@editAssignment'); //แ�
 
 Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
 Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
-Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ใช้ id
+Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ที่เลือก id
 Route::get('/assignments/responsible/teacher/{teacher_id}', 'AssignmentController@indexResponsibleAssignment'); //ดู assignment ที่รับผิดชอบ
 Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric ทั้งหมด
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
