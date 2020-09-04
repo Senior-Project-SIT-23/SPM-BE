@@ -1,11 +1,12 @@
 {
     "assignment_id" : 1,
-    "delete_teacher_id" : ["1"],
-    "delete_attachment_name" : ["Attachment_test0.pdf"], 
-    "assignment_title" : "bom edit",
+    "delete_responsible_teacher" : ["1"],
+    "delete_attachment" : [1], 
+    "assignment_title" : "Assignment1 edit",
     "assignment_detail" : "xxeditxx",
     "due_date" : "2020-7-1",
+    "due_time": "21:00",
     "teacher_id" : ["3"],
-    "attachment" : [],
-    "rubric_id" : 2
+    "rubric_id" : 2,
+    "attachment" : []
 }

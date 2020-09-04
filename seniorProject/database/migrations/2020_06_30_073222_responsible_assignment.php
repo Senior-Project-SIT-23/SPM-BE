@@ -17,11 +17,11 @@ class ResponsibleAssignment extends Migration
             $table->bigIncrements('id');
             $table->integer('score')->nullable(); 
             $table->bigInteger('assignment_id')->unsigned();
-            $table->string('teacher_id',20);
+            $table->string('resposible_teacher_id',20);
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
-            $table->foreign('teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
+            $table->foreign('resposible_teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
         });
     }
 

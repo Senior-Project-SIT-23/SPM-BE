@@ -178,6 +178,11 @@ class AssignmentController extends Controller
         return response()->json($assignments, 200);
     }
 
+    public function indexResponsibleAssignment($teacher_id){
+        $assignments = $this->assignment->getResponsibleAssignment($teacher_id);
+        return response()->json($assignments, 200);
+    }
+
     public function indexAllRubric()
     {
         $rubric = $this->assignment->getAllRubric();

@@ -49,10 +49,12 @@ Route::post('/rubric/delete', 'AssignmentController@deleteRubric'); //ลบ Rub
 Route::post('/attachments/delete', 'AssignmentController@deleteAttachment'); //ลบ Attachment
 Route::post('/send_assignment', 'AssignmentController@storeSendAssignment'); //นศ ส่ง assignment
 Route::post('/rubric/edit', 'AssignmentController@editRubric'); //แก้ไข Rubric
-Route::put('/assignments/edit/{assignment_id}', 'AssignmentController@editAssignment'); //แก้ไข assignment
+Route::post('/assignments/edit', 'AssignmentController@editAssignment'); //แก้ไข assignment
+
 Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
 Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
-Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ที่ teacher  
+Route::get('/assignments/{assignment_id}', 'AssignmentController@indexAssignment'); //ดู Assignment ใช้ id
+Route::get('/assignments/responsible/teacher/{teacher_id}', 'AssignmentController@indexResponsibleAssignment'); //ดู assignment ที่รับผิดชอบ
 Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric ทั้งหมด
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
 Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด

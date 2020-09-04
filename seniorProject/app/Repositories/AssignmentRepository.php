@@ -33,39 +33,44 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         foreach ($data['responsible_teacher'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->teacher_id = $value;
+            $responsible_assignment->resposible_teacher_id = $value;
             $responsible_assignment->assignment_id = $assignment->id;
             $responsible_assignment->save();
         }
-
-        // $status = new StatusAssignment;
-        // $status->status = 'Not Submitted'; 
-        // $status->assignment_id = $assignment->id;
     }
 
     public function updateAssignment($data)
     {
-        foreach ($data['delete_teacher_id'] as $value) {
+        foreach ($data['delete_responsible_teacher'] as $value) {
             ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
-                ->where('responsible_assignment.teacher_id', "$value")->delete();
+                ->where('responsible_assignment.resposible_teacher_id', "$value")->delete();
         }
-        foreach ($data['delete_attachment_name'] as $value) {
-            Attachment::where('attachments.assignment_id', $data['assignment_id'])
-                ->where('attachments.attachment_name', "$value")->delete();
-            unlink(storage_path('app/attachments/' . $value));
+        if ($data['delete_attachment']) {
+            foreach ($data['delete_attachment'] as $value) {
+                if ($value) {
+                    Attachment::where('attachments.attachment_id', "$value")->delete();
+                    $attachment = Attachment::where('attachments.attachment_id', "$value")->first();
+                    $attachment_name = $attachment->attachment_name;
+                    unlink(storage_path('app/attachments/' . $attachment_name));
+                }
+            }
         }
+
         Assignment::where('assignments.assignment_id', $data['assignment_id'])
             ->update([
                 'assignments.assignment_title' => $data['assignment_title'],
                 'assignments.assignment_detail' => $data['assignment_detail'],
                 'assignments.due_date' => $data['due_date'],
                 'assignments.due_time' => $data['due_time'],
+                'assignments.date_time' => $data['due_date'] . " " . $data['due_time'],
+                'assignments.teacher_id' => $data['teacher_id'],
                 'assignments.rubric_id' => $data['rubric_id']
             ]);
 
-        foreach ($data['teacher_id'] as $value) {
+
+        foreach ($data['responsible_teacher'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->teacher_id = $value;
+            $responsible_assignment->resposible_teacher_id = $value;
             $responsible_assignment->assignment_id = $data['assignment_id'];
             $responsible_assignment->save();
         }
@@ -202,9 +207,26 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getAssignmentById($assignment_id)
     {
-        $assignment = Assignment::where('assignment_id', $assignment_id)->get();
+        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
+        $attachment = Attachment::where('assignment_id', $assignment_id)->get();
+        $response = ResponsibleAssignment::where('assignment_id', $assignment_id)->get();
+
+        $assignment->attachment = $attachment;
+        $assignment->resnponsible = $response;
+
         return $assignment;
     }
+
+    public function getResponsibleAssignment($teacher_id)
+    {
+        $responsible = ResponsibleAssignment::where('responsible_assignment.resposible_teacher_id', $teacher_id)
+            ->join('assignments', 'assignments.assignment_id', '=', 'responsible_assignment.assignment_id')
+            ->join('teachers','teachers.teacher_id','=','responsible_assignment.resposible_teacher_id')
+            ->get();
+
+        return $responsible;
+    }
+
     public function getAllRubric()
     {
         $rubric = Rubric::all();
@@ -271,7 +293,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                     $temp = $values->getClientOriginalName();
                     $assignment_id = $data['assignment_id'];
                     // $extension = pathinfo($temp, PATHINFO_EXTENSION);
-                    $custom_file_name = $project_id . "_" . "$assignment_id". "_" . "$temp";
+                    $custom_file_name = $project_id . "_" . "$assignment_id" . "_" . "$temp";
                     $path = $values->storeAs('/send_assignment', $custom_file_name);
                     $send_assignment->send_assignment = $path;
                     $send_assignment->send_assignment_name = $custom_file_name;
