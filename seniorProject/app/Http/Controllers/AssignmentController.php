@@ -35,13 +35,13 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-
         $this->assignment->createAssignment($data);
-
+        
         if ($data['attachment']) {
             foreach ($data['attachment'] as $values) {
                 if ($values) {
                     $this->assignment->addAttachment($data);
+                    // $this->assignment->createAttachment($data); Test
                 }
             }
         }

@@ -271,6 +271,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             $attachment->assignment_id = $assignment_id;
             $attachment->save();
         }
+        dd(count($data['attachment']));
     }
 
     public function getAllAttachment()
