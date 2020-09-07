@@ -261,17 +261,16 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->first();
         $assignment_id = $assignment->assignment_id;
         foreach ($data['attachment'] as $key => $values) {
-            $attachment = new Attachment();
             $temp = $values->getClientOriginalName();
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
             $custom_file_name = $data['assignment_title'] . "_" . "$key" . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
+            $attachment = new Attachment();
             $attachment->attachment = $path;
             $attachment->attachment_name = $custom_file_name;
             $attachment->assignment_id = $assignment_id;
             $attachment->save();
         }
-        dd(count($data['attachment']));
     }
 
     public function getAllAttachment()

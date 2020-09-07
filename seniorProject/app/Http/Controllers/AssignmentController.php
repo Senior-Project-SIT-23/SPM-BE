@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\AssignmentRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
 
 
 class AssignmentController extends Controller
@@ -35,14 +36,12 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
+
         $this->assignment->createAssignment($data);
-        
-        if ($data['attachment']) {
-            foreach ($data['attachment'] as $values) {
-                if ($values) {
-                    $this->assignment->addAttachment($data);
-                }
-            }
+
+        $has_attachment = Arr::get($data, 'attachment');
+        if ($has_attachment) {
+            $this->assignment->addAttachment($data);
         }
 
         return response()->json('สำเร็จ', 200);
@@ -66,12 +65,9 @@ class AssignmentController extends Controller
 
         $this->assignment->updateAssignment($data);
 
-        if ($data['attachment']) {
-            foreach ($data['attachment'] as $values) {
-                if ($values) {
-                    $this->assignment->addAttachment($data);
-                }
-            }
+        $has_attachment = Arr::get($data, 'attachment');
+        if ($has_attachment) {
+            $this->assignment->addAttachment($data);
         }
 
         return response()->json('สำเร็จ', 200);
@@ -241,7 +237,6 @@ class AssignmentController extends Controller
     {
         $send_assignment = $this->assignment->getSendAssignment($assignment_id);
         return response()->json($send_assignment, 200);
-
     }
 
     // Test
