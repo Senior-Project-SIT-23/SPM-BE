@@ -70,10 +70,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
 
         foreach ($data['responsible_teacher'] as $value) {
-            $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->resposible_teacher_id = $value;
-            $responsible_assignment->assignment_id = $data['assignment_id'];
-            $responsible_assignment->save();
+            $has_response = ResponsibleAssignment::where('assignment_id', $data['assignment_id'])
+                ->where('responsible_teacher', $data['responsible_teacher'])->first();
+            if ($has_response == null) {
+                $responsible_assignment = new ResponsibleAssignment;
+                $responsible_assignment->resposible_teacher_id = $value;
+                $responsible_assignment->assignment_id = $data['assignment_id'];
+                $responsible_assignment->save();
+            }
         }
     }
 
@@ -96,7 +100,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $rubric = new Rubric;
         $rubric->rubric_title = $data['rubric_title'];
-        $rubric->save();
 
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
@@ -117,6 +120,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 $criteria_score->save();
             }
         }
+
+        $rubric->save();
     }
 
     public function updateRubric($data)
@@ -262,12 +267,13 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment_id = $assignment->assignment_id;
         foreach ($data['attachment'] as $key => $values) {
             $temp = $values->getClientOriginalName();
+            $temp_name = pathinfo($temp, PATHINFO_FILENAME);
             $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $data['assignment_title'] . "_" . "$key" . ".$extension";
+            $custom_file_name = $temp_name . "_" . $this->incrementalHash() . ".$extension";
             $path = $values->storeAs('/attachments', $custom_file_name);
             $attachment = new Attachment();
             $attachment->attachment = $path;
-            $attachment->attachment_name = $custom_file_name;
+            $attachment->attachment_name = $temp;
             $attachment->assignment_id = $assignment_id;
             $attachment->save();
         }
@@ -341,6 +347,20 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         return $assignment;
     }
 
+    public function incrementalHash($len = 5)
+    {
+        $charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        $base = strlen($charset);
+        $result = '';
+
+        $now = explode(' ', microtime())[1];
+        while ($now >= $base) {
+            $i = $now % $base;
+            $result = $charset[$i] . $result;
+            $now /= $base;
+        }
+        return substr($result, -5);
+    }
 
     //Test create attachment
     public function createAttachment($data)
