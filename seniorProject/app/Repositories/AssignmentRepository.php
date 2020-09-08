@@ -70,14 +70,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
 
         foreach ($data['responsible_teacher'] as $value) {
-            $has_response = ResponsibleAssignment::where('assignment_id', $data['assignment_id'])
-                ->where('responsible_teacher', $data['responsible_teacher'])->first();
-            if ($has_response == null) {
-                $responsible_assignment = new ResponsibleAssignment;
-                $responsible_assignment->resposible_teacher_id = $value;
-                $responsible_assignment->assignment_id = $data['assignment_id'];
-                $responsible_assignment->save();
-            }
+            $responsible_assignment = new ResponsibleAssignment;
+            $responsible_assignment->resposible_teacher_id = $value;
+            $responsible_assignment->assignment_id = $data['assignment_id'];
+            $responsible_assignment->save();
         }
     }
 
@@ -121,7 +117,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 $criteria_score->save();
             }
         }
-
     }
 
     public function updateRubric($data)
@@ -265,17 +260,19 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->first();
         $assignment_id = $assignment->assignment_id;
-        foreach ($data['attachment'] as $key => $values) {
-            $temp = $values->getClientOriginalName();
-            $temp_name = pathinfo($temp, PATHINFO_FILENAME);
-            $extension = pathinfo($temp, PATHINFO_EXTENSION);
-            $custom_file_name = $temp_name . "_" . $this->incrementalHash() . ".$extension";
-            $path = $values->storeAs('/attachments', $custom_file_name);
-            $attachment = new Attachment();
-            $attachment->attachment = $path;
-            $attachment->attachment_name = $temp;
-            $attachment->assignment_id = $assignment_id;
-            $attachment->save();
+        foreach ($data['attachment'] as $values) {
+            if ($values) {
+                $temp = $values->getClientOriginalName();
+                $temp_name = pathinfo($temp, PATHINFO_FILENAME);
+                $extension = pathinfo($temp, PATHINFO_EXTENSION);
+                $custom_file_name = $temp_name . "_" . $this->incrementalHash() . ".$extension";
+                $path = $values->storeAs('/attachments', $custom_file_name);
+                $attachment = new Attachment();
+                $attachment->attachment = $path;
+                $attachment->attachment_name = $temp;
+                $attachment->assignment_id = $assignment_id;
+                $attachment->save();
+            }
         }
     }
 
