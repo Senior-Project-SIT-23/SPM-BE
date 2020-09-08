@@ -43,15 +43,17 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function updateAssignment($data)
     {
         foreach ($data['delete_responsible_teacher'] as $value) {
-            ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
-                ->where('responsible_assignment.resposible_teacher_id', "$value")->delete();
+            if($value){
+                ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
+                    ->where('responsible_assignment.resposible_teacher_id', "$value")->delete();
+            }
         }
         if ($data['delete_attachment']) {
             foreach ($data['delete_attachment'] as $value) {
                 if ($value) {
-                    Attachment::where('attachments.attachment_id', "$value")->delete();
                     $attachment = Attachment::where('attachments.attachment_id', "$value")->first();
                     $keep_file_name = $attachment->keep_file_name;
+                    Attachment::where('attachments.attachment_id', "$value")->delete();
                     unlink(storage_path('app/attachments/' . $keep_file_name));
                 }
             }
@@ -70,10 +72,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
 
         foreach ($data['responsible_teacher'] as $value) {
-            $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->resposible_teacher_id = $value;
-            $responsible_assignment->assignment_id = $data['assignment_id'];
-            $responsible_assignment->save();
+            if($value){
+                $responsible_assignment = new ResponsibleAssignment;
+                $responsible_assignment->resposible_teacher_id = $value;
+                $responsible_assignment->assignment_id = $data['assignment_id'];
+                $responsible_assignment->save();
+            }
         }
     }
 
