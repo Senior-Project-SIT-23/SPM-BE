@@ -100,6 +100,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $rubric = new Rubric;
         $rubric->rubric_title = $data['rubric_title'];
+        $rubric->save();
 
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
@@ -121,7 +122,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             }
         }
 
-        $rubric->save();
     }
 
     public function updateRubric($data)
