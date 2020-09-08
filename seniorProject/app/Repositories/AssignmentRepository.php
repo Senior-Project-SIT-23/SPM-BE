@@ -51,8 +51,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 if ($value) {
                     Attachment::where('attachments.attachment_id', "$value")->delete();
                     $attachment = Attachment::where('attachments.attachment_id', "$value")->first();
-                    $attachment_name = $attachment->attachment_name;
-                    unlink(storage_path('app/attachments/' . $attachment_name));
+                    $keep_file_name = $attachment->keep_file_name;
+                    unlink(storage_path('app/attachments/' . $keep_file_name));
                 }
             }
         }
@@ -85,7 +85,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         $attachment = Attachment::where('attachments.assignment_id', $assignment_id)->get();
         foreach ($attachment as $value) {
-            unlink(storage_path('app/attachments/' . $value->attachment_name));
+            unlink(storage_path('app/attachments/' . $value->keep_file_name));
         }
 
         Attachment::where('attachments.assignment_id', $assignment_id)->delete();
@@ -270,6 +270,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 $attachment = new Attachment();
                 $attachment->attachment = $path;
                 $attachment->attachment_name = $temp;
+                $attachment->keep_file_name = $custom_file_name;
                 $attachment->assignment_id = $assignment_id;
                 $attachment->save();
             }

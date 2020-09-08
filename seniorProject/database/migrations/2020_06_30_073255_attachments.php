@@ -17,6 +17,7 @@ class Attachments extends Migration
             $table->bigIncrements('attachment_id');
             $table->string('attachment_name',100)->nullable();
             $table->string('attachment',200)->nullable();
+            $table->string('keep_file_name',100)->nullable();
             $table->bigInteger('assignment_id')->unsigned()->nullable();
             $table->timestamps();
             
