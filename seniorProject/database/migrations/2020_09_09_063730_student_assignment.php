@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class StatusAssignment extends Migration
+class StudentAssignment extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class StatusAssignment extends Migration
      */
     public function up()
     {
-        Schema::create('status_assignment', function (Blueprint $table) {
+        Schema::create('student_assignment', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->String('status',50);
+            $table->string('status',50);
+            $table->integer('total_score')->nullable();
             $table->bigInteger('assignment_id')->unsigned();
-            $table->String('project_id');
+            $table->string('project_id');
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
@@ -32,6 +33,6 @@ class StatusAssignment extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_assignment');
+        Schema::dropIfExists('student_assignment');
     }
 }

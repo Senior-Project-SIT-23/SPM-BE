@@ -12,11 +12,9 @@ use App\Model\CriteriaScore;
 use App\Model\Feedback;
 use App\Model\Group;
 use App\Model\SendAssignment;
-use App\Model\StatusAssignment;
+use App\Model\StudentAssignment;
 use App\Model\Teacher;
 use App\Model\Project;
-use Illuminate\Testing\Assert;
-use Response;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
@@ -43,7 +41,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function updateAssignment($data)
     {
         foreach ($data['delete_responsible_teacher'] as $value) {
-            if($value){
+            if ($value) {
                 ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
                     ->where('responsible_assignment.resposible_teacher_id', "$value")->delete();
             }
@@ -72,7 +70,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
 
         foreach ($data['responsible_teacher'] as $value) {
-            if($value){
+            if ($value) {
                 $responsible_assignment = new ResponsibleAssignment;
                 $responsible_assignment->resposible_teacher_id = $value;
                 $responsible_assignment->assignment_id = $data['assignment_id'];
@@ -193,7 +191,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->get();;
         $feedback = Feedback::where('assignment_id', $assignment_id)->first();
         $student = Group::where('student_id', $student_id)->first();
-        $status = StatusAssignment::where('project_id', $student->project_id)
+        $status = StudentAssignment::where('project_id', $student->project_id)
             ->where('assignment_id', $assignment_id)->first();
         $file_assignment = SendAssignment::where('project_id', $student->project_id)
             ->where('assignment_id', $assignment_id)->get();
@@ -333,7 +331,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             }
         }
 
-        $status = new StatusAssignment;
+        $status = new StudentAssignment;
         $status->status = $data['status'];
         $status->assignment_id = $data['assignment_id'];
         $status->project_id = $project_id;
@@ -343,8 +341,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     public function getSendAssignment($assignment_id)
     {
 
-        $assignment = StatusAssignment::where('status_assignment.assignment_id', $assignment_id)
-            ->join('projects', 'projects.project_id', '=', 'status_assignment.project_id')->get();
+        $assignment = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
+            ->join('projects', 'projects.project_id', '=', 'student_assignment.project_id')->get();
 
         return $assignment;
     }
