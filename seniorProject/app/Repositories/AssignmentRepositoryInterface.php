@@ -12,7 +12,7 @@ interface AssignmentRepositoryInterface
     public function createRubric($data);
     public function updateRubric($data);
     public function getAllAssignment();
-    public function getStudentAssignmentById($assignment_id,$student_id);
+    public function getStudentAssignmentById($assignment_id, $student_id);
     public function getAssignmentById($assignment_id);
     public function getResponsibleAssignment($teacher_id);
     public function deleteRubric($rubric_id);
@@ -23,7 +23,10 @@ interface AssignmentRepositoryInterface
     public function getAttachmentByAssignmentID($assignment_id);
     public function deleteAttachment($data);
     public function sendAssignment($data);
+    public function getSendAssignmentByTeacher($assignment_id,$teacher_id);
     public function getSendAssignment($assignment_id);
+    public function getSendAssignmentByProjecdId($assignment_id, $project_id);
+    public function createAssessment($data);
 
     //Test
     public function createAttachment($data);

@@ -28,6 +28,8 @@ class AssignmentController extends Controller
         $validator =  Validator::make($request->all(), [
             'assignment_title' => 'required',
             'due_date' => 'required',
+            'due_time' => 'required',
+            'teacher_id' => 'required',
             'rubric_id' => 'required'
         ], $messages);
 
@@ -233,10 +235,47 @@ class AssignmentController extends Controller
         return response()->json('สำเร็จ', 200);
     }
 
+    public function indexSendAssignmentByProjecdIdAndTeacherId($assignment_id, $teacher_id)
+    {
+        $send_assignment = $this->assignment->getSendAssignmentByTeacher($assignment_id, $teacher_id);
+        return response()->json($send_assignment, 200);
+    }
+
     public function indexSendAssignment($assignment_id)
     {
         $send_assignment = $this->assignment->getSendAssignment($assignment_id);
         return response()->json($send_assignment, 200);
+    }
+
+    public function indexSendAssignmentByProjecdId($assignment_id, $project_id)
+    {
+        $send_assignment = $this->assignment->getSendAssignmentByProjecdId($assignment_id, $project_id);
+        return response()->json($send_assignment, 200);
+    }
+
+    public function storeAssessment(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'assignment_id' => 'required',
+            'project_id' => 'required',
+            'rubric_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+
+        $data = $request->all();
+        $assessment = $this->assignment->createAssessment($data);
+        if ($assessment) {
+            return response()->json($assessment, 500);
+        }
+        return response()->json('สำเร็จ', 200);
     }
 
     // Test

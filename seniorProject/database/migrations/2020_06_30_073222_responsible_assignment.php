@@ -14,14 +14,13 @@ class ResponsibleAssignment extends Migration
     public function up()
     {
         Schema::create('responsible_assignment', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('score')->nullable(); 
+            $table->bigIncrements('id')->unsigned();
             $table->bigInteger('assignment_id')->unsigned();
-            $table->string('resposible_teacher_id',20);
+            $table->string('responsible_teacher_id',20);
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
-            $table->foreign('resposible_teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
+            $table->foreign('responsible_teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade');
         });
     }
 

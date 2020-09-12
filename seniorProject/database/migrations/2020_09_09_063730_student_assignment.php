@@ -14,7 +14,7 @@ class StudentAssignment extends Migration
     public function up()
     {
         Schema::create('student_assignment', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unsigned();
             $table->string('status',50);
             $table->integer('total_score')->nullable();
             $table->bigInteger('assignment_id')->unsigned();

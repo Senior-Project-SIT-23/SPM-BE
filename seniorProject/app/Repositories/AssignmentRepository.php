@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Model\AssessmentAssignment;
 use App\Model\Assignment;
 use App\Model\Attachment;
 use App\Model\ResponsibleAssignment;
@@ -32,7 +33,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         foreach ($data['responsible_teacher'] as $value) {
             $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->resposible_teacher_id = $value;
+            $responsible_assignment->responsible_teacher_id = $value;
             $responsible_assignment->assignment_id = $assignment->id;
             $responsible_assignment->save();
         }
@@ -43,7 +44,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         foreach ($data['delete_responsible_teacher'] as $value) {
             if ($value) {
                 ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
-                    ->where('responsible_assignment.resposible_teacher_id', "$value")->delete();
+                    ->where('responsible_assignment.responsible_teacher_id', "$value")->delete();
             }
         }
         if ($data['delete_attachment']) {
@@ -72,7 +73,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         foreach ($data['responsible_teacher'] as $value) {
             if ($value) {
                 $responsible_assignment = new ResponsibleAssignment;
-                $responsible_assignment->resposible_teacher_id = $value;
+                $responsible_assignment->responsible_teacher_id = $value;
                 $responsible_assignment->assignment_id = $data['assignment_id'];
                 $responsible_assignment->save();
             }
@@ -103,7 +104,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         foreach ($data['criterions'] as $value) {
             $criteria = new Criteria;
             $criteria->criteria_name = $value['criteria_name'];
-
             $criteria->rubric_id = $rubric->id;
             $criteria->save();
 
@@ -189,7 +189,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
             ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
             ->get();;
-        $feedback = Feedback::where('assignment_id', $assignment_id)->first();
+        $feedback = Feedback::where('assignment_id', $assignment_id)->get();
         $student = Group::where('student_id', $student_id)->first();
         $status = StudentAssignment::where('project_id', $student->project_id)
             ->where('assignment_id', $assignment_id)->first();
@@ -219,7 +219,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->join('criteria', 'criteria.rubric_id', '=', 'rubric.rubric_id')
             ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
             ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
-            ->get();;
+            ->get();
 
         $assignment->attachment = $attachment;
         $assignment->criterion = $rubric;
@@ -231,9 +231,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function getResponsibleAssignment($teacher_id)
     {
-        $responsible = ResponsibleAssignment::where('responsible_assignment.resposible_teacher_id', $teacher_id)
+        $responsible = ResponsibleAssignment::where('responsible_assignment.responsible_teacher_id', $teacher_id)
             ->join('assignments', 'assignments.assignment_id', '=', 'responsible_assignment.assignment_id')
-            ->join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.resposible_teacher_id')
+            ->join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.responsible_teacher_id')
             ->get();
 
         return $responsible;
@@ -338,15 +338,161 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $status->save();
     }
 
-    public function getSendAssignment($assignment_id)
+    public function getSendAssignmentByTeacher($assignment_id, $teacher_id)
     {
+        $permission = "No Permission";
+        $responsible_teacher = ResponsibleAssignment::where('responsible_teacher_id', $teacher_id)
+            ->where('assignment_id', $assignment_id)->first();
 
-        $assignment = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
+        if ($responsible_teacher != null) {
+            $permission = "Have Permission";
+        }
+
+        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
+        $submisson = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
             ->join('projects', 'projects.project_id', '=', 'student_assignment.project_id')->get();
+
+        $rubric_id = $assignment->rubric_id;
+        $criteria = Criteria::where('criteria.rubric_id', $rubric_id)
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();
+
+        $assignment->permission = $permission;
+        $assignment->submission = $submisson;
+        $assignment->criterions = $criteria;
+
 
         return $assignment;
     }
 
+    public function getSendAssignment($assignment_id)
+    {
+        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
+        $submisson = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
+            ->join('projects', 'projects.project_id', '=', 'student_assignment.project_id')->get();
+
+        $rubric_id = $assignment->rubric_id;
+        $criteria = Criteria::where('criteria.rubric_id', $rubric_id)
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();
+
+        $assignment->submission = $submisson;
+        $assignment->criterions = $criteria;
+
+
+        return $assignment;
+    }
+
+    public function getSendAssignmentByProjecdId($assignment_id, $project_id)
+    {
+        $assignment = Assignment::where('assignment_id', $assignment_id)->first();
+
+        $responsible_assignment = ResponsibleAssignment::where('assignment_id', $assignment_id)->get();
+
+        $submisson = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
+            ->where('student_assignment.project_id', $project_id)
+            ->join('projects', 'projects.project_id', '=', 'student_assignment.project_id')->first();
+
+        $send_assignment = SendAssignment::where('assignment_id', $assignment_id)
+            ->where('project_id', $project_id)->get();
+
+        $rubric_id = $assignment->rubric_id;
+        $criteria = Criteria::where('criteria.rubric_id', $rubric_id)
+            ->join('criteria_detail', 'criteria_detail.criteria_id', '=', 'criteria.criteria_id')
+            ->join('criteria_score', 'criteria_score.criteria_detail_id', '=', 'criteria_detail.criteria_detail_id')
+            ->get();
+
+        $assesment = AssessmentAssignment::where('assignment_id', $assignment_id)
+            ->where('project_id', $project_id)->get();
+
+        $feedback = Feedback::where('assignment_id', $assignment_id)
+            ->where('feedback.project_id', $project_id)->get();
+
+        $assignment->responsible_assignment = $responsible_assignment;
+        $assignment->submission = $submisson;
+        $assignment->send_assignment = $send_assignment;
+        $assignment->criterions = $criteria;
+        $assignment->assessment = $assesment;
+        $assignment->feedback = $feedback;
+
+        return $assignment;
+    }
+
+    public function createAssessment($data)
+    {
+        $criteria = Criteria::where('rubric_id', $data['rubric_id'])->get();
+
+        $assignment = Assignment::where('assignment_id', $data['assignment_id'])->first();
+        $rubric_id = $assignment->rubric_id;
+
+        $check_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+            ->where('project_id', $data['project_id'])
+            ->where('responsible_assignment_id', $data['responsible_assignment'])->first();
+
+        $num_of_criteria = count($criteria);
+
+        $responsible_assignment = ResponsibleAssignment::where('id', $data['responsible_assignment'])->first();
+        $teacher_id = $responsible_assignment->responsible_teacher_id;
+
+        $num_of_responsible_assignment = count(ResponsibleAssignment::where('assignment_id', $data['assignment_id'])->get());
+
+        if ($data['assessment']) {
+            if ($num_of_criteria == count($data['assessment'])) {
+                foreach ($data['assessment'] as $value) {
+                    if ($check_assessment == null && $rubric_id == $data['rubric_id']) {
+                        $assesment = new AssessmentAssignment;
+                        $assesment->criteria_id = $value['criteria_id'];
+                        $assesment->score = $value['score'];
+                        $assesment->responsible_assignment_id = $data['responsible_assignment'];
+                        $assesment->project_id = $data['project_id'];
+                        $assesment->assignment_id = $data['assignment_id'];
+                        $assesment->save();
+                    } else {
+                        AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+                            ->where('project_id', $data['project_id'])
+                            ->where('criteria_id', $value['criteria_id'])
+                            ->where('responsible_assignment_id', $data['responsible_assignment'])
+                            ->update(['score' => $value['score']]);
+                    }
+                }
+                //
+
+                // $total_num_assessment = $num_of_criteria * $num_of_responsible_assignment;
+                // $num_of_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+                //     ->where('project_id', $data['project_id'])->get();
+                // if ($total_num_assessment == $num_of_assessment) {
+                //     $get_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+                //         ->where('project_id', $data['project_id'])->get();
+                //     foreach ($get_assessment as $value) {
+                //         $temp_score = $value->score;
+                //     }
+                // }
+
+                //
+                $old_feedback = Feedback::where('assignment_id', $data['assignment_id'])
+                    ->where('project_id', $data['project_id'])
+                    ->where('teacher_id', $teacher_id)->first();
+                if ($old_feedback == null) {
+                    $feedback = new Feedback;
+                    $feedback->feedback_detail = $data['feedback'];
+                    $feedback->project_id = $data['project_id'];
+                    $feedback->assignment_id = $data['assignment_id'];
+                    $feedback->teacher_id = $teacher_id;
+                    $feedback->save();
+                } else {
+                    Feedback::where('assignment_id', $data['assignment_id'])
+                        ->where('project_id', $data['project_id'])
+                        ->update(['feedback.feeback_detail' => $data['feedback']]);
+                }
+            } else {
+                return 'Num of Criteria is not math';
+            }
+        }
+    }
+
+    //Random ตัวอักษร
     public function incrementalHash($len = 5)
     {
         $charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -361,6 +507,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         }
         return substr($result, -5);
     }
+
 
     //Test create attachment
     public function createAttachment($data)

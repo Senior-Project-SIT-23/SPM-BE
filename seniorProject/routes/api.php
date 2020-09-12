@@ -50,6 +50,7 @@ Route::post('/attachments/delete', 'AssignmentController@deleteAttachment'); //�
 Route::post('/send_assignment', 'AssignmentController@storeSendAssignment'); //นศ ส่ง assignment
 Route::post('/rubric/edit', 'AssignmentController@editRubric'); //แก้ไข Rubric
 Route::post('/assignments/edit', 'AssignmentController@editAssignment'); //แก้ไข assignment
+Route::post('/assessment','AssignmentController@storeAssessment'); // ให้คะแนน assignment
 
 Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
 Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
@@ -59,7 +60,9 @@ Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric �
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
 Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด
 Route::get('/attachments/{assignment_id}', 'AssignmentController@indexAttachment'); //ดู Attachment ที่อยู่ใน Assignment ที่เลือก
-Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ที่ส่งมา
+Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ที่ส่งมาโดยเลือกจาก project_id (Teacher ใช้) 
+Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ที่ส่งมา (AA ใช้)
+Route::get('/send_assignment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ที่ส่งมาโดยเลือกจาก project_id (AA ใช้) 
 
 
 
