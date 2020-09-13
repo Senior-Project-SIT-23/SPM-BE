@@ -41,6 +41,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function updateAssignment($data)
     {
+        $assignment = Assignment::where('assignment_id', $data['assignment_id'])->first();
+        $rubric_id = $assignment->rubric_id;
+        if ($rubric_id != $data['rubric_id']) {
+            AssessmentAssignment::where('assignment_id', $data['assignment_id'])->delete();
+        }
+
         foreach ($data['delete_responsible_teacher'] as $value) {
             if ($value) {
                 ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
@@ -397,7 +403,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $assignment = Assignment::where('assignment_id', $assignment_id)->first();
 
-        $responsible_assignment = ResponsibleAssignment::where('assignment_id', $assignment_id)->get();
+        $responsible_assignment = ResponsibleAssignment::where('assignment_id', $assignment_id)
+            ->join('teachers', 'teachers.teacher_id', '=', 'responsible_assignment.responsible_teacher_id')->get();
 
         $submisson = StudentAssignment::where('student_assignment.assignment_id', $assignment_id)
             ->where('student_assignment.project_id', $project_id)

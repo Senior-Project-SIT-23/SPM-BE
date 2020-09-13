@@ -62,7 +62,7 @@ Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู 
 Route::get('/attachments/{assignment_id}', 'AssignmentController@indexAttachment'); //ดู Attachment ที่อยู่ใน Assignment ที่เลือก
 Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ตามที่เลือก
 Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ตาม Id (Teacher ใช้) 
-Route::get('/send_assignment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ตาม Id (AA ใช้) 
+Route::get('/send_assignment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ตาม Id (Teacher, AA ใช้) 
 
 
 
