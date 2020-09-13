@@ -60,9 +60,9 @@ Route::get('/rubric', 'AssignmentController@indexAllRubric'); //ดู Rubric �
 Route::get('/rubric/{rubric_id}', 'AssignmentController@indexRubric'); //ดู Rubric ที่เลือก
 Route::get('/attachments', 'AssignmentController@indexAllAttachment'); //ดู Attachment ทั้งหมด
 Route::get('/attachments/{assignment_id}', 'AssignmentController@indexAttachment'); //ดู Attachment ที่อยู่ใน Assignment ที่เลือก
-Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ที่ส่งมาโดยเลือกจาก project_id (Teacher ใช้) 
-Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ที่ส่งมา (AA ใช้)
-Route::get('/send_assignment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ที่ส่งมาโดยเลือกจาก project_id (AA ใช้) 
+Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAssignment'); // ดู assignment ตามที่เลือก
+Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ตาม Id (Teacher ใช้) 
+Route::get('/send_assignment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ตาม Id (AA ใช้) 
 
 
 
