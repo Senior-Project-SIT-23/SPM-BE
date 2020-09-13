@@ -457,18 +457,18 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                             ->update(['score' => $value['score']]);
                     }
                 }
-                //
+                //รวมคะแนน
 
-                // $total_num_assessment = $num_of_criteria * $num_of_responsible_assignment;
-                // $num_of_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
-                //     ->where('project_id', $data['project_id'])->get();
-                // if ($total_num_assessment == $num_of_assessment) {
-                //     $get_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
-                //         ->where('project_id', $data['project_id'])->get();
-                //     foreach ($get_assessment as $value) {
-                //         $temp_score = $value->score;
-                //     }
-                // }
+                $total_num_assessment = $num_of_criteria * $num_of_responsible_assignment;
+                $num_of_assessment = count(AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+                    ->where('project_id', $data['project_id'])->get());
+                if ($total_num_assessment == $num_of_assessment) {
+                    $get_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
+                        ->where('project_id', $data['project_id'])->sum('score');
+                    StudentAssignment::where('assignment_id', $data['assignment_id'])
+                    ->where('project_id', $data['project_id'])
+                    ->update(['total_score' => $get_assessment/$num_of_responsible_assignment]);
+                }
 
                 //
                 $old_feedback = Feedback::where('assignment_id', $data['assignment_id'])
@@ -484,7 +484,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 } else {
                     Feedback::where('assignment_id', $data['assignment_id'])
                         ->where('project_id', $data['project_id'])
-                        ->update(['feedback.feeback_detail' => $data['feedback']]);
+                        ->update(['feedback.feedback_detail' => $data['feedback']]);
                 }
             } else {
                 return 'Num of Criteria is not math';
