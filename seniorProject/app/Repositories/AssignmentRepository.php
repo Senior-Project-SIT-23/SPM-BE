@@ -331,11 +331,19 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             }
         }
 
-        $status = new StudentAssignment;
-        $status->status = $data['status'];
-        $status->assignment_id = $data['assignment_id'];
-        $status->project_id = $project_id;
-        $status->save();
+        $old_student_assignment = StudentAssignment::where('project_id', $project_id)
+            ->where('assignment_id', $data['assignment_id'])->first();
+        if ($old_student_assignment != null) {
+            StudentAssignment::where('project_id', $project_id)
+                ->where('assignment_id', $data['assignment_id'])
+                ->update(['status' => $data['status']]);
+        } else {
+            $status = new StudentAssignment;
+            $status->status = $data['status'];
+            $status->assignment_id = $data['assignment_id'];
+            $status->project_id = $project_id;
+            $status->save();
+        }
     }
 
     public function getSendAssignmentByTeacher($assignment_id, $teacher_id)
@@ -466,8 +474,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                     $get_assessment = AssessmentAssignment::where('assignment_id', $data['assignment_id'])
                         ->where('project_id', $data['project_id'])->sum('score');
                     StudentAssignment::where('assignment_id', $data['assignment_id'])
-                    ->where('project_id', $data['project_id'])
-                    ->update(['total_score' => $get_assessment/$num_of_responsible_assignment]);
+                        ->where('project_id', $data['project_id'])
+                        ->update(['total_score' => $get_assessment / $num_of_responsible_assignment]);
                 }
 
                 //
