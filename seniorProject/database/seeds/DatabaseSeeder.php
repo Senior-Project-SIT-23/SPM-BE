@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AASeeder::class);
         // $this->call(ProjectSeeder::class);
         $this->call(RubricSeeder::class);
+        $this->call(AssignmentSeeder::class);
+
     }
 }
