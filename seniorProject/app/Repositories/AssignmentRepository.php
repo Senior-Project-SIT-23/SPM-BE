@@ -43,7 +43,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     {
         $assignment = Assignment::where('assignment_id', $data['assignment_id'])->first();
         $rubric_id = $assignment->rubric_id;
-        
+
         foreach ($data['delete_responsible_teacher'] as $value) {
             if ($value) {
                 ResponsibleAssignment::where('responsible_assignment.assignment_id', $data['assignment_id'])
@@ -500,6 +500,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 } else {
                     Feedback::where('assignment_id', $data['assignment_id'])
                         ->where('project_id', $data['project_id'])
+                        ->where('teacher_id', $teacher_id)
                         ->update(['feedback.feedback_detail' => $data['feedback']]);
                 }
             } else {
