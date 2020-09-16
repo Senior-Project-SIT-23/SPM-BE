@@ -84,6 +84,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         if ($rubric_id != $data['rubric_id']) {
             AssessmentAssignment::where('assignment_id', $data['assignment_id'])->delete();
+            StudentAssignment::where('assignment_id', $data['assignment_id'])
+                ->update(['total_score' => null]);
         }
     }
 

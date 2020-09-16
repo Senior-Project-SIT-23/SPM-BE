@@ -16,7 +16,6 @@ class AssessmentAssignment extends Migration
         Schema::create('assessment_assignment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('score');
-            $table->integer('total_score_criteria')->nullable();
             $table->bigInteger('criteria_id')->unsigned();
             $table->bigInteger('assignment_id')->unsigned();
             $table->bigInteger('responsible_assignment_id')->unsigned();
