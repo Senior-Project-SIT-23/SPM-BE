@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use AnnouncementFile;
 use Illuminate\Database\Eloquent\Model;
 
 class AA extends Model
@@ -10,6 +11,11 @@ class AA extends Model
 
     public function reponsible_aa_group()
     {
-        return $this->hasMany(ResponsibleAAGroup::class,'aa_id');
+        return $this->hasMany(ResponsibleAAGroup::class, 'aa_id');
+    }
+
+    public function announcement()
+    {
+        return $this->hasMany(Announcement::class, 'aa_id');
     }
 }

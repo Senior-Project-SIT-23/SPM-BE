@@ -201,11 +201,13 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->get();;
         $feedback = Feedback::where('assignment_id', $assignment_id)->get();
         $student = Group::where('student_id', $student_id)->first();
-        $status = StudentAssignment::where('project_id', $student->project_id)
+        $project_id = $student->project_id;
+        $status = StudentAssignment::where('project_id', $project_id)
             ->where('assignment_id', $assignment_id)->first();
-        $file_assignment = SendAssignment::where('project_id', $student->project_id)
+        $file_assignment = SendAssignment::where('project_id', $project_id)
             ->where('assignment_id', $assignment_id)->get();
-
+        $assesment = AssessmentAssignment::where('assignment_id', $assignment_id)
+            ->where('project_id', $project_id)->get();
 
         $assignment->attachment = $attachment;
         $assignment->teacher = $teacher;
@@ -214,6 +216,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->status = $status;
         $assignment->file_assignment = $file_assignment;
         $assignment->feedback = $feedback;
+        $assignment->assessment = $assesment;
 
         return $assignment;
     }
@@ -270,7 +273,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function addAttachment($data)
     {
-        $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])->first();
+        $assignment = Assignment::where('assignments.assignment_title', $data['assignment_title'])
+            ->where('assignments.assignment_detail', $data['assignment_detail'])
+            ->where('assignments.due_date', $data['due_date'])
+            ->where('assignments.due_time', $data['due_time'])
+            ->where('assignments.rubric_id', $data['rubric_id'])
+            ->first();
         $assignment_id = $assignment->assignment_id;
         foreach ($data['attachment'] as $values) {
             if ($values) {

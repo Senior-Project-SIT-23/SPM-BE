@@ -22,4 +22,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Assignment::class, 'teacher_id');
     }
+
+    public function announcement()
+    {
+        return $this->hasMany(Announcement::class, 'teacher_id');
+    }
 }

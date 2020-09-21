@@ -50,7 +50,7 @@ Route::post('/attachments/delete', 'AssignmentController@deleteAttachment'); //�
 Route::post('/send_assignment', 'AssignmentController@storeSendAssignment'); //นศ ส่ง assignment
 Route::post('/rubric/edit', 'AssignmentController@editRubric'); //แก้ไข Rubric
 Route::post('/assignments/edit', 'AssignmentController@editAssignment'); //แก้ไข assignment
-Route::post('/assessment','AssignmentController@storeAssessment'); // ให้คะแนน assignment
+Route::post('/assessment', 'AssignmentController@storeAssessment'); // ให้คะแนน assignment
 
 Route::get('/assignments', 'AssignmentController@indexAllAssignment'); //ดู Assignment ทั้งหมด
 Route::get('/assignments/{assignment_id}/{student_id}', 'AssignmentController@indexStudentAssignment'); //ดู Assignment ที่ student เลือก 
@@ -64,10 +64,18 @@ Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAs
 Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ตาม Id (Teacher ใช้) 
 Route::get('/assessment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ตาม Id (Teacher, AA ใช้) 
 
-
-
 //Test
-Route::post('/attachments', 'AssignmentController@storeAttachment');//สร้าง Attachment
+Route::post('/attachments', 'AssignmentController@storeAttachment'); //สร้าง Attachment
+
+
+//Announcement
+Route::post('/announcement', 'AnnouncementController@storeAnnoucement'); // สร้าง Announcement
+Route::post('announcement/edit', 'AnnouncementController@editAnnoucement'); // แก้ไข Announcement
+Route::post('announcement/delete', 'AnnouncementController@deleteAnnoucement'); // ลบ Announcement
+
+Route::get('/announcement', 'AnnouncementController@indexAllAnnoucement'); // ดูAnnouncement
+Route::get('/announcement/{announcement_id}', 'AnnouncementController@indexAnnoucement'); // ดูAnnouncement
+
 
 
 
