@@ -18,28 +18,28 @@ class RubricSeeder extends Seeder
         $rubrics = (array)array(
             [
                 'rubric_id' => '1',
-                'rubric_title' => 'Rubric1'
+                'rubric_title' => 'Programing Clinic'
             ],
             [
                 'rubric_id' => '2',
-                'rubric_title' => 'Rubric2'
+                'rubric_title' => 'Midterm Exam'
             ]
         );
 
         $criterias = (array)array(
             [
                 'criteria_id' => '1',
-                'criteria_name' => 'R1 Criteria1',
+                'criteria_name' => 'Documents',
                 'rubric_id' => '1'
             ],
             [
                 'criteria_id' => '2',
-                'criteria_name' => 'R2 Criteria1',
+                'criteria_name' => 'Presentation',
                 'rubric_id' => '2'
             ],
             [
                 'criteria_id' => '3',
-                'criteria_name' => 'R2 Criteria2',
+                'criteria_name' => 'Progress of Senior Project',
                 'rubric_id' => '2'
             ]
         );
@@ -47,44 +47,60 @@ class RubricSeeder extends Seeder
         $criteria_details = (array)array(
             [
                 'criteria_detail_id' => '1',
-                'criteria_detail' => 'Novice',
+                'criteria_detail' => 'Bad',
                 'criteria_id' => '1'
             ],
             [
                 'criteria_detail_id' => '2',
-                'criteria_detail' => 'Advance Beginer',
+                'criteria_detail' => 'Normal',
                 'criteria_id' => '1'
             ],
             [
                 'criteria_detail_id' => '3',
-                'criteria_detail' => 'Competent Performer',
+                'criteria_detail' => 'Good',
                 'criteria_id' => '1'
             ],
             [
                 'criteria_detail_id' => '4',
-                'criteria_detail' => 'Proficient Performer',
+                'criteria_detail' => 'Excellent',
                 'criteria_id' => '1'
             ],
             [
                 'criteria_detail_id' => '5',
-                'criteria_detail' => 'Expert',
-                'criteria_id' => '1'
+                'criteria_detail' => 'Novice',
+                'criteria_id' => '2'
             ],
             [
                 'criteria_detail_id' => '6',
-                'criteria_detail' => 'Bad',
+                'criteria_detail' => 'Competent Performer',
                 'criteria_id' => '2'
             ],
             [
                 'criteria_detail_id' => '7',
-                'criteria_detail' => 'Good',
+                'criteria_detail' => 'Proficient Performer',
                 'criteria_id' => '2'
             ],
             [
                 'criteria_detail_id' => '8',
-                'criteria_detail' => 'Easy',
+                'criteria_detail' => 'Expert',
+                'criteria_id' => '2'
+            ],
+            [
+                'criteria_detail_id' => '9',
+                'criteria_detail' => 'Bad',
+                'criteria_id' => '3'
+            ],
+            [
+                'criteria_detail_id' => '10',
+                'criteria_detail' => 'Normal',
+                'criteria_id' => '3'
+            ],
+            [
+                'criteria_detail_id' => '11',
+                'criteria_detail' => 'Good',
                 'criteria_id' => '3'
             ]
+
         );
 
         $criteria_scores = (array)array(
@@ -95,27 +111,27 @@ class RubricSeeder extends Seeder
             ],
             [
                 'criteria_score_id' => '2',
-                'criteria_score' => '40',
+                'criteria_score' => '50',
                 'criteria_detail_id' => '2'
             ],
             [
                 'criteria_score_id' => '3',
-                'criteria_score' => '60',
+                'criteria_score' => '80',
                 'criteria_detail_id' => '3'
             ],
             [
                 'criteria_score_id' => '4',
-                'criteria_score' => '60',
+                'criteria_score' => '100',
                 'criteria_detail_id' => '4'
             ],
             [
                 'criteria_score_id' => '5',
-                'criteria_score' => '100',
+                'criteria_score' => '20',
                 'criteria_detail_id' => '5'
             ],
             [
                 'criteria_score_id' => '6',
-                'criteria_score' => '20',
+                'criteria_score' => '50',
                 'criteria_detail_id' => '6'
             ],
             [
@@ -125,9 +141,24 @@ class RubricSeeder extends Seeder
             ],
             [
                 'criteria_score_id' => '8',
-                'criteria_score' => '50',
+                'criteria_score' => '100',
                 'criteria_detail_id' => '8'
             ],
+            [
+                'criteria_score_id' => '9',
+                'criteria_score' => '20',
+                'criteria_detail_id' => '9'
+            ],
+            [
+                'criteria_score_id' => '10',
+                'criteria_score' => '50',
+                'criteria_detail_id' => '10'
+            ],
+            [
+                'criteria_score_id' => '11',
+                'criteria_score' => '80',
+                'criteria_detail_id' => '11'
+            ]
         );
 
         foreach ($rubrics as $rubric) {

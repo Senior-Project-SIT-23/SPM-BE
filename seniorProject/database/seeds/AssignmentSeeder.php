@@ -16,8 +16,8 @@ class AssignmentSeeder extends Seeder
         $assignments = (array) array(
             [
                 'assignment_id' => '1',
-                'assignment_title' => 'Assignment1',
-                'assignment_detail' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'assignment_title' => 'Programing Clinic: Midterm',
+                'assignment_detail' => 'งานของ Programming Clinic ที่จะส่งปลายภาคนักศึกษาสามารถศึกษาและดูตัวอย่างแผนภาพ Package Diagram ตามไฟล์ประกอบใน Assignment',
                 'due_date' => '2020-6-5',
                 'due_time' => '20:00',
                 'date_time' => '2020-6-5 20:00',
@@ -26,8 +26,8 @@ class AssignmentSeeder extends Seeder
             ],
             [
                 'assignment_id' => '2',
-                'assignment_title' => 'Assignment2',
-                'assignment_detail' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'assignment_title' => 'Midterm กรรมการสอบ',
+                'assignment_detail' => 'กรรมการห้องสอบ (30 คะแนน) (กลางภาค 10 คะแนน / ปลายภาค 20 คะแนน) ภาพรวมของงาน 20 คะแนน (สัดส่วน 80% ของคะแนน) การนำเสนอ 10 คะแนน (สัดส่วน 10%), การตอบคำถาม 10 คะแนน (สัดส่วน 10%)',
                 'due_date' => '2020-11-9',
                 'due_time' => '20:00',
                 'date_time' => '2020-11-9 20:00',
