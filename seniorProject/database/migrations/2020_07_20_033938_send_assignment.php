@@ -17,6 +17,7 @@ class SendAssignment extends Migration
             $table->bigIncrements('send_assignment_id');
             $table->string('send_assignment_name',100);
             $table->string('send_assignment',200);
+            $table->string('keep_file_name',100);
             $table->bigInteger('assignment_id')->unsigned();
             $table->string('project_id',10);
             $table->timestamps();

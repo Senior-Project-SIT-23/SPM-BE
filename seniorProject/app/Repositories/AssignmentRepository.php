@@ -325,12 +325,14 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 if ($values) {
                     $send_assignment = new SendAssignment;
                     $temp = $values->getClientOriginalName();
+                    $temp_name = pathinfo($temp, PATHINFO_FILENAME);
                     $assignment_id = $data['assignment_id'];
-                    // $extension = pathinfo($temp, PATHINFO_EXTENSION);
-                    $custom_file_name = $project_id . "_" . "$assignment_id" . "_" . "$temp";
+                    $extension = pathinfo($temp, PATHINFO_EXTENSION);
+                    $custom_file_name = $project_id . "_" . "$assignment_id" . "_" . "$temp_name" . "_" . $this->incrementalHash() . ".$extension";
                     $path = $values->storeAs('/send_assignment', $custom_file_name);
                     $send_assignment->send_assignment = $path;
-                    $send_assignment->send_assignment_name = $custom_file_name;
+                    $send_assignment->send_assignment_name = $temp;
+                    $send_assignment->keep_file_name = $custom_file_name;
                     $send_assignment->assignment_id = $data['assignment_id'];
                     $send_assignment->project_id = $project_id;
                     $send_assignment->save();
@@ -341,10 +343,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         if ($data['delete_file_assignment']) {
             foreach ($data['delete_file_assignment'] as $values) {
                 if ($values) {
-                    $name = SendAssignment::where('send_assignment_id', $values)->first();
-                    $send_assignment_name = $name->send_assignment_name;
+                    $send_assignment = SendAssignment::where('send_assignment_id', $values)->first();
+                    $keep_file_name = $send_assignment->keep_file_name;
                     SendAssignment::where('send_assignment_id', $values)->delete();
-                    unlink(storage_path('app/send_assignment/' . $send_assignment_name));
+                    unlink(storage_path('app/send_assignment/' . $keep_file_name));
                 }
             }
         }
