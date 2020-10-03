@@ -500,21 +500,23 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 }
 
                 //
-                $old_feedback = Feedback::where('assignment_id', $data['assignment_id'])
-                    ->where('project_id', $data['project_id'])
-                    ->where('teacher_id', $teacher_id)->first();
-                if ($old_feedback == null) {
-                    $feedback = new Feedback;
-                    $feedback->feedback_detail = $data['feedback'];
-                    $feedback->project_id = $data['project_id'];
-                    $feedback->assignment_id = $data['assignment_id'];
-                    $feedback->teacher_id = $teacher_id;
-                    $feedback->save();
-                } else {
-                    Feedback::where('assignment_id', $data['assignment_id'])
+                if ($data['feedback']) {
+                    $old_feedback = Feedback::where('assignment_id', $data['assignment_id'])
                         ->where('project_id', $data['project_id'])
-                        ->where('teacher_id', $teacher_id)
-                        ->update(['feedback.feedback_detail' => $data['feedback']]);
+                        ->where('teacher_id', $teacher_id)->first();
+                    if ($old_feedback == null) {
+                        $feedback = new Feedback;
+                        $feedback->feedback_detail = $data['feedback'];
+                        $feedback->project_id = $data['project_id'];
+                        $feedback->assignment_id = $data['assignment_id'];
+                        $feedback->teacher_id = $teacher_id;
+                        $feedback->save();
+                    } else {
+                        Feedback::where('assignment_id', $data['assignment_id'])
+                            ->where('project_id', $data['project_id'])
+                            ->where('teacher_id', $teacher_id)
+                            ->update(['feedback.feedback_detail' => $data['feedback']]);
+                    }
                 }
             } else {
                 return 'Num of Criteria is not math';
