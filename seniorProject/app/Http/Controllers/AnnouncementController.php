@@ -45,6 +45,10 @@ class AnnouncementController extends Controller
             if ($has_attachment) {
                 $this->announcement->addAttachment($data);
             }
+
+            $status = 'create announcement';
+            $this->announcement->createNotification($data, $status);
+
             return response()->json('สำเร็จ', 200);
         } else if ($data['aa_id']) {
             $this->announcement->createAnnouncement($data);
@@ -53,6 +57,10 @@ class AnnouncementController extends Controller
             if ($has_attachment) {
                 $this->announcement->addAttachment($data);
             }
+
+            $status = 'create announcement';
+            $this->announcement->createNotification($data, $status);
+
             return response()->json('สำเร็จ', 200);
         } else {
             return response()->json('Have to teacher_id or aa_id only one!!', 500);
@@ -84,6 +92,9 @@ class AnnouncementController extends Controller
         if ($has_attachment) {
             $this->announcement->addAttachment($data);
         }
+
+        $status = 'edit announcement';
+        $this->announcement->createNotification($data, $status);
 
         return response()->json('สำเร็จ', 200);
     }

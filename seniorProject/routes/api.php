@@ -64,10 +64,6 @@ Route::get('/send_assignment/{assignment_id}', 'AssignmentController@indexSendAs
 Route::get('/send_assignment/{assignment_id}/teacher/{teacher_id}', 'AssignmentController@indexSendAssignmentByProjecdIdAndTeacherId'); // ดู assignment ตาม Id (Teacher ใช้) 
 Route::get('/assessment/{assignment_id}/{project_id}', 'AssignmentController@indexSendAssignmentByProjecdId'); // ดู assignment ตาม Id (Teacher, AA ใช้) 
 
-//Test
-Route::post('/attachments', 'AssignmentController@storeAttachment'); //สร้าง Attachment
-
-
 //Announcement
 Route::post('/announcement', 'AnnouncementController@storeAnnoucement'); // สร้าง Announcement
 Route::post('announcement/edit', 'AnnouncementController@editAnnoucement'); // แก้ไข Announcement
@@ -76,7 +72,11 @@ Route::post('announcement/delete', 'AnnouncementController@deleteAnnoucement'); 
 Route::get('/announcement', 'AnnouncementController@indexAllAnnoucement'); // ดูAnnouncement
 Route::get('/announcement/{announcement_id}', 'AnnouncementController@indexAnnoucement'); // ดูAnnouncement
 
+//Notification
+Route::get('/notification/{student_id}', 'SPMConfigController@indexNotification'); //ดู Notification ทั้งหมด
 
+//Test
+Route::post('/attachments', 'AssignmentController@storeAttachment'); //สร้าง Attachment
 
 
 //get => ใช้สำหรับขอข้อมูล

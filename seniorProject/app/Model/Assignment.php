@@ -36,4 +36,9 @@ class Assignment extends Model
     {
         return $this->hasMany(SendAssignment::class, 'assignment_id');
     }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'assignment_id');
+    }
 }

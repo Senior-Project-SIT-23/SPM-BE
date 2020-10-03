@@ -46,6 +46,9 @@ class AssignmentController extends Controller
             $this->assignment->addAttachment($data);
         }
 
+        $status = 'create assignment : ';
+        $this->assignment->createNotification($data,$status);
+
         return response()->json('สำเร็จ', 200);
     }
 
@@ -71,6 +74,9 @@ class AssignmentController extends Controller
         if ($has_attachment) {
             $this->assignment->addAttachment($data);
         }
+
+        $status = 'edit assignment : ';
+        $this->assignment->createNotification($data,$status);
 
         return response()->json('สำเร็จ', 200);
     }

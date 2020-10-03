@@ -23,4 +23,9 @@ class Announcement extends Model
     {
         return $this->hasMany(AnnouncementFile::class, 'announcement_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'announcement_id');
+    }
 }

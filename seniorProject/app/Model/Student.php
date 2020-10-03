@@ -10,6 +10,11 @@ class Student extends Model
 
     public function groups()
     {
-        return $this->belongsTo(Group::class,'student_id');
+        return $this->belongsTo(Group::class, 'student_id');
+    }
+
+    public function student_notifications()
+    {
+        return $this->hasMany(StudentNotification::class, 'student_id');
     }
 }

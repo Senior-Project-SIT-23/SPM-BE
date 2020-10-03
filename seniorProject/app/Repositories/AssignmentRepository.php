@@ -12,6 +12,7 @@ use App\Model\CriteriaDetail;
 use App\Model\CriteriaScore;
 use App\Model\Feedback;
 use App\Model\Group;
+use App\Model\Notification;
 use App\Model\SendAssignment;
 use App\Model\StudentAssignment;
 use App\Model\Teacher;
@@ -522,6 +523,25 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 return 'Num of Criteria is not math';
             }
         }
+    }
+
+    public function createNotification($data, $status)
+    {
+        $assignment = Assignment::where('assignment_title', $data['assignment_title'])
+            ->where('due_date', $data['due_date'])
+            ->where('due_time', $data['due_time'])
+            ->where('teacher_id', $data['teacher_id'])
+            ->where('rubric_id', $data['rubric_id'])->first();
+
+        $teacher_id = $assignment->teacher_id;
+        $teacher = Teacher::where('teacher_id', $teacher_id)->first();
+        $teacher_name = $teacher->teacher_name;
+
+        $notification = new Notification();
+        $notification->notification_detail = $teacher_name . " " . $status . " " . $data['assignment_title'];
+        $assignment_id = $assignment->assignment_id;
+        $notification->assignment_id = $assignment_id;
+        $notification->save();
     }
 
     //Random ตัวอักษร

@@ -27,6 +27,7 @@ interface AssignmentRepositoryInterface
     public function getSendAssignment($assignment_id);
     public function getSendAssignmentByProjecdId($assignment_id, $project_id);
     public function createAssessment($data);
+    public function createNotification($data,$status);
 
     //Test
     public function createAttachment($data);

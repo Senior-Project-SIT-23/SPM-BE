@@ -2,8 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Model\AA;
 use App\Model\Announcement;
 use App\Model\AnnouncementFile;
+use App\Model\Assignment;
+use App\Model\Teacher;
+use App\Model\Notification;
 
 class AnnouncementRepository implements AnnouncementRepositoryInterface
 {
@@ -87,6 +91,32 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
 
         $announcement->attachment = $announcement_file;
         return $announcement;
+    }
+
+    public function createNotification($data, $status)
+    {
+        $announcement = Announcement::where('announcement_title', $data['announcement_title'])
+            ->where('announcement_detail', $data['announcement_detail'])->first();
+
+        $teacher_id = $announcement->teacher_id;
+        $aa_id = $announcement->aa_id;
+        if ($teacher_id) {
+            $teacher = Teacher::where('teacher_id', $teacher_id)->first();
+            $teacher_name = $teacher->teacher_name;
+            $notification = new Notification();
+            $notification->notification_detail = $teacher_name . " " . $status . " " . $data['announcement_title'];
+            $announcement_id = $announcement->announcement_id;
+            $notification->announcement_id = $announcement_id;
+            $notification->save();
+        } else if ($aa_id) {
+            $aa = AA::where('aa_id', $aa_id)->first();
+            $aa_name = $aa->aa_name;
+            $notification = new Notification();
+            $notification->notification_detail = $aa_name . " " . $status . " " . $data['announcement_title'];
+            $announcement_id = $announcement->announcement_id;
+            $notification->announcement_id = $announcement_id;
+            $notification->save();
+        }
     }
 
 
