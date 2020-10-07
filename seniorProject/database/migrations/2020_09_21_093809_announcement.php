@@ -17,6 +17,7 @@ class Announcement extends Migration
             $table->bigIncrements('announcement_id')->unsigned();
             $table->string('announcement_title',200);
             $table->string('announcement_detail',5000);
+            $table->date('announcement_date');
             $table->string('teacher_id',20)->nullable();
             $table->string('aa_id',20)->nullable();
             $table->timestamps();

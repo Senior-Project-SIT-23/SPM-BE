@@ -66,13 +66,14 @@ Route::get('/assessment/{assignment_id}/{project_id}', 'AssignmentController@ind
 
 //Announcement
 Route::post('/announcement', 'AnnouncementController@storeAnnoucement'); // สร้าง Announcement
-Route::post('announcement/edit', 'AnnouncementController@editAnnoucement'); // แก้ไข Announcement
-Route::post('announcement/delete', 'AnnouncementController@deleteAnnoucement'); // ลบ Announcement
+Route::post('/announcement/edit', 'AnnouncementController@editAnnoucement'); // แก้ไข Announcement
+Route::post('/announcement/delete', 'AnnouncementController@deleteAnnoucement'); // ลบ Announcement
 
 Route::get('/announcement', 'AnnouncementController@indexAllAnnoucement'); // ดูAnnouncement
 Route::get('/announcement/{announcement_id}', 'AnnouncementController@indexAnnoucement'); // ดูAnnouncement
 
 //Notification
+Route::post('/notification', 'SPMConfigController@storeNotification'); //กดดู Notification เพื่อเก็บว่าดูรึยัง
 Route::get('/notification/{student_id}', 'SPMConfigController@indexNotification'); //ดู Notification ทั้งหมด
 
 //Test

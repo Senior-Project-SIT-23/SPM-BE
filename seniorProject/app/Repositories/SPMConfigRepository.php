@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Model\Notification;
 use App\Model\SPMConfig;
 use App\Model\Student;
+use App\Model\StudentNotification;
 
 class SPMConfigRepository implements SPMConfigRepositoryInterface
 {
@@ -46,8 +47,27 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
 
         $notification = Notification::all();
 
-        $student->notification = $notification;
+        $student_notification = StudentNotification::where('student_id', $student_id)->get();
+
+        $num_of_unread = count($notification) - count($student_notification);
+
+        
+
+        $student->num_of_unread_notification = $num_of_unread;
+        $student->all_notification = $notification;
+        $student->read_notification = $student_notification;
+        // $student->test = $test;
 
         return $student;
+    }
+
+    public function readNotification($data)
+    {
+        foreach ($data['notification_id'] as $value) {
+            $student_notification = new StudentNotification;
+            $student_notification->notification_id = $value;
+            $student_notification->student_id = $data['student_id'];
+            $student_notification->save();
+        }
     }
 }

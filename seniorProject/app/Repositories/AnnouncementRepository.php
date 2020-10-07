@@ -16,6 +16,7 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
         $announcement = new Announcement;
         $announcement->announcement_title = $data['announcement_title'];
         $announcement->announcement_detail = $data['announcement_detail'];
+        $announcement->announcement_date = $data['announcement_date'];
 
         if ($data['teacher_id']) {
             $announcement->teacher_id = $data['teacher_id'];

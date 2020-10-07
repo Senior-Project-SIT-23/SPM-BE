@@ -77,7 +77,8 @@ class AnnouncementController extends Controller
         $validator =  Validator::make($request->all(), [
             'announcement_id' => 'required',
             'announcement_title' => 'required',
-            'announcement_detail' => 'required'
+            'announcement_detail' => 'required',
+            'announcement_date' => 'required',
         ], $messages);
 
         if ($validator->fails()) {

@@ -19,7 +19,6 @@ class SPMConfigController extends Controller
 
     public function storeConfig(Request $request)
     {
-
         $messages = [
             'required' => 'The :attribute field is required.',
         ];
@@ -56,5 +55,25 @@ class SPMConfigController extends Controller
     {
         $notification = $this->spmConfig->getNotification($student_id);
         return response()->json($notification, 200);
+    }
+
+    public function storeNotification(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล
+        $validator =  Validator::make($request->all(), [
+            'notification_id' => 'required',
+            'student_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+        $data = $request->all();
+        $this->spmConfig->readNotification($data);
+        return response()->json('สำเร็จ', 200);
     }
 }
