@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(ProjectSeeder::class);
         $this->call(RubricSeeder::class);
         $this->call(AssignmentSeeder::class);
-
+        $this->call(AnnouncementSeeder::class);
     }
 }
