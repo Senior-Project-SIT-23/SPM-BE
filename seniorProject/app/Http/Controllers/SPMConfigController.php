@@ -51,13 +51,13 @@ class SPMConfigController extends Controller
         return response()->json($config, 200);
     }
 
-    public function indexNotification($student_id)
+    public function indexStudentNotification($student_id)
     {
-        $notification = $this->spmConfig->getNotification($student_id);
+        $notification = $this->spmConfig->getStudentNotification($student_id);
         return response()->json($notification, 200);
     }
 
-    public function storeNotification(Request $request)
+    public function storeStudentNotification(Request $request)
     {
         $messages = [
             'required' => 'The :attribute field is required.',
@@ -73,7 +73,7 @@ class SPMConfigController extends Controller
             return response()->json($validator->errors(), 500);
         }
         $data = $request->all();
-        $this->spmConfig->readNotification($data);
+        $this->spmConfig->readStudentNotification($data);
         return response()->json('สำเร็จ', 200);
     }
 }

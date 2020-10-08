@@ -27,4 +27,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Announcement::class, 'teacher_id');
     }
+
+    public function teachers_notification()
+    {
+        return $this->hasMany(TeacherNotification::class, 'teacher_id');
+    }
 }

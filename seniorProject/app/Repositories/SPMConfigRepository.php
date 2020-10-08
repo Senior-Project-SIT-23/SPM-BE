@@ -42,7 +42,7 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
 
 
     //Notification
-    public function getNotification($student_id)
+    public function getStudentNotification($student_id)
     {
         $student = Student::where('student_id', $student_id)->first();
 
@@ -62,18 +62,22 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
 
         $student->num_of_unread_notification = $num_of_unread;
         $student->notification = $notification;
-        // $student->read_notification = $student_notification;
 
         return $student;
     }
 
-    public function readNotification($data)
+    public function readStudentNotification($data)
     {
+
         foreach ($data['notification_id'] as $value) {
-            $student_notification = new StudentNotification;
-            $student_notification->notification_id_fk = $value;
-            $student_notification->student_id = $data['student_id'];
-            $student_notification->save();
+            $check_notification = StudentNotification::where('student_id', $data['student_id'])
+                ->where('notification_id_fk', $value)->first();
+            if (!$check_notification) {
+                $student_notification = new StudentNotification;
+                $student_notification->notification_id_fk = $value;
+                $student_notification->student_id = $data['student_id'];
+                $student_notification->save();
+            }
         }
     }
 }

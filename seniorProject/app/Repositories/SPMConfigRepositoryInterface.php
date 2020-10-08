@@ -8,6 +8,6 @@ interface SPMConfigRepositoryInterface
     public function getConfig();
     public function getConfigByYear($year_of_study);
 
-    public function getNotification($student_id);
-    public function readNotification($data);
+    public function getStudentNotification($student_id);
+    public function readStudentNotification($data);
 }
