@@ -73,8 +73,16 @@ Route::get('/announcement', 'AnnouncementController@indexAllAnnoucement'); // �
 Route::get('/announcement/{announcement_id}', 'AnnouncementController@indexAnnoucement'); // ดูAnnouncement
 
 //Notification
-Route::post('/notification', 'SPMConfigController@storeStudentNotification'); //กดดู Notification เพื่อเก็บว่าดูรึยัง
-Route::get('/notification/{student_id}', 'SPMConfigController@indexStudentNotification'); //ดู Notification ทั้งหมด
+Route::post('/notification/student', 'SPMConfigController@storeStudentNotification'); //กดดู Notification ของ Student 
+Route::post('/notification/teacher', 'SPMConfigController@storeTeacherNotification'); //กดดู Notification ของ Teacher
+Route::post('/notification/aa', 'SPMConfigController@storeAANotification'); //กดดู Notification ของ Teacher
+
+Route::group(array('prefix' => 'notification'), function () {
+    Route::get('/student/{student_id}', 'SPMConfigController@indexStudentNotification'); // ดู Notification ของ Student ทั้งหมด
+    Route::get('/teacher/{teacher_id}', 'SPMConfigController@indexTeacherNotification'); //ดู Notification ของ Teacher ทั้งหมด
+    Route::get('/aa/{aa_id}', 'SPMConfigController@indexAANotification'); //ดู Notification ของ AA ทั้งหมด
+});
+
 
 //Test
 Route::post('/attachments', 'AssignmentController@storeAttachment'); //สร้าง Attachment

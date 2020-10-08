@@ -16,7 +16,7 @@ class TeacherNotifications extends Migration
         Schema::create('teacher_notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('notification_id_fk')->unsigned();
-            $table->string('teacher_id');
+            $table->string('teacher_id', 20);
             $table->timestamps();
 
             $table->foreign('notification_id_fk')->references('notification_id')->on('notifications');

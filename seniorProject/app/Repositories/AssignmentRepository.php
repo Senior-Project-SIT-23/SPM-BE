@@ -525,7 +525,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         }
     }
 
-    public function createNotification($data, $status)
+    public function createStudentNotification($data, $status)
     {
         $assignment = Assignment::where('assignment_title', $data['assignment_title'])
             ->where('due_date', $data['due_date'])
@@ -538,7 +538,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $teacher_name = $teacher->teacher_name;
 
         $notification = new Notification();
-        $notification->notification_detail = $teacher_name . " " . $status . " " . $data['assignment_title'];
+        $notification->notification_creater = $teacher_name;
+        $notification->notification_detail = $status . " : " . $data['assignment_title'];
         $assignment_id = $assignment->assignment_id;
         $notification->assignment_id = $assignment_id;
         $notification->save();

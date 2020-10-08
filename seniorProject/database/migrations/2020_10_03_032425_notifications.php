@@ -15,6 +15,7 @@ class Notifications extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('notification_id')->unsigned();
+            $table->string('notification_creater', 100);
             $table->text('notification_detail');
             $table->bigInteger('assignment_id')->unsigned()->nullable();
             $table->bigInteger('announcement_id')->unsigned()->nullable();

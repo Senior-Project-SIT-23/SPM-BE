@@ -16,13 +16,13 @@ class AASeeder extends Seeder
         $aas = (array) array(
             [
                 'aa_id' => '11',
-                'aa_name' => 'Pornthip',
+                'aa_name' => 'Pornthip Sirijutikul',
                 'aa_email' => 'pornthip@sit.kmutt.ac.th',
                 'department' => 'IT'
             ],
             [
                 'aa_id' => '12',
-                'aa_name' => 'Rapeeporn',
+                'aa_name' => 'Rapeeporn Phattaratummaruk',
                 'aa_email' => 'Rapeeporn@sit.kmutt.ac.th',
                 'department' => 'CS'
             ],
@@ -34,14 +34,13 @@ class AASeeder extends Seeder
             ]
         );
 
-        foreach($aas as $aa){
+        foreach ($aas as $aa) {
             $temp_aa = new AA;
-            $temp_aa->aa_id = Arr::get($aa,'aa_id');
-            $temp_aa->aa_name = Arr::get($aa,'aa_name');
-            $temp_aa->aa_email = Arr::get($aa,'aa_email');
-            $temp_aa->department = Arr::get($aa,'department');
+            $temp_aa->aa_id = Arr::get($aa, 'aa_id');
+            $temp_aa->aa_name = Arr::get($aa, 'aa_name');
+            $temp_aa->aa_email = Arr::get($aa, 'aa_email');
+            $temp_aa->department = Arr::get($aa, 'department');
             $temp_aa->save();
         }
-
     }
 }

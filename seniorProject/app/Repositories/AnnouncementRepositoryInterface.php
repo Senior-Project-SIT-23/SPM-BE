@@ -10,6 +10,5 @@ interface AnnouncementRepositoryInterface
     public function getAnnouncement($announcement_id);
     public function editAnnoucement($data);
     public function deleteAnnoucement($data);
-    public function createNotification($data, $status);
+    public function createStudentNotification($data, $status);
 }
-

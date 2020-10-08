@@ -18,4 +18,9 @@ class AA extends Model
     {
         return $this->hasMany(Announcement::class, 'aa_id');
     }
+
+    public function aa_notifications()
+    {
+        return $this->hasMany(AANotification::class, 'aa_id');
+    }
 }

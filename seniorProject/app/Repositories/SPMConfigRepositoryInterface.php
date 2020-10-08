@@ -10,4 +10,8 @@ interface SPMConfigRepositoryInterface
 
     public function getStudentNotification($student_id);
     public function readStudentNotification($data);
+    public function getTeacherNotification($teacher_id);
+    public function readTeacherNotification($data);
+    public function getAANotification($aa_id);
+    public function readAANotification($data);
 }

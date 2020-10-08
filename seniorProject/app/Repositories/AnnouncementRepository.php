@@ -54,7 +54,8 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
         Announcement::where('announcement_id', $data['announcement_id'])
             ->update([
                 'announcement_title' => $data['announcement_title'],
-                'announcement_detail' => $data['announcement_detail']
+                'announcement_detail' => $data['announcement_detail'],
+                'announcement_date' => $data['announcement_date']
             ]);
         foreach ($data['delete_attachment'] as $values) {
             if ($values) {
@@ -94,7 +95,7 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
         return $announcement;
     }
 
-    public function createNotification($data, $status)
+    public function createStudentNotification($data, $status)
     {
         $announcement = Announcement::where('announcement_title', $data['announcement_title'])
             ->where('announcement_detail', $data['announcement_detail'])->first();
@@ -105,7 +106,8 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
             $teacher = Teacher::where('teacher_id', $teacher_id)->first();
             $teacher_name = $teacher->teacher_name;
             $notification = new Notification();
-            $notification->notification_detail = $teacher_name . " " . $status . " " . $data['announcement_title'];
+            $notification->notification_creater = $teacher_name;
+            $notification->notification_detail = $status . " : " . $data['announcement_title'];
             $announcement_id = $announcement->announcement_id;
             $notification->announcement_id = $announcement_id;
             $notification->save();

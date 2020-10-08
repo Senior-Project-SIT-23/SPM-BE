@@ -23,11 +23,11 @@ interface AssignmentRepositoryInterface
     public function getAttachmentByAssignmentID($assignment_id);
     public function deleteAttachment($data);
     public function sendAssignment($data);
-    public function getSendAssignmentByTeacher($assignment_id,$teacher_id);
+    public function getSendAssignmentByTeacher($assignment_id, $teacher_id);
     public function getSendAssignment($assignment_id);
     public function getSendAssignmentByProjecdId($assignment_id, $project_id);
     public function createAssessment($data);
-    public function createNotification($data,$status);
+    public function createStudentNotification($data, $status);
 
     //Test
     public function createAttachment($data);

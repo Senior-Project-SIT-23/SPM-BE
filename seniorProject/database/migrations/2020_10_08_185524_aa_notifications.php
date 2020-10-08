@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class StudentNotifications extends Migration
+class AaNotifications extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class StudentNotifications extends Migration
      */
     public function up()
     {
-        Schema::create('student_notifications', function (Blueprint $table) {
+        Schema::create('aa_notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('notification_id_fk')->unsigned();
-            $table->string('student_id', 20);
+            $table->string('aa_id', 20);
             $table->timestamps();
 
             $table->foreign('notification_id_fk')->references('notification_id')->on('notifications');
-            $table->foreign('student_id')->references('student_id')->on('students');
+            $table->foreign('aa_id')->references('aa_id')->on('aa');
         });
     }
 
@@ -31,6 +31,6 @@ class StudentNotifications extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_notifications');
+        Schema::dropIfExists('aa_notifications');
     }
 }

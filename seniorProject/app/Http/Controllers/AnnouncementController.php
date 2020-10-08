@@ -47,7 +47,7 @@ class AnnouncementController extends Controller
             }
 
             $status = 'create announcement';
-            $this->announcement->createNotification($data, $status);
+            $this->announcement->createStudentNotification($data, $status);
 
             return response()->json('สำเร็จ', 200);
         } else if ($data['aa_id']) {
@@ -59,7 +59,7 @@ class AnnouncementController extends Controller
             }
 
             $status = 'create announcement';
-            $this->announcement->createNotification($data, $status);
+            $this->announcement->createStudentNotification($data, $status);
 
             return response()->json('สำเร็จ', 200);
         } else {
@@ -95,7 +95,7 @@ class AnnouncementController extends Controller
         }
 
         $status = 'edit announcement';
-        $this->announcement->createNotification($data, $status);
+        $this->announcement->createStudentNotification($data, $status);
 
         return response()->json('สำเร็จ', 200);
     }

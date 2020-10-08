@@ -2,10 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Model\AA;
+use App\Model\AANotification;
 use App\Model\Notification;
 use App\Model\SPMConfig;
+use App\Model\Teacher;
 use App\Model\Student;
 use App\Model\StudentNotification;
+use App\Model\TeacherNotification;
 use PhpParser\ErrorHandler\Collecting;
 
 class SPMConfigRepository implements SPMConfigRepositoryInterface
@@ -47,15 +51,7 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
         $student = Student::where('student_id', $student_id)->first();
 
         $notification = Notification::leftJoin('student_notifications', 'student_notifications.notification_id_fk', '=', 'notifications.notification_id')->get();
-        foreach ($notification as $value) {
-            if (!$value['notification_id_fk']) {
-                $status = 'Unread';
-                $value->push('status');
-            } else {
-                $status = 'read';
-                $notification->status = $status;
-            }
-        }
+
         $student_notification = StudentNotification::where('student_id', $student_id)->get();
 
         $num_of_unread = count($notification) - count($student_notification);
@@ -68,7 +64,6 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
 
     public function readStudentNotification($data)
     {
-
         foreach ($data['notification_id'] as $value) {
             $check_notification = StudentNotification::where('student_id', $data['student_id'])
                 ->where('notification_id_fk', $value)->first();
@@ -77,6 +72,66 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
                 $student_notification->notification_id_fk = $value;
                 $student_notification->student_id = $data['student_id'];
                 $student_notification->save();
+            }
+        }
+    }
+
+    public function getTeacherNotification($teacher_id)
+    {
+        $teacher = Teacher::where('teacher_id', $teacher_id)->first();
+
+        $notification = Notification::leftJoin('teacher_notifications', 'teacher_notifications.notification_id_fk', '=', 'notifications.notification_id')->get();
+
+        $teacher_notification = TeacherNotification::where('teacher_id', $teacher_id)->get();
+
+        $num_of_unread = count($notification) - count($teacher_notification);
+
+        $teacher->num_of_unread_notification = $num_of_unread;
+        $teacher->notification = $notification;
+
+        return $teacher;
+    }
+
+    public function readTeacherNotification($data)
+    {
+        foreach ($data['notification_id'] as $value) {
+            $check_notification = TeacherNotification::where('teacher_id', $data['teacher_id'])
+                ->where('notification_id_fk', $value)->first();
+            if (!$check_notification) {
+                $teacher_notification = new TeacherNotification;
+                $teacher_notification->notification_id_fk = $value;
+                $teacher_notification->teacher_id = $data['teacher_id'];
+                $teacher_notification->save();
+            }
+        }
+    }
+
+    public function getAANotification($aa_id)
+    {
+        $aa = AA::where('aa_id', $aa_id)->first();
+
+        $notification = Notification::leftJoin('aa_notifications', 'aa_notifications.notification_id_fk', '=', 'notifications.notification_id')->get();
+
+        $aa_notification = AANotification::where('aa_id', $aa_id)->get();
+
+        $num_of_unread = count($notification) - count($aa_notification);
+
+        $aa->num_of_unread_notification = $num_of_unread;
+        $aa->notification = $notification;
+
+        return $aa;
+    }
+
+    public function readAANotification($data)
+    {
+        foreach ($data['notification_id'] as $value) {
+            $check_notification = AANotification::where('aa_id', $data['aa_id'])
+                ->where('notification_id_fk', $value)->first();
+            if (!$check_notification) {
+                $aa_notification = new AANotification;
+                $aa_notification->notification_id_fk = $value;
+                $aa_notification->aa_id = $data['aa_id'];
+                $aa_notification->save();
             }
         }
     }

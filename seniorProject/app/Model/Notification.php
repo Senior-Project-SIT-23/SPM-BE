@@ -22,4 +22,14 @@ class Notification extends Model
     {
         return $this->hasMany(StudentNotification::class, 'notification_id');
     }
+
+    public function teacher_notifications()
+    {
+        return $this->hasMany(TeacherNotification::class, 'notification_id');
+    }
+
+    public function aa_notifications()
+    {
+        return $this->hasMany(AANotification::class, 'notification_id');
+    }
 }

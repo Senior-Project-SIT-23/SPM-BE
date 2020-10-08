@@ -76,4 +76,56 @@ class SPMConfigController extends Controller
         $this->spmConfig->readStudentNotification($data);
         return response()->json('สำเร็จ', 200);
     }
+
+    public function indexTeacherNotification($teacher_id)
+    {
+        $notification = $this->spmConfig->getTeacherNotification($teacher_id);
+        return response()->json($notification, 200);
+    }
+
+    public function storeTeacherNotification(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล 
+        $validator =  Validator::make($request->all(), [
+            'notification_id' => 'required',
+            'teacher_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+        $data = $request->all();
+        $this->spmConfig->readTeacherNotification($data);
+        return response()->json('สำเร็จ', 200);
+    }
+
+    public function indexAANotification($aa_id)
+    {
+        $notification = $this->spmConfig->getAANotification($aa_id);
+        return response()->json($notification, 200);
+    }
+
+    public function storeAANotification(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+
+        //ตรวจสอบข้อมูล 
+        $validator =  Validator::make($request->all(), [
+            'notification_id' => 'required',
+            'aa_id' => 'required'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 500);
+        }
+        $data = $request->all();
+        $this->spmConfig->readAANotification($data);
+        return response()->json('สำเร็จ', 200);
+    }
 }
