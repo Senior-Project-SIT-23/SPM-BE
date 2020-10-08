@@ -20,8 +20,8 @@ class Notifications extends Migration
             $table->bigInteger('announcement_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('assignment_id')->references('assignment_id')->on('assignments');
-            $table->foreign('announcement_id')->references('announcement_id')->on('announcement');
+            $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
+            $table->foreign('announcement_id')->references('announcement_id')->on('announcement')->onDelete('cascade');
         });
     }
 

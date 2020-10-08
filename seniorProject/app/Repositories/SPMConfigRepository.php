@@ -60,10 +60,6 @@ class SPMConfigRepository implements SPMConfigRepositoryInterface
 
         $num_of_unread = count($notification) - count($student_notification);
 
-
-
-
-
         $student->num_of_unread_notification = $num_of_unread;
         $student->notification = $notification;
         // $student->read_notification = $student_notification;
