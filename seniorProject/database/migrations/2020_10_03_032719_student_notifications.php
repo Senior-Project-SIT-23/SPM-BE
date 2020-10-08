@@ -15,11 +15,11 @@ class StudentNotifications extends Migration
     {
         Schema::create('student_notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('notification_id')->unsigned();
+            $table->bigInteger('notification_id_fk')->unsigned();
             $table->string('student_id');
             $table->timestamps();
 
-            $table->foreign('notification_id')->references('notification_id')->on('notifications');
+            $table->foreign('notification_id_fk')->references('notification_id')->on('notifications');
             $table->foreign('student_id')->references('student_id')->on('students');
         });
     }
