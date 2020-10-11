@@ -25,5 +25,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\AnnouncementRepositoryInterface',
             'App\Repositories\AnnouncementRepository'
         );
+        $this->app->bind(
+            'App\Repositories\LoginRepositoryInterface',
+            'App\Repositories\LoginRepository'
+        );
     }
 }

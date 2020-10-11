@@ -14,10 +14,10 @@ class Teachers extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->string('teacher_id',20)->primary();
-            $table->string('teacher_name',100);
-            $table->string('teacher_email',500);
-            $table->string('image',100)->nullable();
+            $table->string('teacher_id', 20)->primary();
+            $table->string('teacher_name', 100);
+            $table->string('teacher_email', 500)->nullable();
+            $table->string('image', 100)->nullable();
             $table->timestamps();
         });
     }

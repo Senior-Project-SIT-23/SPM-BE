@@ -14,11 +14,11 @@ class Aa extends Migration
     public function up()
     {
         Schema::create('aa', function (Blueprint $table) {
-            $table->string('aa_id',20)->primary();
-            $table->string('aa_name',100);
-            $table->string('aa_email',500);
-            $table->string('department',3)->nullable();
-            $table->string('image',100)->nullable();
+            $table->string('aa_id', 20)->primary();
+            $table->string('aa_name', 100);
+            $table->string('aa_email', 500)->nullable();
+            $table->string('department', 3)->nullable();
+            $table->string('image', 100)->nullable();
             $table->timestamps();
         });
     }
