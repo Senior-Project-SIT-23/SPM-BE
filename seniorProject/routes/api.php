@@ -41,7 +41,6 @@ Route::group(['middleware' => ['checkauth']], function () {
     //SPMConfig
     Route::post('/config', 'SPMConfigController@storeConfig'); //สร้าง config
     Route::get('/config', 'SPMConfigController@indexConfig'); //ดูข้อมูล config ทั้งหมด
-    Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
     //Assignment
     Route::post('/assignments', 'AssignmentController@storeAssignment'); //สร้าง Assignment
@@ -85,6 +84,9 @@ Route::group(['middleware' => ['checkauth']], function () {
         Route::get('/aa/{aa_id}', 'SPMConfigController@indexAANotification'); //ดู Notification ของ AA ทั้งหมด
     });
 });
+
+//SPM Config
+Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
 //SSO
 Route::group(array('prefix' => 'sso'), function () {
