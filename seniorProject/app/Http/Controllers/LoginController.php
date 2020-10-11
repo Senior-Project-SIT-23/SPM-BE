@@ -55,11 +55,11 @@ class LoginController extends Controller
         }
         $this->login->createUser($response);
 
-        if ($response["user_type"] = 'st_group') {
+        if ($response["user_type"] == 'st_group') {
             $response["user_type"] = 'Student';
-        } else if ($response["user_type"] = 'inst_group') {
+        } else if ($response["user_type"] == 'inst_group') {
             $response["user_type"] = 'Teacher';
-        } else if ($response["user_type"] = 'staff_group') {
+        } else if ($response["user_type"] == 'staff_group') {
             $response["user_type"] = 'AA';
         }
         $new_response = array(
@@ -85,11 +85,11 @@ class LoginController extends Controller
             $response = $client->request('GET', $URL,);
             $body = json_decode($response->getBody(), true);
 
-            if ($body["user_type"] = 'st_group') {
+            if ($body["user_type"] == 'st_group') {
                 $body["user_type"] = 'Student';
-            } else if ($body["user_type"] = 'inst_group') {
+            } else if ($body["user_type"] == 'inst_group') {
                 $body["user_type"] = 'Teacher';
-            } else if ($body["user_type"] = 'staff_group') {
+            } else if ($body["user_type"] == 'staff_group') {
                 $body["user_type"] = 'AA';
             }
 
