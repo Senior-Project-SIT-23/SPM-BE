@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\AA;
 use App\Repositories\LoginRepositoryInterface;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
+use App\Model\Student;
 
 class LoginController extends Controller
 {
@@ -86,18 +88,26 @@ class LoginController extends Controller
             $body = json_decode($response->getBody(), true);
 
             if ($body["user_type"] == 'st_group') {
+
                 $body["user_type"] = 'Student';
+                $student = Student::where('student_id', $body["user_id"])->first();
+                $department = $student->department;
             } else if ($body["user_type"] == 'inst_group') {
                 $body["user_type"] = 'Teacher';
             } else if ($body["user_type"] == 'staff_group') {
                 $body["user_type"] = 'AA';
+                $aa = AA::where('aa_id', $body["user_id"])->first();
+                $department = $aa->department;
             }
+
+
 
             $new_body = array(
                 "user_id" => $body["user_id"],
                 "user_type" => $body["user_type"],
                 "name" => $body["name_en"],
-                "email" => $body["email"]
+                "email" => $body["email"],
+                "department" => $department
             );
 
             return response()->json($new_body, 200);
