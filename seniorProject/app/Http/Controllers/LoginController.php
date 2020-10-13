@@ -88,27 +88,38 @@ class LoginController extends Controller
             $body = json_decode($response->getBody(), true);
 
             if ($body["user_type"] == 'st_group') {
-
                 $body["user_type"] = 'Student';
                 $student = Student::where('student_id', $body["user_id"])->first();
                 $department = $student->department;
+                $new_body = array(
+                    "user_id" => $body["user_id"],
+                    "user_type" => $body["user_type"],
+                    "name" => $body["name_en"],
+                    "email" => $body["email"],
+                    "department" => $department
+                );
             } else if ($body["user_type"] == 'inst_group') {
                 $body["user_type"] = 'Teacher';
+                $new_body = array(
+                    "user_id" => $body["user_id"],
+                    "user_type" => $body["user_type"],
+                    "name" => $body["name_en"],
+                    "email" => $body["email"]
+                );
             } else if ($body["user_type"] == 'staff_group') {
                 $body["user_type"] = 'AA';
                 $aa = AA::where('aa_id', $body["user_id"])->first();
                 $department = $aa->department;
+                $new_body = array(
+                    "user_id" => $body["user_id"],
+                    "user_type" => $body["user_type"],
+                    "name" => $body["name_en"],
+                    "email" => $body["email"],
+                    "department" => $department
+                );
             }
 
-
-
-            $new_body = array(
-                "user_id" => $body["user_id"],
-                "user_type" => $body["user_type"],
-                "name" => $body["name_en"],
-                "email" => $body["email"],
-                "department" => $department
-            );
+            $this->login->createUser($body);
 
             return response()->json($new_body, 200);
         } catch (\Throwable $th) {
