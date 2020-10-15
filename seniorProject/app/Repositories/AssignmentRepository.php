@@ -84,16 +84,30 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             }
         }
 
-        Assignment::where('assignments.assignment_id', $data['assignment_id'])
-            ->update([
-                'assignments.assignment_title' => $data['assignment_title'],
-                'assignments.assignment_detail' => $data['assignment_detail'],
-                'assignments.due_date' => $data['due_date'],
-                'assignments.due_time' => $data['due_time'],
-                'assignments.date_time' => $data['due_date'] . " " . $data['due_time'],
-                'assignments.teacher_id' => $data['teacher_id'],
-                'assignments.rubric_id' => $data['rubric_id']
-            ]);
+        if ($data['teacher_id']) {
+            Assignment::where('assignments.assignment_id', $data['assignment_id'])
+                ->update([
+                    'assignments.assignment_title' => $data['assignment_title'],
+                    'assignments.assignment_detail' => $data['assignment_detail'],
+                    'assignments.due_date' => $data['due_date'],
+                    'assignments.due_time' => $data['due_time'],
+                    'assignments.date_time' => $data['due_date'] . " " . $data['due_time'],
+                    'assignments.teacher_id' => $data['teacher_id'],
+                    'assignments.rubric_id' => $data['rubric_id']
+                ]);
+        } else if ($data['aa_id']) {
+            Assignment::where('assignments.assignment_id', $data['assignment_id'])
+                ->update([
+                    'assignments.assignment_title' => $data['assignment_title'],
+                    'assignments.assignment_detail' => $data['assignment_detail'],
+                    'assignments.due_date' => $data['due_date'],
+                    'assignments.due_time' => $data['due_time'],
+                    'assignments.date_time' => $data['due_date'] . " " . $data['due_time'],
+                    'assignments.aa_id' => $data['aa_id'],
+                    'assignments.rubric_id' => $data['rubric_id']
+                ]);
+        }
+
 
 
         foreach ($data['responsible_teacher'] as $value) {
