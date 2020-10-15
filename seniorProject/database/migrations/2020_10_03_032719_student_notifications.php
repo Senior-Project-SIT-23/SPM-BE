@@ -19,7 +19,7 @@ class StudentNotifications extends Migration
             $table->string('student_id', 20);
             $table->timestamps();
 
-            $table->foreign('notification_id_fk')->references('notification_id')->on('notifications');
+            $table->foreign('notification_id_fk')->references('notification_id')->on('notifications')->onDelete('cascade');
             $table->foreign('student_id')->references('student_id')->on('students');
         });
     }

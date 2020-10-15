@@ -15,18 +15,20 @@ class Assignments extends Migration
     {
         Schema::create('assignments', function (Blueprint $table) {
             $table->bigIncrements('assignment_id')->unsigned();
-            $table->string('assignment_title',200);
-            $table->string('assignment_detail',500)->nullable();
+            $table->string('assignment_title', 200);
+            $table->string('assignment_detail', 500)->nullable();
             $table->date('due_date');
             $table->time('due_time');
             $table->String('date_time');
-            $table->string('teacher_id',20);
-            $table->bigInteger('rubric_id')->unsigned();          
+            $table->string('teacher_id', 20)->nullable();
+            $table->string('aa_id', 20)->nullable();
+            $table->bigInteger('rubric_id')->unsigned();
             $table->timestamps();
 
-            
+
             $table->foreign('rubric_id')->references('rubric_id')->on('rubric');
             $table->foreign('teacher_id')->references('teacher_id')->on('teachers');
+            $table->foreign('aa_id')->references('aa_id')->on('aa');
         });
     }
 

@@ -29,7 +29,6 @@ class AssignmentController extends Controller
             'assignment_title' => 'required',
             'due_date' => 'required',
             'due_time' => 'required',
-            'teacher_id' => 'required',
             'rubric_id' => 'required'
         ], $messages);
 
@@ -38,7 +37,7 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-
+        dd($data);
         $this->assignment->createAssignment($data);
 
         $has_attachment = Arr::get($data, 'attachment');

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Model\AA;
 use App\Model\AssessmentAssignment;
 use App\Model\Assignment;
 use App\Model\Attachment;
@@ -17,26 +18,47 @@ use App\Model\SendAssignment;
 use App\Model\StudentAssignment;
 use App\Model\Teacher;
 use App\Model\Project;
+use Illuminate\Support\Arr;
 
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
     public function createAssignment($data)
     {
-        $assignment = new Assignment;
-        $assignment->assignment_title = $data['assignment_title'];
-        $assignment->assignment_detail = $data['assignment_detail'];
-        $assignment->due_date = $data['due_date'];
-        $assignment->due_time = $data['due_time'];
-        $assignment->date_time = $data['due_date'] . " " . $data['due_time'];
-        $assignment->rubric_id = $data['rubric_id'];
-        $assignment->teacher_id = $data['teacher_id'];
-        $assignment->save();
 
-        foreach ($data['responsible_teacher'] as $value) {
-            $responsible_assignment = new ResponsibleAssignment;
-            $responsible_assignment->responsible_teacher_id = $value;
-            $responsible_assignment->assignment_id = $assignment->id;
-            $responsible_assignment->save();
+        if ($data['teacher_id']) {
+            $assignment = new Assignment;
+            $assignment->assignment_title = $data['assignment_title'];
+            $assignment->assignment_detail = $data['assignment_detail'];
+            $assignment->due_date = $data['due_date'];
+            $assignment->due_time = $data['due_time'];
+            $assignment->date_time = $data['due_date'] . " " . $data['due_time'];
+            $assignment->rubric_id = $data['rubric_id'];
+            $assignment->teacher_id = $data['teacher_id'];
+            $assignment->save();
+
+            foreach ($data['responsible_teacher'] as $value) {
+                $responsible_assignment = new ResponsibleAssignment;
+                $responsible_assignment->responsible_teacher_id = $value;
+                $responsible_assignment->assignment_id = $assignment->id;
+                $responsible_assignment->save();
+            }
+        } else if ($data['aa_id']) {
+            $assignment = new Assignment;
+            $assignment->assignment_title = $data['assignment_title'];
+            $assignment->assignment_detail = $data['assignment_detail'];
+            $assignment->due_date = $data['due_date'];
+            $assignment->due_time = $data['due_time'];
+            $assignment->date_time = $data['due_date'] . " " . $data['due_time'];
+            $assignment->rubric_id = $data['rubric_id'];
+            $assignment->aa_id = $data['aa_id'];
+            $assignment->save();
+
+            foreach ($data['responsible_teacher'] as $value) {
+                $responsible_assignment = new ResponsibleAssignment;
+                $responsible_assignment->responsible_teacher_id = $value;
+                $responsible_assignment->assignment_id = $assignment->id;
+                $responsible_assignment->save();
+            }
         }
     }
 
@@ -527,22 +549,41 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
     public function createStudentNotification($data, $status)
     {
-        $assignment = Assignment::where('assignment_title', $data['assignment_title'])
-            ->where('due_date', $data['due_date'])
-            ->where('due_time', $data['due_time'])
-            ->where('teacher_id', $data['teacher_id'])
-            ->where('rubric_id', $data['rubric_id'])->first();
+        if ($data['teacher_id']) {
+            $assignment = Assignment::where('assignment_title', $data['assignment_title'])
+                ->where('due_date', $data['due_date'])
+                ->where('due_time', $data['due_time'])
+                ->where('teacher_id', $data['teacher_id'])
+                ->where('rubric_id', $data['rubric_id'])->first();
 
-        $teacher_id = $assignment->teacher_id;
-        $teacher = Teacher::where('teacher_id', $teacher_id)->first();
-        $teacher_name = $teacher->teacher_name;
+            $teacher_id = $assignment->teacher_id;
+            $teacher = Teacher::where('teacher_id', $teacher_id)->first();
+            $teacher_name = $teacher->teacher_name;
 
-        $notification = new Notification();
-        $notification->notification_creater = $teacher_name;
-        $notification->notification_detail = $status . " : " . $data['assignment_title'];
-        $assignment_id = $assignment->assignment_id;
-        $notification->assignment_id = $assignment_id;
-        $notification->save();
+            $notification = new Notification();
+            $notification->notification_creater = $teacher_name;
+            $notification->notification_detail = $status . " : " . $data['assignment_title'];
+            $assignment_id = $assignment->assignment_id;
+            $notification->assignment_id = $assignment_id;
+            $notification->save();
+        } else if ($data['aa_id']) {
+            $assignment = Assignment::where('assignment_title', $data['assignment_title'])
+                ->where('due_date', $data['due_date'])
+                ->where('due_time', $data['due_time'])
+                ->where('aa_id', $data['aa_id'])
+                ->where('rubric_id', $data['rubric_id'])->first();
+
+            $aa_id = $assignment->aa_id;
+            $aa = AA::where('aa_id', $aa_id)->first();
+            $aa_name = $aa->aa_name;
+
+            $notification = new Notification();
+            $notification->notification_creater = $aa_name;
+            $notification->notification_detail = $status . " : " . $data['assignment_title'];
+            $assignment_id = $assignment->assignment_id;
+            $notification->assignment_id = $assignment_id;
+            $notification->save();
+        }
     }
 
     //Random ตัวอักษร

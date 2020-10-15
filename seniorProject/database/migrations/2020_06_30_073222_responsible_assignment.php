@@ -16,7 +16,7 @@ class ResponsibleAssignment extends Migration
         Schema::create('responsible_assignment', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->bigInteger('assignment_id')->unsigned();
-            $table->string('responsible_teacher_id',20);
+            $table->string('responsible_teacher_id', 20);
             $table->timestamps();
 
             $table->foreign('assignment_id')->references('assignment_id')->on('assignments')->onDelete('cascade');
