@@ -37,7 +37,7 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-        dd($data);
+        
         $this->assignment->createAssignment($data);
 
         $has_attachment = Arr::get($data, 'attachment');

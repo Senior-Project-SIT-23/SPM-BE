@@ -102,6 +102,7 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
 
         $teacher_id = $announcement->teacher_id;
         $aa_id = $announcement->aa_id;
+
         if ($teacher_id) {
             $teacher = Teacher::where('teacher_id', $teacher_id)->first();
             $teacher_name = $teacher->teacher_name;
@@ -115,7 +116,8 @@ class AnnouncementRepository implements AnnouncementRepositoryInterface
             $aa = AA::where('aa_id', $aa_id)->first();
             $aa_name = $aa->aa_name;
             $notification = new Notification();
-            $notification->notification_detail = $aa_name . " " . $status . " " . $data['announcement_title'];
+            $notification->notification_creater = $aa_name;
+            $notification->notification_detail = $status . " : " . $data['announcement_title'];
             $announcement_id = $announcement->announcement_id;
             $notification->announcement_id = $announcement_id;
             $notification->save();
