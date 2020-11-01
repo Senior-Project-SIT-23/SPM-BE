@@ -17,7 +17,7 @@ class StudentsSeeder extends Seeder
         $students = (array) array(
             [
                 'student_id' => '60130500082',
-                'student_name' => 'Mr.WATUNYU',
+                'student_name' => 'Mr.WATUNYU PANMUN',
                 'student_email' => '60130500082@st.sit.kmutt.ac.th',
                 'department' => 'IT'
             ],
