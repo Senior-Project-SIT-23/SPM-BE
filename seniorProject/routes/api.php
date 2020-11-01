@@ -22,7 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['checkauth']], function () {
 
     //UserManagement
-    Route::post('/projects', 'UserManagementController@storeProject'); //สร้าง project
+    Route::post('/projects', array('middleware' => 'cors', 'uses' =>  'UserManagementController@storeProject')); //สร้าง project
+    // Route::post('generatetoken', array('middleware' => 'cors', 'uses' => 'Api\SurveyController@generateTokenApi'));
     Route::post('/projects/delete', 'UserManagementController@deleteProject'); //ลบ project
     Route::post('/student/edit/profile/student', 'UserManagementController@editProfileStudent'); //แก้ไข profile student
     Route::post('/student/edit/profile/teacher', 'UserManagementController@editProfileTeacher'); //แก้ไข profile teacher
@@ -90,7 +91,7 @@ Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); 
 
 //SSO
 Route::group(array('prefix' => 'sso'), function () {
-    Route::post('/check-authentication', 'LoginController@checkAuthentication'); //ยิง Auth code เพื่อ check
+    Route::post('/check-authentication',  array('middleware' => 'cors', 'uses' => 'LoginController@checkAuthentication')); //ยิง Auth code เพื่อ check
     Route::get('/check-me', 'LoginController@checkMe'); //ยืนยันตัวตน
 });
 
