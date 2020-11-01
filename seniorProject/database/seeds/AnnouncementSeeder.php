@@ -18,7 +18,7 @@ class AnnouncementSeeder extends Seeder
                 'announcement_title' => 'Programming Clinic รอบ 2 (พบครั้งละ 1 กลุ่ม กลุ่มละ 30 นาทีตามความสมัครใจ) เน้นคุยเรื่องการพัฒนาโปรแกรม',
                 'announcement_detail' => 'วันที่ 15 และ 17 เมย. 2563 ',
                 'announcement_date' => '2020-7-10',
-                'teacher_id' => '1',
+                'teacher_id' => 'testins01',
             ],
             [
                 'announcement_id' => '2',
@@ -32,7 +32,7 @@ class AnnouncementSeeder extends Seeder
                 การทดสอบ (acceptance criteria, test cases)
                 หากไม่สามารถเข้าคุยตามนัดได้ ให้แจ้งอาจารย์ล่วงหน้าเพื่อสลับกลุ่ม/ย้ายเวลา',
                 'announcement_date' => '2020-7-10',
-                'aa_id' => '11',
+                'aa_id' => 'teststf01',
             ]
         );
 

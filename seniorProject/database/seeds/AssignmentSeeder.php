@@ -21,7 +21,7 @@ class AssignmentSeeder extends Seeder
                 'due_date' => '2020-6-5',
                 'due_time' => '20:00',
                 'date_time' => '2020-6-5 20:00',
-                'teacher_id' => '1',
+                'teacher_id' => 'testins01',
                 'rubric_id' => '1'
             ],
             [
@@ -31,7 +31,7 @@ class AssignmentSeeder extends Seeder
                 'due_date' => '2020-11-9',
                 'due_time' => '20:00',
                 'date_time' => '2020-11-9 20:00',
-                'teacher_id' => '1',
+                'teacher_id' => 'testins01',
                 'rubric_id' => '2'
             ]
         );
@@ -40,17 +40,17 @@ class AssignmentSeeder extends Seeder
             [
                 'id' => '1',
                 'assignment_id' => '1',
-                'responsible_teacher_id' => '1'
+                'responsible_teacher_id' => 'testins01'
             ],
             [
                 'id' => '2',
                 'assignment_id' => '2',
-                'responsible_teacher_id' => '1'
+                'responsible_teacher_id' => 'testins01'
             ],
             [
                 'id' => '3',
                 'assignment_id' => '2',
-                'responsible_teacher_id' => '2'
+                'responsible_teacher_id' => 'testins02'
             ]
         );
 

@@ -15,25 +15,25 @@ class NotificationSeeder extends Seeder
         $notifications = (array) array(
             [
                 'notification_id' => '1',
-                'notification_creater' => 'Siam Yamsaengsung',
+                'notification_creater' => 'Testins01 AtSIT',
                 'notification_detail' => 'create assignment : Programing Clinic: Midterm',
                 'assignment_id' => '1'
             ],
             [
                 'notification_id' => '2',
-                'notification_creater' => 'Siam Yamsaengsung',
+                'notification_creater' => 'Testins01 AtSIT',
                 'notification_detail' => 'create assignment : Midterm กรรมการสอบ',
                 'assignment_id' => '1'
             ],
             [
                 'notification_id' => '3',
-                'notification_creater' => 'Siam Yamsaengsung',
+                'notification_creater' => 'Testins01 AtSIT',
                 'notification_detail' => 'create announcement : Programming Clinic รอบ 2 (พบครั้งละ 1 กลุ่ม กลุ่มละ 30 นาทีตามความสมัครใจ) เน้นคุยเรื่องการพัฒนาโปรแกรม',
                 'announcement_id' => '1'
             ],
             [
                 'notification_id' => '4',
-                'notification_creater' => 'Pornthip Sirijutikul',
+                'notification_creater' => 'Teststf01 AtSIT',
                 'notification_detail' => 'create announcement : ตารางนัดประเมินงานคลีนิก SW Process (5-8 May 2020)',
                 'announcement_id' => '2'
             ]
