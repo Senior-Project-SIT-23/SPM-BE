@@ -85,13 +85,13 @@ Route::group(['middleware' => ['checkauth']], function () {
         Route::get('/aa/{aa_id}', 'SPMConfigController@indexAANotification'); //ดู Notification ของ AA ทั้งหมด
     });
 });
-// Route::post('generatetoken', array('middleware' => 'cors', 'uses' => 'Api\SurveyController@generateTokenApi'));ของจิว
+
 //SPM Config
-Route::get('/config/{year_of_study}', array('middleware' => 'cors', 'uses' => 'SPMConfigController@indexConfigByYear')); //ดูข้อมูล config ตามปี
+Route::get('/config/{year_of_study}', 'SPMConfigController@indexConfigByYear'); //ดูข้อมูล config ตามปี
 
 //SSO
 Route::group(array('prefix' => 'sso'), function () {
-    Route::post('/check-authentication', array('middleware' => 'cors', 'uses' => 'LoginController@checkAuthentication')); //ยิง Auth code เพื่อ check
+    Route::post('/check-authentication', 'LoginController@checkAuthentication'); //ยิง Auth code เพื่อ check
     Route::get('/check-me', 'LoginController@checkMe'); //ยืนยันตัวตน
 });
 
