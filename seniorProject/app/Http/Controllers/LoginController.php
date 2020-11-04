@@ -40,10 +40,12 @@ class LoginController extends Controller
         $auth_code = $data['auth_code'];
         $cliend_id = env('CLIEND_ID');
         $secrete_id = env('SECRETE_ID');
+        $redirect_uri = env('REDIRECT_URI');
         $response = null;
+
         try {
-            $URL = env('SSO_URL') . "/oauth/token?client_secret=${secrete_id}&client_id=${cliend_id}&code=${auth_code}";
-            // http://gatewayservice.sit.kmutt.ac.th/api/oauth/token?client_secret=b46Ivmua&client_id=IlNvm&code=SOn2MTlB1I
+            $URL = env('SSO_URL') . "/oauth/token?client_secret=${secrete_id}&client_id=${cliend_id}&code=${auth_code}&redirect_uri=${redirect_uri}";
+            // https://gatewayservice.sit.kmutt.ac.th/api/oauth/token?client_secret=your secret code&client_id=your id&code=code that your auth&redirect_uri=your redirect uri
             $client = new Client(['base_uri' => $URL]);
             $response = $client->request('GET', $URL);
 
@@ -55,6 +57,7 @@ class LoginController extends Controller
             $body = json_decode($responseBody->getBody(), true);
             return response()->json($body, $responseBody->getStatusCode());
         }
+
         $this->login->createUser($response);
 
         if ($response["user_type"] == 'st_group') {
@@ -75,6 +78,7 @@ class LoginController extends Controller
         return response()->json($new_response, 200);
     }
 
+
     public function checkMe(Request $request)
     {
         $response = null;
@@ -82,7 +86,6 @@ class LoginController extends Controller
             $token = $request->header('Authorization');
             $headers = ['Authorization' => $token];
             $URL = env('SSO_URL') . "/me";
-            // http://gatewayservice.sit.kmutt.ac.th/api/oauth/token?client_secret=b46Ivmua&client_id=IlNvm&code=SOn2MTlB1I
             $client = new Client(['base_uri' => $URL, 'headers' => $headers]);
             $response = $client->request('GET', $URL,);
             $body = json_decode($response->getBody(), true);

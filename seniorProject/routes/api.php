@@ -21,8 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['checkauth']], function () {
 
-    // Route::post('generatetoken', array('middleware' => 'cors', 'uses' => 'Api\SurveyController@generateTokenApi'));ของจิว
-    //UserManagement
     Route::post('/projects', 'UserManagementController@storeProject'); //สร้าง project
     Route::post('/projects/delete', 'UserManagementController@deleteProject'); //ลบ project
     Route::post('/student/edit/profile/student', 'UserManagementController@editProfileStudent'); //แก้ไข profile student
