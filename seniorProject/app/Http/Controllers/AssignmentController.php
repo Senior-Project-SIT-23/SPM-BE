@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Assignment;
 use App\Repositories\AssignmentRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,8 +38,13 @@ class AssignmentController extends Controller
         }
 
         $data = $request->all();
-        
-        $this->assignment->createAssignment($data);
+
+        $assignment = $this->assignment->createAssignment($data);
+
+        $assignment_id = $assignment->id;
+        $created_at = $assignment->created_at;
+
+        Assignment::where('assignment_id', $assignment_id)->update(['create_time' => $created_at]);
 
         $has_attachment = Arr::get($data, 'attachment');
         if ($has_attachment) {

@@ -22,7 +22,8 @@ class AssignmentSeeder extends Seeder
                 'due_time' => '20:00',
                 'date_time' => '2020-6-5 20:00',
                 'teacher_id' => 'testins01',
-                'rubric_id' => '1'
+                'rubric_id' => '1',
+                'create_time' => '2020-11-12 21:30:26'
             ],
             [
                 'assignment_id' => '2',
@@ -32,7 +33,8 @@ class AssignmentSeeder extends Seeder
                 'due_time' => '20:00',
                 'date_time' => '2020-11-9 20:00',
                 'teacher_id' => 'testins01',
-                'rubric_id' => '2'
+                'rubric_id' => '2',
+                'create_time' => '2020-11-12 21:30:26'
             ]
         );
 
@@ -64,6 +66,7 @@ class AssignmentSeeder extends Seeder
             $temp_assignment->date_time = Arr::get($assignment, 'date_time');
             $temp_assignment->teacher_id = Arr::get($assignment, 'teacher_id');
             $temp_assignment->rubric_id = Arr::get($assignment, 'rubric_id');
+            $temp_assignment->create_time = Arr::get($assignment, 'create_time');
             $temp_assignment->save();
         }
         foreach ($responsible_assignments as $responsible_assignment) {

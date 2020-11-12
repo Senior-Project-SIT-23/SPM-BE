@@ -60,6 +60,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
                 $responsible_assignment->save();
             }
         }
+        return $assignment;
     }
 
     public function updateAssignment($data)
