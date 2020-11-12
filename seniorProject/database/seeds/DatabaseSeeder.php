@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(SPMConfigSeeder::class);
         $this->call(StudentsSeeder::class);
         $this->call(TeachersSeeder::class);
         $this->call(AASeeder::class);
