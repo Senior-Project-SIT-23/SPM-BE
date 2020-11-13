@@ -207,7 +207,8 @@ class UserManagementRepository implements UserManagementRepositoryInterface
 
     public function getAllProject()
     {
-        $projects = Project::where("is_delete", false)->get();
+        $projects = Project::where("is_delete", false)
+            ->join('project_detail', 'project_detail.project_id', '=', 'projects.project_id')->get();
         foreach ($projects as $key => $project) {
             if (!$project->is_delete) {
                 $teachers = ResponsibleTeacherGroup::join('teachers', 'teachers.teacher_id', '=', 'responsible_teacher_group.teacher_id')
